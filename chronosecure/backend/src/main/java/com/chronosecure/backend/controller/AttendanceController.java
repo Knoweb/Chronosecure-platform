@@ -1,0 +1,65 @@
+package com.chronosecure.backend.controller;
+
+import com.chronosecure.backend.dto.AttendanceRequest;
+import com.chronosecure.backend.model.AttendanceLog;
+import com.chronosecure.backend.model.enums.AttendanceEventType;
+import com.chronosecure.backend.service.AttendanceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/v1/attendance")
+@RequiredArgsConstructor
+@Tag(name = "Attendance Management", description = "Endpoints for logging and retrieving attendance events")
+// Allow CORS for local development (Frontend is likely on localhost:5173)
+@CrossOrigin(origins = "http://localhost:5173")
+public class AttendanceController {
+
+    private final AttendanceService attendanceService;
+
+    @Operation(summary = "Log an attendance event", description = "Records a Clock-In/Out or Break event. Requires strict tenant validation.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Event logged successfully", content = @Content(schema = @Schema(implementation = AttendanceLog.class))),
+            @ApiResponse(responseCode = "404", description = "Employee or Company not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data")
+    })
+    @PostMapping("/log")
+    public ResponseEntity<AttendanceLog> logAttendance(@Valid @RequestBody AttendanceRequest request) {
+        AttendanceLog log = attendanceService.logAttendance(request);
+        return ResponseEntity.ok(log);
+    }
+
+    @Operation(summary = "Get next expected state", description = "Determines if the employee should likely 'Clock In' or 'Clock Out' based on history.")
+    @GetMapping("/next-state/{companyId}/{employeeId}")
+    public ResponseEntity<AttendanceEventType> getNextState(
+            @PathVariable UUID companyId,
+            @PathVariable UUID employeeId) {
+
+        AttendanceEventType nextEvent = attendanceService.getNextExpectedEvent(companyId, employeeId);
+        return ResponseEntity.ok(nextEvent);
+    }
+
+    @Operation(summary = "Get attendance logs", description = "Fetch logs for the company within a date range.")
+    @GetMapping("/logs")
+    @PreAuthorize("hasRole('COMPANY_ADMIN') or hasRole('SUPER_ADMIN') or hasRole('EMPLOYEE')")
+    public ResponseEntity<List<com.chronosecure.backend.dto.AttendanceLogResponse>> getAttendanceLogs(
+            @RequestHeader("X-Company-Id") UUID companyId,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
+
+        return ResponseEntity.ok(attendanceService.getAttendanceLogs(companyId, startDate, endDate));
+    }
+}

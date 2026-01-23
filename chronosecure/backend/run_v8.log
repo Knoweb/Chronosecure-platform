@@ -1,0 +1,2044 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Users/USER/.m2/wrapper/dists/apache-maven-3.9.11/03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.chronosecure:backend >----------------------
+[INFO] Building backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.2.0:run (default-cli) > test-compile @ backend >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ backend ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend ---
+[INFO] skip non existing resourceDirectory C:\Users\USER\OneDrive - itum.mrt.ac.lk\Desktop\fingerprint project\chronosecure\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ backend ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot:3.2.0:run (default-cli) < test-compile @ backend <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.2.0:run (default-cli) @ backend ---
+[INFO] Attaching agents: []
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-01-23T04:48:47.218+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.c.backend.BackendApplication           : Starting BackendApplication using Java 25.0.1 with PID 2508 (C:\Users\USER\OneDrive - itum.mrt.ac.lk\Desktop\fingerprint project\chronosecure\backend\target\classes started by USER in C:\Users\USER\OneDrive - itum.mrt.ac.lk\Desktop\fingerprint project\chronosecure\backend)
+2026-01-23T04:48:47.221+05:30 DEBUG 2508 --- [chronosecure-backend] [           main] c.c.backend.BackendApplication           : Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-01-23T04:48:47.221+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.c.backend.BackendApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T04:48:48.193+05:30  INFO 2508 --- [chronosecure-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T04:48:48.196+05:30  INFO 2508 --- [chronosecure-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T04:48:48.444+05:30  INFO 2508 --- [chronosecure-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 238 ms. Found 8 JPA repository interfaces.
+2026-01-23T04:48:48.460+05:30  INFO 2508 --- [chronosecure-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T04:48:48.461+05:30  INFO 2508 --- [chronosecure-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T04:48:48.474+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.AttendanceLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.474+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.475+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.CalculatedHoursRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.475+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.CompanyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.476+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.ConsentRecordRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.476+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.EmployeeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.476+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.PublicHolidayRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.476+05:30  INFO 2508 --- [chronosecure-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.chronosecure.backend.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T04:48:48.476+05:30  INFO 2508 --- [chronosecure-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2026-01-23T04:48:48.962+05:30  INFO 2508 --- [chronosecure-backend] [           main] ptablePropertiesBeanFactoryPostProcessor : Post-processing PropertySource instances
+2026-01-23T04:48:48.964+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Skipping PropertySource configurationProperties [class org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource
+2026-01-23T04:48:48.966+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Skipping PropertySource servletConfigInitParams [class org.springframework.core.env.PropertySource$StubPropertySource
+2026-01-23T04:48:48.966+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Skipping PropertySource servletContextInitParams [class org.springframework.core.env.PropertySource$StubPropertySource
+2026-01-23T04:48:48.967+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2026-01-23T04:48:48.968+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2026-01-23T04:48:48.968+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2026-01-23T04:48:48.968+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource Config resource 'class path resource [application.properties]' via location 'optional:classpath:/' [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by org.apache.tomcat.jni.Library in an unnamed module (file:/C:/Users/USER/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.16/tomcat-embed-core-10.1.16.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+2026-01-23T04:48:49.211+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.filter.DefaultLazyPropertyFilter   : Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2026-01-23T04:48:49.229+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.r.DefaultLazyPropertyResolver      : Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2026-01-23T04:48:49.249+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.d.DefaultLazyPropertyDetector      : Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2026-01-23T04:48:49.489+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T04:48:49.505+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T04:48:49.505+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T04:48:49.612+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T04:48:49.612+05:30  INFO 2508 --- [chronosecure-backend] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2336 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-01-23T04:48:49.661+05:30 DEBUG 2508 --- [chronosecure-backend] [           main] c.c.b.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2026-01-23T04:48:49.725+05:30  INFO 2508 --- [chronosecure-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-23T04:48:49.983+05:30  INFO 2508 --- [chronosecure-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1860a7a1
+2026-01-23T04:48:49.987+05:30  INFO 2508 --- [chronosecure-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-23T04:48:50.160+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T04:48:50.247+05:30  INFO 2508 --- [chronosecure-backend] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-01-23T04:48:50.300+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T04:48:50.600+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T04:48:50.681+05:30  WARN 2508 --- [chronosecure-backend] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T04:48:51.858+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T04:48:52.038+05:30  INFO 2508 --- [chronosecure-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T04:48:52.457+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-23T04:48:53.198+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.c.backend.service.FirebaseSyncService  : Initializing Firebase App explicitly in Sync Service...
+2026-01-23T04:48:53.249+05:30 ERROR 2508 --- [chronosecure-backend] [           main] c.c.backend.service.FirebaseSyncService  : CRITICAL: Failed to initialize Firebase Sync Service: 
+2026-01-23T04:48:53.356+05:30  WARN 2508 --- [chronosecure-backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T04:48:53.368+05:30 DEBUG 2508 --- [chronosecure-backend] [           main] swordEncoderAuthenticationManagerBuilder : No authenticationProviders and no parentAuthenticationManager defined. Returning null.
+2026-01-23T04:48:53.561+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@df9bfaa, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@61c8139a, org.springframework.security.web.context.SecurityContextHolderFilter@4788c0a1, org.springframework.security.web.header.HeaderWriterFilter@7ce87db5, org.springframework.web.filter.CorsFilter@54b1ba04, org.springframework.security.web.authentication.logout.LogoutFilter@4928a347, com.chronosecure.backend.security.JwtAuthenticationFilter@339f3a55, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@79a1f0a1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5bf97be9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4796ae58, org.springframework.security.web.session.SessionManagementFilter@5bf41334, org.springframework.security.web.access.ExceptionTranslationFilter@6eaf016e, org.springframework.security.web.access.intercept.AuthorizationFilter@189e986f]
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by io.netty.util.internal.PlatformDependent0$4 (file:/C:/Users/USER/.m2/repository/io/netty/netty-common/4.1.101.Final/netty-common-4.1.101.Final.jar)
+WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$4
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+2026-01-23T04:48:54.182+05:30  INFO 2508 --- [chronosecure-backend] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T04:48:54.183+05:30  INFO 2508 --- [chronosecure-backend] [           main] u.j.c.RefreshScopeRefreshedEventListener : Refreshing cached encryptable property sources on ServletWebServerInitializedEvent
+2026-01-23T04:48:54.184+05:30  INFO 2508 --- [chronosecure-backend] [           main] CachingDelegateEncryptablePropertySource : Property Source systemProperties refreshed
+2026-01-23T04:48:54.184+05:30  INFO 2508 --- [chronosecure-backend] [           main] CachingDelegateEncryptablePropertySource : Property Source systemEnvironment refreshed
+2026-01-23T04:48:54.184+05:30  INFO 2508 --- [chronosecure-backend] [           main] CachingDelegateEncryptablePropertySource : Property Source random refreshed
+2026-01-23T04:48:54.184+05:30  INFO 2508 --- [chronosecure-backend] [           main] CachingDelegateEncryptablePropertySource : Property Source Config resource 'class path resource [application.properties]' via location 'optional:classpath:/' refreshed
+2026-01-23T04:48:54.184+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Skipping PropertySource configurationProperties [class org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource
+2026-01-23T04:48:54.184+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Skipping PropertySource servletConfigInitParams [class org.springframework.core.env.PropertySource$StubPropertySource
+2026-01-23T04:48:54.184+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletContextInitParams [org.springframework.web.context.support.ServletContextPropertySource] to EncryptableEnumerablePropertySourceWrapper
+2026-01-23T04:48:54.190+05:30  INFO 2508 --- [chronosecure-backend] [           main] c.c.backend.BackendApplication           : Started BackendApplication in 7.536 seconds (process running for 8.099)
+2026-01-23T04:49:41.685+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-23T04:49:41.685+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-23T04:49:41.688+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-01-23T04:49:41.704+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:49:41.770+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:49:42.143+05:30  WARN 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/api/v1/employees' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-01-23T04:49:42.165+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:49:42.230+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:49:42.273+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:49:42.442+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:49:55.103+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:49:55.139+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:49:55.146+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:49:55.172+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:49:55.202+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:49:55.220+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:49:55.220+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:49:55.220+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:49:55.225+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:49:55.233+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T04:49:55.236+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T04:49:55.244+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T04:50:20.263+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:50:20.265+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:50:20.265+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:50:20.280+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:50:20.306+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:50:20.315+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T04:50:20.315+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T04:50:20.319+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:50:20.326+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:50:20.328+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T04:50:20.329+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:50:20.336+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:50:22.156+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:50:22.171+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:50:22.171+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:50:22.171+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:50:22.181+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:52:45.592+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:52:45.595+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:52:45.600+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:52:45.601+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:52:45.601+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:52:45.603+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:53:12.425+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:53:12.435+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:53:12.458+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:53:12.476+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:53:12.479+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:53:12.497+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:53:25.327+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:53:25.349+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:53:25.360+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:53:25.371+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T04:53:25.376+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:53:25.377+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T04:53:25.378+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T04:53:25.387+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T04:53:25.404+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:53:25.407+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:53:25.409+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:53:25.415+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:53:26.639+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:53:26.656+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:53:26.656+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:53:26.656+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:53:26.659+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:54:08.197+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/auth/login
+2026-01-23T04:54:08.197+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /api/v1/auth/login
+2026-01-23T04:54:08.205+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-23T04:54:08.207+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /api/v1/auth/login
+2026-01-23T04:54:08.553+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.company_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+        and u1_0.is_active
+2026-01-23T04:54:08.825+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    update
+        users 
+    set
+        company_id=?,
+        email=?,
+        first_name=?,
+        is_active=?,
+        last_login=?,
+        last_name=?,
+        password_hash=?,
+        role=?,
+        updated_at=? 
+    where
+        id=?
+2026-01-23T04:54:08.900+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:54:08.903+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:54:08.911+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:54:08.911+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:54:08.911+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:54:08.911+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:54:13.275+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:54:13.292+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:54:13.294+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:54:13.294+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:54:13.300+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:55:45.295+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:55:45.347+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:55:45.406+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:55:45.417+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:55:45.418+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:55:45.432+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:55:57.590+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/6d9fbc3f-7c7d-4a7c-890b-55ec70ae4da3
+2026-01-23T04:55:57.614+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/6d9fbc3f-7c7d-4a7c-890b-55ec70ae4da3
+2026-01-23T04:55:57.694+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/6d9fbc3f-7c7d-4a7c-890b-55ec70ae4da3
+2026-01-23T04:55:57.709+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:55:57.711+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:55:57.753+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T04:55:57.766+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-3] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee 6d9fbc3f-7c7d-4a7c-890b-55ec70ae4da3 for company 3e27a41a-7c00-4daf-a3e8-8d2bda1d3510
+2026-01-23T04:55:57.850+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    update
+        employees 
+    set
+        company_id=?,
+        department=?,
+        email=?,
+        employee_code=?,
+        fingerprint_template_hash=?,
+        first_name=?,
+        is_active=?,
+        last_name=?,
+        pin_hash=?,
+        updated_at=? 
+    where
+        id=?
+2026-01-23T04:55:57.884+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:55:57.891+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:55:57.911+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:55:57.924+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:55:57.935+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:55:57.947+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:56:03.650+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/37f6305a-695c-43cc-ba54-80188ab43d67
+2026-01-23T04:56:03.683+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/37f6305a-695c-43cc-ba54-80188ab43d67
+2026-01-23T04:56:03.803+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/37f6305a-695c-43cc-ba54-80188ab43d67
+2026-01-23T04:56:03.814+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:03.815+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:03.845+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T04:56:03.860+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-6] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee 37f6305a-695c-43cc-ba54-80188ab43d67 for company 3e27a41a-7c00-4daf-a3e8-8d2bda1d3510
+2026-01-23T04:56:03.860+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    update
+        employees 
+    set
+        company_id=?,
+        department=?,
+        email=?,
+        employee_code=?,
+        fingerprint_template_hash=?,
+        first_name=?,
+        is_active=?,
+        last_name=?,
+        pin_hash=?,
+        updated_at=? 
+    where
+        id=?
+2026-01-23T04:56:03.879+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:56:03.884+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:56:04.022+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:56:04.024+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:04.038+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:04.056+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:56:15.671+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:56:15.679+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:56:15.701+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:56:15.703+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:15.703+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:15.711+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:56:17.640+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:56:17.675+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:56:17.710+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:17.710+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:17.723+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:56:48.269+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:56:48.274+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:56:48.277+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:56:48.278+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:48.278+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:48.279+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T04:56:50.943+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T04:56:50.949+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T04:56:50.955+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T04:56:50.955+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:50.956+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T04:56:50.957+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:01:44.398+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/auth/signup
+2026-01-23T05:01:44.402+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /api/v1/auth/signup
+2026-01-23T05:01:44.404+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-23T05:01:44.408+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured POST /api/v1/auth/signup
+2026-01-23T05:01:44.576+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+2026-01-23T05:01:44.591+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        c1_0.id,
+        c1_0.billing_address,
+        c1_0.created_at,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.stripe_customer_id,
+        c1_0.subdomain,
+        c1_0.updated_at 
+    from
+        companies c1_0 
+    where
+        c1_0.subdomain=?
+2026-01-23T05:01:44.923+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    insert 
+    into
+        companies
+        (billing_address, created_at, is_active, name, stripe_customer_id, subdomain, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T05:01:44.933+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (company_id, created_at, email, first_name, is_active, last_login, last_name, password_hash, role, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T05:01:45.141+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:01:45.156+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:01:45.172+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:01:45.175+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:01:45.176+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:01:45.185+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:02:17.593+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:02:17.600+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:02:17.607+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:02:17.609+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:02:17.610+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:02:17.613+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:08:14.543+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:08:14.547+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing POST /api/v1/employees
+2026-01-23T05:08:14.553+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured POST /api/v1/employees
+2026-01-23T05:08:14.575+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.createEmployee(java.util.UUID,com.chronosecure.backend.dto.EmployeeCreateRequest); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:08:14.578+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.createEmployee(java.util.UUID,com.chronosecure.backend.dto.EmployeeCreateRequest); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:08:14.584+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.employee_code=? 
+    fetch
+        first ? rows only
+2026-01-23T05:08:14.588+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-6] c.c.b.service.impl.EmployeeServiceImpl   : Created employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:08:14.589+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    insert 
+    into
+        employees
+        (company_id, created_at, department, email, employee_code, fingerprint_template_hash, first_name, is_active, last_name, pin_hash, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T05:08:14.609+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:08:14.616+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:08:14.618+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:08:14.618+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:08:14.621+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:11:59.816+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:11:59.822+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:11:59.828+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:11:59.830+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:11:59.830+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:11:59.833+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:11:59.837+05:30  INFO 2508 --- [chronosecure-backend] [io-8080-exec-10] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:11:59.839+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    update
+        employees 
+    set
+        company_id=?,
+        department=?,
+        email=?,
+        employee_code=?,
+        fingerprint_template_hash=?,
+        first_name=?,
+        is_active=?,
+        last_name=?,
+        pin_hash=?,
+        updated_at=? 
+    where
+        id=?
+2026-01-23T05:12:00.415+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:12:00.418+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:12:00.426+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:12:00.427+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:00.428+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:00.430+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:12:34.660+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:12:34.664+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:12:34.669+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:12:34.671+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:34.671+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:34.673+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:12:50.763+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/37f6305a-695c-43cc-ba54-80188ab43d67
+2026-01-23T05:12:50.772+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/37f6305a-695c-43cc-ba54-80188ab43d67
+2026-01-23T05:12:50.870+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/37f6305a-695c-43cc-ba54-80188ab43d67
+2026-01-23T05:12:50.871+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:50.880+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:50.891+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:12:50.894+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-6] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee 37f6305a-695c-43cc-ba54-80188ab43d67 for company 3e27a41a-7c00-4daf-a3e8-8d2bda1d3510
+2026-01-23T05:12:50.930+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:12:50.940+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:12:50.947+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:12:50.950+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:50.950+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:50.952+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:12:58.847+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:12:58.861+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:12:58.874+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:12:58.877+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:58.878+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:12:58.882+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:13:00.593+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:13:00.612+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:13:00.617+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:00.617+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:00.637+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:13:03.174+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:13:03.197+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:13:03.198+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:03.199+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:03.202+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:13:09.322+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:13:09.322+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:13:09.327+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:13:09.333+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:09.333+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:09.336+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:13:09.337+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-5] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee 1904f52f-1054-4610-9fb4-fd8958976e81 for company 3e27a41a-7c00-4daf-a3e8-8d2bda1d3510
+2026-01-23T05:13:09.337+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    update
+        employees 
+    set
+        company_id=?,
+        department=?,
+        email=?,
+        employee_code=?,
+        fingerprint_template_hash=?,
+        first_name=?,
+        is_active=?,
+        last_name=?,
+        pin_hash=?,
+        updated_at=? 
+    where
+        id=?
+2026-01-23T05:13:09.354+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:13:09.354+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:13:09.360+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:13:09.360+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:09.360+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:09.360+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:13:15.663+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:13:15.690+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:13:15.759+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:13:15.767+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:15.768+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:15.784+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:13:15.924+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:13:15.992+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:13:16.023+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:13:16.034+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:16.034+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:16.055+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:13:20.437+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:13:20.453+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:13:20.467+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:13:20.483+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:20.492+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:20.509+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:13:20.511+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-2] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee 1904f52f-1054-4610-9fb4-fd8958976e81 for company 3e27a41a-7c00-4daf-a3e8-8d2bda1d3510
+2026-01-23T05:13:20.527+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:13:20.554+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:13:20.557+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:20.557+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:13:20.575+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:14:02.318+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:14:02.321+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:14:02.326+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:14:02.340+05:30 ERROR 2508 --- [chronosecure-backend] [nio-8080-exec-4] c.c.b.exception.GlobalExceptionHandler   : Unexpected error occurred
+
+org.springframework.web.bind.MissingRequestHeaderException: Required request header 'X-Company-Id' for method parameter type UUID is not present
+	at org.springframework.web.method.annotation.RequestHeaderMethodArgumentResolver.handleMissingValue(RequestHeaderMethodArgumentResolver.java:87) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.handleMissingValue(AbstractNamedValueMethodArgumentResolver.java:232) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:218) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:171) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doDelete(FrameworkServlet.java:936) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:596) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at com.chronosecure.backend.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:63) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-23T05:14:44.502+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:14:44.509+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:14:44.514+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:14:44.515+05:30 ERROR 2508 --- [chronosecure-backend] [nio-8080-exec-8] c.c.b.exception.GlobalExceptionHandler   : Unexpected error occurred
+
+org.springframework.web.bind.MissingRequestHeaderException: Required request header 'X-Company-Id' for method parameter type UUID is not present
+	at org.springframework.web.method.annotation.RequestHeaderMethodArgumentResolver.handleMissingValue(RequestHeaderMethodArgumentResolver.java:87) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.handleMissingValue(AbstractNamedValueMethodArgumentResolver.java:232) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:124) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:218) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:171) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doDelete(FrameworkServlet.java:936) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:596) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at com.chronosecure.backend.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:63) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-23T05:15:42.232+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:42.236+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:42.243+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:42.245+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:42.246+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:42.248+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:15:42.250+05:30  INFO 2508 --- [chronosecure-backend] [io-8080-exec-10] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:15:42.256+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:15:42.259+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:15:42.262+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:15:42.263+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:42.264+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:42.265+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:15:45.554+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:45.559+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:45.561+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.561+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.564+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:15:45.566+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-3] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:15:45.574+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:15:45.578+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:15:45.578+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.578+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.580+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:15:45.763+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:45.767+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:45.768+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.769+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.772+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:15:45.775+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-4] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:15:45.783+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:15:45.786+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:15:45.787+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.788+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.789+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:15:45.991+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:45.997+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:15:45.998+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:45.998+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:46.001+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:15:46.003+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-7] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:15:46.012+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:15:46.014+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:15:46.015+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:46.016+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:15:46.017+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:16:20.510+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:20.516+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:20.523+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:20.525+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:20.525+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:20.531+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:16:20.533+05:30  INFO 2508 --- [chronosecure-backend] [io-8080-exec-10] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:16:20.544+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:16:20.547+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:16:20.555+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:16:20.557+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:20.557+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:20.563+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:16:38.605+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:38.610+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:38.621+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:38.623+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:38.623+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:38.629+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:16:38.633+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-5] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:16:38.642+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:16:38.651+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:16:38.659+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:16:38.659+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:38.659+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:38.665+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:16:40.130+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:40.142+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:40.146+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.146+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.146+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:16:40.146+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-7] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:16:40.169+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:16:40.179+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:16:40.181+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.182+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.196+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:16:40.347+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:40.357+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/ec72c9d0-ebc6-4b4a-9df0-e768ad98262c
+2026-01-23T05:16:40.358+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.358+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.363+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:16:40.364+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-9] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee ec72c9d0-ebc6-4b4a-9df0-e768ad98262c for company e962cc94-8fdd-4ceb-a4a6-25bfd723a217
+2026-01-23T05:16:40.371+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:16:40.374+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:16:40.374+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.374+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:40.379+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:16:42.755+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:16:42.767+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:16:42.771+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:42.772+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:16:42.775+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:17:04.439+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:17:04.443+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:17:04.453+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:17:04.458+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:17:04.458+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:17:04.465+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:17:22.316+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/biometric/enroll
+2026-01-23T05:17:22.319+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /api/v1/biometric/enroll
+2026-01-23T05:17:22.335+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured POST /api/v1/biometric/enroll
+2026-01-23T05:17:22.409+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.BiometricController.enrollFingerprint(java.lang.String,com.chronosecure.backend.dto.BiometricEnrollmentRequest,jakarta.servlet.http.HttpServletRequest); target is of class [com.chronosecure.backend.controller.BiometricController]
+2026-01-23T05:17:22.416+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.BiometricController.enrollFingerprint(java.lang.String,com.chronosecure.backend.dto.BiometricEnrollmentRequest,jakarta.servlet.http.HttpServletRequest); target is of class [com.chronosecure.backend.controller.BiometricController]
+2026-01-23T05:17:22.437+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:17:22.452+05:30  WARN 2508 --- [chronosecure-backend] [nio-8080-exec-4] c.c.b.exception.GlobalExceptionHandler   : Illegal argument: Employee is not active
+2026-01-23T05:19:11.437+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:19:11.441+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:19:11.458+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:19:11.460+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:19:11.465+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:19:11.474+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:19:16.102+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:19:16.112+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:19:16.113+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:19:16.114+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:19:16.122+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:20:22.665+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/biometric/enroll
+2026-01-23T05:20:22.668+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /api/v1/biometric/enroll
+2026-01-23T05:20:22.686+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /api/v1/biometric/enroll
+2026-01-23T05:20:22.692+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.BiometricController.enrollFingerprint(java.lang.String,com.chronosecure.backend.dto.BiometricEnrollmentRequest,jakarta.servlet.http.HttpServletRequest); target is of class [com.chronosecure.backend.controller.BiometricController]
+2026-01-23T05:20:22.695+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.BiometricController.enrollFingerprint(java.lang.String,com.chronosecure.backend.dto.BiometricEnrollmentRequest,jakarta.servlet.http.HttpServletRequest); target is of class [com.chronosecure.backend.controller.BiometricController]
+2026-01-23T05:20:22.703+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:20:22.708+05:30  WARN 2508 --- [chronosecure-backend] [nio-8080-exec-1] c.c.b.exception.GlobalExceptionHandler   : Illegal argument: Employee is not active
+2026-01-23T05:20:44.440+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/biometric/enroll
+2026-01-23T05:20:44.443+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /api/v1/biometric/enroll
+2026-01-23T05:20:44.452+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /api/v1/biometric/enroll
+2026-01-23T05:20:44.461+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.BiometricController.enrollFingerprint(java.lang.String,com.chronosecure.backend.dto.BiometricEnrollmentRequest,jakarta.servlet.http.HttpServletRequest); target is of class [com.chronosecure.backend.controller.BiometricController]
+2026-01-23T05:20:44.461+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.BiometricController.enrollFingerprint(java.lang.String,com.chronosecure.backend.dto.BiometricEnrollmentRequest,jakarta.servlet.http.HttpServletRequest); target is of class [com.chronosecure.backend.controller.BiometricController]
+2026-01-23T05:20:44.469+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:20:44.476+05:30  WARN 2508 --- [chronosecure-backend] [nio-8080-exec-3] c.c.b.exception.GlobalExceptionHandler   : Illegal argument: Employee is not active
+2026-01-23T05:20:51.453+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T05:20:51.454+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:20:51.458+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T05:20:51.460+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:20:51.480+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:20:51.489+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T05:20:51.490+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:20:51.491+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:20:51.494+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:20:51.506+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T05:20:51.506+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T05:20:51.522+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T05:22:21.354+05:30 DEBUG 2508 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T05:22:21.369+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:22:21.391+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:22:21.402+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:22:21.402+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:22:21.413+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
+2026-01-23T05:22:25.808+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:22:25.816+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing DELETE /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:22:25.826+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured DELETE /api/v1/employees/1904f52f-1054-4610-9fb4-fd8958976e81
+2026-01-23T05:22:25.829+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:22:25.829+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.deleteEmployee(java.util.UUID,java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:22:25.834+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.id=?
+2026-01-23T05:22:25.838+05:30  INFO 2508 --- [chronosecure-backend] [nio-8080-exec-3] c.c.b.service.impl.EmployeeServiceImpl   : Soft deleted employee 1904f52f-1054-4610-9fb4-fd8958976e81 for company 3e27a41a-7c00-4daf-a3e8-8d2bda1d3510
+2026-01-23T05:22:25.877+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T05:22:25.880+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T05:22:25.881+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:22:25.883+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T05:22:25.886+05:30 DEBUG 2508 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=?
