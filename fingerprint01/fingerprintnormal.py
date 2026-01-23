@@ -569,15 +569,15 @@ class App(tk.Tk):
             # Toggle Logic
             last_res = self.db.get_last_result(uid)
             
-            # Determine new state: If last was MATCH (In), now is TIME_OFF (Out). Else MATCH (In).
-            if last_res == "MATCH":
+            # Determine new state: If last was IN (MATCH/CLOCKED_IN), now is OUT (TIME_OFF). Else IN (CLOCKED_IN).
+            if last_res in ["MATCH", "CLOCKED_IN"]:
                 new_res = "TIME_OFF"
-                msg_ui = f"✓ TIME OFF: {name}"
+                msg_ui = f"✓ CLOCKED OUT: {name}"
                 msg_status = f"✓ {name} Checked Out (Time Off)"
                 color = WARNING # distinct color
             else:
-                new_res = "MATCH"
-                msg_ui = f"✓ MATCH: {name}"
+                new_res = "CLOCKED_IN"
+                msg_ui = f"✓ CLOCKED IN: {name}"
                 msg_status = f"✓ Welcome, {name}! (Checked In)"
                 color = SUCCESS
 

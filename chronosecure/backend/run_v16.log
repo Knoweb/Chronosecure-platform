@@ -909,3 +909,299 @@ WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
         employees e1_0 
     where
         e1_0.id=?
+2026-01-23T09:56:35.887+05:30  INFO 34556 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Found 1 new attendance logs in Firebase
+2026-01-23T09:56:35.892+05:30 DEBUG 34556 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.employee_code=?
+2026-01-23T09:56:35.897+05:30 DEBUG 34556 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    insert 
+    into
+        attendance_logs
+        (company_id, confidence_score, device_id, employee_id, event_timestamp, event_type, is_offline_sync, photo_url, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T09:56:35.901+05:30  INFO 34556 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Synced attendance for shehan, Result: CLOCKED_IN
+2026-01-23T09:57:00.872+05:30  INFO 34556 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Found 1 new attendance logs in Firebase
+2026-01-23T09:57:00.874+05:30 DEBUG 34556 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.employee_code=?
+2026-01-23T09:57:00.878+05:30 DEBUG 34556 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    insert 
+    into
+        time_off_requests
+        (company_id, created_at, employee_id, end_date, reason, start_date, status, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T09:57:00.881+05:30  INFO 34556 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Synced Time Off for shehan, Result: TIME_OFF
+2026-01-23T09:57:38.598+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T09:57:38.625+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T09:57:38.628+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T09:57:38.635+05:30 DEBUG 34556 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T09:57:38.645+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T09:57:38.650+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T09:57:38.654+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T09:57:38.667+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T09:57:38.664+05:30 DEBUG 34556 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T09:57:38.677+05:30 DEBUG 34556 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T09:57:38.679+05:30 DEBUG 34556 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T09:57:38.686+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T09:57:38.692+05:30 DEBUG 34556 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T09:57:38.691+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T09:57:46.196+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T09:57:46.213+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T09:57:46.241+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T09:57:46.256+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T09:57:46.276+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T09:57:53.902+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T09:57:53.902+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T09:57:53.906+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T09:57:53.910+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T09:57:53.953+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T09:57:53.955+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T09:57:53.958+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T09:57:53.959+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T09:57:53.963+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T09:57:53.963+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T09:57:53.963+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T09:57:53.971+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T09:57:53.988+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T09:57:53.992+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T09:57:57.237+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T09:57:57.243+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T09:57:57.258+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T09:57:57.262+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T09:57:57.273+05:30 DEBUG 34556 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?

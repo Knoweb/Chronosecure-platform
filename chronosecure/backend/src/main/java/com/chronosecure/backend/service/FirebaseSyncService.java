@@ -116,16 +116,18 @@ public class FirebaseSyncService {
 
                 // Handle TIME_OFF vs ATTENDANCE
                 if ("TIME_OFF".equals(result)) {
-                    LocalDate date = LocalDate.ofInstant(
-                            Instant.ofEpochSecond(unixTime != null ? unixTime : Instant.now().getEpochSecond()),
-                            ZoneId.systemDefault());
+                    Instant scanTime = Instant
+                            .ofEpochSecond(unixTime != null ? unixTime : Instant.now().getEpochSecond());
+                    LocalDate date = LocalDate.ofInstant(scanTime, ZoneId.systemDefault());
+                    String timeStr = java.time.format.DateTimeFormatter.ofPattern("hh:mm a")
+                            .withZone(ZoneId.systemDefault()).format(scanTime);
 
                     TimeOffRequest req = TimeOffRequest.builder()
                             .companyId(employee.getCompanyId())
                             .employeeId(employee.getId())
                             .startDate(date)
                             .endDate(date)
-                            .reason("Fingerprint Scanned Out")
+                            .reason("Fingerprint Scanned Out at " + timeStr)
                             .status(TimeOffStatus.APPROVED)
                             .build();
 
