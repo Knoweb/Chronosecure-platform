@@ -2249,3 +2249,2015 @@ WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?)
 2026-01-23T10:23:17.290+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Synced Time Off for sajan, Result: TIME_OFF
+2026-01-23T10:30:27.411+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Found 1 new attendance logs in Firebase
+2026-01-23T10:30:27.413+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.employee_code=?
+2026-01-23T10:30:27.449+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    insert 
+    into
+        attendance_logs
+        (company_id, confidence_score, device_id, employee_id, event_timestamp, event_type, is_offline_sync, photo_url, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T10:30:27.456+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Synced attendance for sajan, Result: CLOCKED_IN
+2026-01-23T10:31:07.345+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Found 1 new attendance logs in Firebase
+2026-01-23T10:31:07.349+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.employee_code=?
+2026-01-23T10:31:07.357+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    insert 
+    into
+        time_off_requests
+        (company_id, created_at, employee_id, end_date, reason, start_date, status, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T10:31:07.366+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Synced Time Off for sajan, Result: TIME_OFF
+2026-01-23T10:31:21.896+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:31:21.902+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:31:21.907+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:31:21.914+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:31:21.931+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:31:21.940+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:31:21.940+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:31:21.937+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:31:21.942+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:31:21.945+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:31:21.947+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T10:31:21.951+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:31:21.960+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:21.962+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:21.965+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:21.968+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:24.855+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:31:24.869+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:31:24.882+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:31:24.892+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:31:24.910+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:24.916+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:24.927+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:27.590+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:31:27.610+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:31:27.621+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:31:27.629+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:27.632+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:27.634+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:31:40.985+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:31:40.992+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:31:41.054+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:31:41.076+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:31:41.101+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:31:41.145+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:31:43.839+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:31:43.866+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:31:43.871+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:31:43.871+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:31:43.885+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:33:06.092+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:33:06.318+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:33:06.326+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:33:06.332+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:33:06.343+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:06.345+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:06.345+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:08.855+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:33:08.857+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:33:08.871+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:33:08.871+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:33:08.887+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:33:08.889+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:33:08.893+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:33:08.895+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:33:08.907+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:33:08.911+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:33:08.911+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:33:08.940+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T10:33:08.973+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:08.978+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:08.983+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:09.013+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:12.081+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:33:12.091+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:33:12.102+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:33:12.124+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:33:12.140+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:12.151+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:12.151+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:30.438+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:33:30.438+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:33:30.444+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:33:30.444+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:33:30.444+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:33:30.444+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:33:30.444+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:33:30.444+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:33:30.444+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:33:30.458+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:33:30.459+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:33:30.463+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T10:33:30.479+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:30.484+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:30.484+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:33:30.491+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:15.442+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:41:15.450+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:41:15.454+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:41:15.462+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:41:15.472+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:15.475+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:15.475+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:19.653+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:41:19.659+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:41:19.660+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:41:19.666+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:41:19.666+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:41:19.672+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:41:19.672+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:41:19.672+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:41:19.677+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:19.677+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:19.682+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T10:41:19.685+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:41:19.692+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:19.694+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:19.698+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:19.698+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:23.824+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:41:23.842+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:41:23.857+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:41:23.872+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:41:23.889+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:23.899+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:23.903+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:41:29.314+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:41:29.320+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:41:29.330+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:41:29.343+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:29.343+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:29.356+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:41:55.631+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:41:55.652+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /api/v1/employees
+2026-01-23T10:41:55.676+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured POST /api/v1/employees
+2026-01-23T10:41:55.699+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.createEmployee(java.util.UUID,com.chronosecure.backend.dto.EmployeeCreateRequest); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:55.701+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.createEmployee(java.util.UUID,com.chronosecure.backend.dto.EmployeeCreateRequest); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:55.703+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.employee_code=? 
+    fetch
+        first ? rows only
+2026-01-23T10:41:55.710+05:30  INFO 38244 --- [chronosecure-backend] [nio-8080-exec-5] c.c.b.service.impl.EmployeeServiceImpl   : Created employee 92de6f07-e570-4c7e-abbf-c71f54a95105 for company c69698a5-1796-43ab-af7e-c955fa23686f
+2026-01-23T10:41:55.711+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    insert 
+    into
+        employees
+        (company_id, created_at, department, email, employee_code, fingerprint_template_hash, first_name, is_active, last_name, pin_hash, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T10:41:55.768+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:41:55.782+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:41:55.785+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:55.787+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:41:55.796+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:43:17.297+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Found 1 new attendance logs in Firebase
+2026-01-23T10:43:17.301+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.employee_code=?
+2026-01-23T10:43:17.309+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    insert 
+    into
+        attendance_logs
+        (company_id, confidence_score, device_id, employee_id, event_timestamp, event_type, is_offline_sync, photo_url, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T10:43:17.315+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Synced attendance for kapila, Result: CLOCKED_IN
+2026-01-23T10:43:19.828+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:43:19.830+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:43:19.832+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:43:19.838+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:43:19.842+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:43:19.846+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:43:19.848+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:43:19.848+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:43:19.848+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T10:43:19.848+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:43:19.853+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:43:19.853+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:19.860+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:43:19.862+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:19.862+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:19.862+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:19.862+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:23.251+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:43:23.264+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:43:23.279+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:43:23.288+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:43:23.343+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:23.350+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:23.350+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:24.742+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:43:24.745+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:43:24.748+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/logs?startDate=2026-01-16&endDate=2026-01-23
+2026-01-23T10:43:24.748+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:43:24.758+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:43:24.758+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:43:24.758+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:43:24.758+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.AttendanceController.getAttendanceLogs(java.util.UUID,java.time.LocalDate,java.time.LocalDate); target is of class [com.chronosecure.backend.controller.AttendanceController]
+2026-01-23T10:43:24.766+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:43:24.768+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        al1_0.id,
+        al1_0.company_id,
+        al1_0.confidence_score,
+        al1_0.device_id,
+        al1_0.employee_id,
+        al1_0.event_timestamp,
+        al1_0.event_type,
+        al1_0.is_offline_sync,
+        al1_0.photo_url 
+    from
+        attendance_logs al1_0 
+    where
+        al1_0.company_id=? 
+        and al1_0.event_timestamp between ? and ? 
+    order by
+        al1_0.event_timestamp desc
+2026-01-23T10:43:24.777+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:24.777+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:24.777+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:24.786+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:24.786+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:29.736+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:43:29.747+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:43:29.760+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:43:29.765+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:43:29.788+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:29.792+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:29.795+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:52.481+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Found 1 new attendance logs in Firebase
+2026-01-23T10:43:52.486+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.employee_code=?
+2026-01-23T10:43:52.494+05:30 DEBUG 38244 --- [chronosecure-backend] [pool-8-thread-1] org.hibernate.SQL                        : 
+    insert 
+    into
+        time_off_requests
+        (company_id, created_at, employee_id, end_date, reason, start_date, status, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-23T10:43:52.507+05:30  INFO 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Synced Time Off for kapila, Result: TIME_OFF
+2026-01-23T10:43:57.404+05:30 DEBUG 38244 --- [chronosecure-backend] [io-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/time-off/requests
+2026-01-23T10:43:57.410+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/time-off/requests
+2026-01-23T10:43:57.417+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/time-off/requests
+2026-01-23T10:43:57.421+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        tor1_0.id,
+        tor1_0.company_id,
+        tor1_0.created_at,
+        tor1_0.employee_id,
+        tor1_0.end_date,
+        tor1_0.reason,
+        tor1_0.start_date,
+        tor1_0.status,
+        tor1_0.updated_at 
+    from
+        time_off_requests tor1_0 
+    where
+        tor1_0.company_id=? 
+    order by
+        tor1_0.created_at desc
+2026-01-23T10:43:57.426+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:57.428+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:57.428+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:43:57.432+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.id=?
+2026-01-23T10:44:20.166+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/v1/employees
+2026-01-23T10:44:20.178+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/employees
+2026-01-23T10:44:20.187+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/employees
+2026-01-23T10:44:20.192+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:44:20.192+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.chronosecure.backend.controller.EmployeeController.getAllEmployees(java.util.UUID); target is of class [com.chronosecure.backend.controller.EmployeeController]
+2026-01-23T10:44:20.194+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        e1_0.id,
+        e1_0.company_id,
+        e1_0.created_at,
+        e1_0.department,
+        e1_0.email,
+        e1_0.employee_code,
+        e1_0.fingerprint_template_hash,
+        e1_0.first_name,
+        e1_0.is_active,
+        e1_0.last_name,
+        e1_0.pin_hash,
+        e1_0.updated_at 
+    from
+        employees e1_0 
+    where
+        e1_0.company_id=? 
+        and e1_0.is_active
+2026-01-23T10:55:16.245+05:30  WARN 38244 --- [chronosecure-backend] [ult-executor-16] io.grpc.internal.ManagedChannelImpl      : [Channel<1>: (firestore.googleapis.com:443)] Failed to resolve name. status=Status{code=UNAVAILABLE, description=Unable to resolve host firestore.googleapis.com, cause=java.lang.RuntimeException: java.net.UnknownHostException: No such host is known (firestore.googleapis.com)
+	at io.grpc.internal.DnsNameResolver.resolveAddresses(DnsNameResolver.java:223)
+	at io.grpc.internal.DnsNameResolver.doResolve(DnsNameResolver.java:282)
+	at io.grpc.grpclb.GrpclbNameResolver.doResolve(GrpclbNameResolver.java:63)
+	at io.grpc.internal.DnsNameResolver$Resolve.run(DnsNameResolver.java:318)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: java.net.UnknownHostException: No such host is known (firestore.googleapis.com)
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Inet6AddressImpl.java:52)
+	at java.base/java.net.InetAddress$PlatformResolver.lookupByName(InetAddress.java:1134)
+	at java.base/java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1712)
+	at java.base/java.net.InetAddress$NameServiceAddresses.get(InetAddress.java:1060)
+	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1702)
+	at java.base/java.net.InetAddress.getAllByName(InetAddress.java:1582)
+	at io.grpc.internal.DnsNameResolver$JdkAddressResolver.resolveAddress(DnsNameResolver.java:632)
+	at io.grpc.internal.DnsNameResolver.resolveAddresses(DnsNameResolver.java:219)
+	... 6 more
+}
+2026-01-23T10:55:21.561+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:55:33.788+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:55:44.968+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:56:00.476+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:56:04.818+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:56:17.069+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:56:33.360+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:56:54.312+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:57:13.009+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:57:31.806+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:57:50.812+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:58:07.175+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:58:15.787+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:58:29.094+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:58:49.637+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:59:02.331+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:59:21.613+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:59:34.393+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T10:59:53.893+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:00:14.935+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:00:27.628+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:00:49.830+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:00:59.148+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:01:07.277+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:01:21.021+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:01:42.600+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:01:50.979+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:02:09.692+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:02:34.372+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:02:46.244+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:02:57.448+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:03:11.581+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:03:29.145+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:03:40.676+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:03:54.493+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:04:09.552+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:04:22.679+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:04:44.649+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:04:55.260+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:05:06.092+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:05:26.308+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:05:49.706+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:06:08.709+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:06:26.436+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:06:42.122+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:07:04.632+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:07:15.499+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:07:36.940+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:07:49.368+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:07:57.279+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:08:13.110+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:08:38.524+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:09:02.038+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:09:15.093+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:09:30.167+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:09:39.804+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:09:50.158+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:09:56.979+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:10:01.340+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:10:19.801+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:10:40.202+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:10:53.335+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:11:05.793+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:11:13.074+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:11:33.254+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:11:41.366+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:11:51.975+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:12:04.863+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:12:26.696+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:12:41.200+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:12:55.667+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:13:01.437+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:13:17.648+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:13:26.720+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:13:47.487+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:14:00.225+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:14:12.573+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:14:23.763+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:14:31.324+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:14:39.277+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:14:52.471+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:15:03.069+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:15:18.387+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:15:44.718+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:15:53.130+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:16:10.114+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:16:34.072+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:16:56.932+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:17:12.682+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:17:33.821+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:17:48.214+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:18:02.122+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:18:19.903+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:18:45.127+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:18:52.751+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:19:07.447+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:19:21.764+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:19:31.406+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:19:54.919+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:20:04.396+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:20:29.365+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:20:45.370+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:20:59.984+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:21:17.277+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:21:32.705+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:21:42.756+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:22:05.582+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:22:26.406+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:22:46.507+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:23:05.253+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:23:12.854+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:23:28.977+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:23:43.683+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:23:52.410+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:23:56.196+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:24:12.763+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:24:28.226+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:24:46.446+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:24:56.567+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:25:05.318+05:30 ERROR 38244 --- [chronosecure-backend] [pool-8-thread-1] c.c.backend.service.FirebaseSyncService  : Error during Firebase synchronization: com.google.api.gax.rpc.UnavailableException: io.grpc.StatusRuntimeException: UNAVAILABLE: Unable to resolve host firestore.googleapis.com
+2026-01-23T11:39:08.153+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/employees
+2026-01-23T11:39:08.159+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-23T11:39:08.222+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/employees
+2026-01-23T11:39:08.304+05:30 ERROR 38244 --- [chronosecure-backend] [nio-8080-exec-4] c.c.b.exception.GlobalExceptionHandler   : Unexpected error occurred
+
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1/attendance/employees.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at com.chronosecure.backend.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:33) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-23T11:42:23.159+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/v1/attendance/employees
+2026-01-23T11:42:23.161+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-23T11:42:23.163+05:30 DEBUG 38244 --- [chronosecure-backend] [nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/v1/attendance/employees
+2026-01-23T11:42:23.189+05:30 ERROR 38244 --- [chronosecure-backend] [nio-8080-exec-5] c.c.b.exception.GlobalExceptionHandler   : Unexpected error occurred
+
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1/attendance/employees.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.1.jar:6.1.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.16.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at com.chronosecure.backend.security.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:33) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.0.jar:6.2.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.1.jar:6.1.1]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-10.1.16.jar:10.1.16]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+

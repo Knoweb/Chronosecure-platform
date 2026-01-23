@@ -1,4 +1,4 @@
-import os, time, sqlite3, ctypes, hashlib, threading, base64
+import os, time, sqlite3, ctypes, hashlib, threading, base64, urllib.request, json
 from datetime import datetime, date
 import numpy as np
 import cv2
@@ -23,6 +23,8 @@ CAPTURE_DLL = "ID_FprCap.dll"
 SERVICE_KEY = "serviceAccountKey.json"
 DEVICE_CH = 0
 DEVICE_ID = "PC_SCANNER_01"
+# Hardcoded Company ID for Kiosk
+COMPANY_ID = "c69698a5-1796-43ab-af7e-c955fa23686f"
 IMG_W = 256
 IMG_H = 360
 IMG_SIZE = IMG_W * IMG_H
@@ -301,6 +303,9 @@ class App(tk.Tk):
         self.attendance_on = False
         self.cooldown_uid = {}
         
+        self.emp_map = {} # Code -> Name
+        self.fetch_employees()
+        
         self._build_ui()
         
         try:
@@ -359,16 +364,24 @@ class App(tk.Tk):
         self.uid = tk.StringVar()
         self.name = tk.StringVar()
         
-        for label_text, var in [("User ID", self.uid), ("Full Name", self.name)]:
-            tk.Label(left, text=label_text, font=("Segoe UI", 10), fg=TEXT_LIGHT, bg=BG_CARD).pack(anchor="w", padx=15, pady=(10, 3))
-            entry = tk.Entry(left, textvariable=var, font=("Segoe UI", 10), width=28, bg="#252d38", fg=TEXT_LIGHT, relief="flat", bd=1)
-            entry.pack(anchor="w", padx=15, pady=(0, 5))
+        # Employee ID (Dropdown)
+        tk.Label(left, text="Employee ID", font=("Segoe UI", 10), fg=TEXT_LIGHT, bg=BG_CARD).pack(anchor="w", padx=15, pady=(10, 3))
+        self.uid_cb = ttk.Combobox(left, textvariable=self.uid, font=("Segoe UI", 10), width=27, state="readonly")
+        self.uid_cb.pack(anchor="w", padx=15, pady=(0, 5))
+        self.uid_cb.bind("<<ComboboxSelected>>", self.on_employee_select)
+        if hasattr(self, 'emp_codes'):
+             self.uid_cb['values'] = self.emp_codes
+
+        # Full Name (Auto-filled)
+        tk.Label(left, text="Full Name", font=("Segoe UI", 10), fg=TEXT_LIGHT, bg=BG_CARD).pack(anchor="w", padx=15, pady=(10, 3))
+        self.txt_name = tk.Entry(left, textvariable=self.name, font=("Segoe UI", 10), width=28, bg="#252d38", fg=TEXT_LIGHT, relief="flat", bd=1)
+        self.txt_name.pack(anchor="w", padx=15, pady=(0, 5))
         
         btn_enroll = tk.Button(left, text="▶ Enroll (3 scans)", command=self.enroll, font=("Segoe UI", 11, "bold"), bg=PRIMARY, fg=BG_DARK, activebackground="#00ffff", relief="flat", bd=0, padx=15, pady=10, cursor="hand2")
         btn_enroll.pack(fill="x", padx=15, pady=(15, 20))
         
         tk.Frame(left, bg=TEXT_MUTED, height=1).pack(fill="x", padx=15, pady=10)
-        
+
         # Middle panel - Attendance
         mid = tk.Frame(main, bg=BG_CARD, relief="flat")
         mid.pack(side="left", fill="y", padx=(0, 15))
@@ -403,6 +416,29 @@ class App(tk.Tk):
         self.logbox = tk.Text(right, height=8, font=("Segoe UI", 9), bg="#1a1f26", fg=TEXT_LIGHT, relief="flat", bd=0, state="disabled")
         self.logbox.pack(fill="both", expand=True, padx=15, pady=(5, 15))
 
+    def fetch_employees(self):
+        try:
+            print(f"Fetching employees from backend for Company {COMPANY_ID}...")
+            url = f"http://localhost:8080/api/v1/attendance/employees?companyId={COMPANY_ID}"
+            with urllib.request.urlopen(url) as response:
+                if response.getcode() == 200:
+                    data = json.loads(response.read().decode())
+                    # data = list of {code, name}
+                    self.emp_map = {e['code']: e['name'] for e in data}
+                    self.emp_codes = list(self.emp_map.keys())
+                    print(f"Fetched {len(self.emp_codes)} employees.")
+                else:
+                    print(f"Failed to fetch employees. Code: {response.getcode()}")
+                    self.emp_codes = []
+        except Exception as e:
+            print(f"Error fetching employees: {e}")
+            self.emp_codes = []
+
+    def on_employee_select(self, event):
+        code = self.uid.get()
+        name = self.emp_map.get(code, "")
+        if name:
+            self.name.set(name)
     def show_raw(self, raw: bytes):
         try:
             img = Image.frombytes("L", (IMG_W, IMG_H), raw)

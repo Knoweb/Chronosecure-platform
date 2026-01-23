@@ -3,6 +3,7 @@ package com.chronosecure.backend.controller;
 import com.chronosecure.backend.dto.AttendanceRequest;
 import com.chronosecure.backend.model.AttendanceLog;
 import com.chronosecure.backend.model.enums.AttendanceEventType;
+import com.chronosecure.backend.repository.EmployeeRepository;
 import com.chronosecure.backend.service.AttendanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/attendance")
@@ -29,6 +31,23 @@ import java.util.UUID;
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
+    private final EmployeeRepository employeeRepository;
+
+    @Operation(summary = "Get list of active employees for scanner app")
+    @GetMapping("/employees")
+    public ResponseEntity<List<java.util.Map<String, String>>> getEmployeesList(
+            @RequestParam UUID companyId) {
+        return ResponseEntity.ok(employeeRepository.findByCompanyIdAndIsActiveTrue(companyId).stream()
+                .map(e -> {
+                    java.util.Map<String, String> map = new java.util.HashMap<>();
+                    map.put("code", e.getEmployeeCode());
+                    String name = (e.getFirstName() != null ? e.getFirstName() : "") + " "
+                            + (e.getLastName() != null ? e.getLastName() : "");
+                    map.put("name", name.trim());
+                    return map;
+                })
+                .collect(Collectors.toList()));
+    }
 
     @Operation(summary = "Log an attendance event", description = "Records a Clock-In/Out or Break event. Requires strict tenant validation.")
     @ApiResponses(value = {

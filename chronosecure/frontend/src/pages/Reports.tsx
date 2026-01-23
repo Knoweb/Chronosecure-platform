@@ -6,9 +6,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
-import { Download } from 'lucide-react'
+import { Download, User } from 'lucide-react'
+
+type Employee = {
+  id: string
+  firstName: string
+  lastName: string
+  employeeCode: string
+}
 
 export default function ReportsPage() {
   const companyId = useAuthStore((state) => state.companyId)
@@ -16,6 +24,16 @@ export default function ReportsPage() {
     new Date(new Date().setDate(1)).toISOString().split('T')[0]
   )
   const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0])
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>('')
+
+  const { data: employees } = useQuery({
+    queryKey: ['employees', companyId],
+    queryFn: async () => {
+      const response = await api.get<Employee[]>('/employees')
+      return response.data
+    },
+    enabled: !!companyId,
+  })
 
   async function downloadCompanyReport() {
     try {
@@ -36,6 +54,31 @@ export default function ReportsPage() {
     }
   }
 
+  async function downloadEmployeeReport() {
+    if (!selectedEmployeeId) return
+    try {
+      const response = await api.get(`/reports/employee/${selectedEmployeeId}`, {
+        params: { startDate, endDate },
+        responseType: 'blob',
+      })
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      const emp = employees?.find((e) => e.id === selectedEmployeeId)
+      const empName = emp ? `${emp.firstName}-${emp.lastName}` : 'employee'
+      link.setAttribute(
+        'download',
+        `attendance-report-${empName}-${startDate}-to-${endDate}.xlsx`
+      )
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+    } catch (err) {
+      console.error('Error downloading employee report:', err)
+      alert('Failed to download employee report')
+    }
+  }
+
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
@@ -50,12 +93,12 @@ export default function ReportsPage() {
               </p>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Generate Report</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-6 md:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Date Range</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="startDate">Start Date</Label>
                     <Input
@@ -74,16 +117,61 @@ export default function ReportsPage() {
                       onChange={(e) => setEndDate(e.target.value)}
                     />
                   </div>
-                </div>
+                </CardContent>
+              </Card>
 
-                <div className="flex gap-2">
-                  <Button onClick={downloadCompanyReport}>
-                    <Download className="h-4 w-4 mr-2" />
-                    Download Company Report (Excel)
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Company Report</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Download comprehensive attendance report for all employees.
+                    </p>
+                    <Button onClick={downloadCompanyReport} className="w-full">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download Company Report
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Employee Report</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Select Employee</Label>
+                      <Select
+                        value={selectedEmployeeId}
+                        onValueChange={setSelectedEmployeeId}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an employee" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {employees?.map((employee) => (
+                            <SelectItem key={employee.id} value={employee.id}>
+                              {employee.firstName} {employee.lastName} ({employee.employeeCode})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button
+                      onClick={downloadEmployeeReport}
+                      variant="outline"
+                      className="w-full"
+                      disabled={!selectedEmployeeId}
+                    >
+                      <User className="h-4 w-4 mr-2" />
+                      Download Employee Report
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
 
             <Card>
               <CardHeader>
