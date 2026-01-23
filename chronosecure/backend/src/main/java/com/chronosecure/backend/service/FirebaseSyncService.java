@@ -2,9 +2,12 @@ package com.chronosecure.backend.service;
 
 import com.chronosecure.backend.model.AttendanceLog;
 import com.chronosecure.backend.model.Employee;
+import com.chronosecure.backend.model.TimeOffRequest;
 import com.chronosecure.backend.model.enums.AttendanceEventType;
+import com.chronosecure.backend.model.enums.TimeOffStatus;
 import com.chronosecure.backend.repository.AttendanceLogRepository;
 import com.chronosecure.backend.repository.EmployeeRepository;
+import com.chronosecure.backend.repository.TimeOffRequestRepository;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -20,8 +23,11 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +39,7 @@ public class FirebaseSyncService {
 
     private final EmployeeRepository employeeRepository;
     private final AttendanceLogRepository attendanceLogRepository;
+    private final TimeOffRequestRepository timeOffRequestRepository;
 
     private Firestore db;
     private long lastSyncedUnixTime = System.currentTimeMillis() / 1000 - 86400; // Last 24 hours
@@ -106,38 +113,61 @@ public class FirebaseSyncService {
                 Employee employee = employeeOpt.get();
                 String deviceId = doc.getString("device_id");
                 Double score = doc.getDouble("score");
-                String eventTypeStr = doc.getString("event_type");
 
-                AttendanceEventType eventType = AttendanceEventType.CLOCK_IN;
-                if (eventTypeStr != null) {
-                    switch (eventTypeStr) {
-                        case "CHECK_IN":
-                            eventType = AttendanceEventType.CLOCK_IN;
-                            break;
-                        case "LUNCH_START":
-                            eventType = AttendanceEventType.BREAK_START;
-                            break;
-                        case "LUNCH_END":
-                            eventType = AttendanceEventType.BREAK_END;
-                            break;
-                        case "CHECK_OUT":
-                            eventType = AttendanceEventType.CLOCK_OUT;
-                            break;
+                // Handle TIME_OFF vs ATTENDANCE
+                if ("TIME_OFF".equals(result)) {
+                    LocalDate date = LocalDate.ofInstant(
+                            Instant.ofEpochSecond(unixTime != null ? unixTime : Instant.now().getEpochSecond()),
+                            ZoneId.systemDefault());
+
+                    TimeOffRequest req = TimeOffRequest.builder()
+                            .companyId(employee.getCompanyId())
+                            .employeeId(employee.getId())
+                            .startDate(date)
+                            .endDate(date)
+                            .reason("Fingerprint Scanned Out")
+                            .status(TimeOffStatus.APPROVED)
+                            .build();
+
+                    timeOffRequestRepository.save(req);
+                    log.info("Synced Time Off for {}, Result: TIME_OFF", employee.getFirstName());
+                } else {
+                    // Default to Attendance Log for MATCH or others
+                    AttendanceEventType eventType = AttendanceEventType.CLOCK_IN;
+                    // Optional: You could infer CLOCK_OUT if we wanted, but we are using TIME_OFF
+                    // table for that now.
+                    // Keep existing event logic just in case useful
+                    String eventTypeStr = doc.getString("event_type");
+                    if (eventTypeStr != null) {
+                        switch (eventTypeStr) {
+                            case "CHECK_IN":
+                                eventType = AttendanceEventType.CLOCK_IN;
+                                break;
+                            case "LUNCH_START":
+                                eventType = AttendanceEventType.BREAK_START;
+                                break;
+                            case "LUNCH_END":
+                                eventType = AttendanceEventType.BREAK_END;
+                                break;
+                            case "CHECK_OUT":
+                                eventType = AttendanceEventType.CLOCK_OUT;
+                                break;
+                        }
                     }
+
+                    AttendanceLog logEntry = AttendanceLog.builder()
+                            .companyId(employee.getCompanyId())
+                            .employee(employee)
+                            .eventType(eventType)
+                            .eventTimestamp(unixTime != null ? Instant.ofEpochSecond(unixTime) : Instant.now())
+                            .deviceId(deviceId)
+                            .confidenceScore(score != null ? BigDecimal.valueOf(score) : null)
+                            .isOfflineSync(true)
+                            .build();
+
+                    attendanceLogRepository.save(logEntry);
+                    log.info("Synced attendance for {}, Result: {}", employee.getFirstName(), result);
                 }
-
-                AttendanceLog logEntry = AttendanceLog.builder()
-                        .companyId(employee.getCompanyId())
-                        .employee(employee)
-                        .eventType(eventType)
-                        .eventTimestamp(unixTime != null ? Instant.ofEpochSecond(unixTime) : Instant.now())
-                        .deviceId(deviceId)
-                        .confidenceScore(score != null ? BigDecimal.valueOf(score) : null)
-                        .isOfflineSync(true)
-                        .build();
-
-                attendanceLogRepository.save(logEntry);
-                log.info("Synced attendance for {}, Result: {}", employee.getFirstName(), result);
             }
         } catch (Exception e) {
             if (e.getMessage() != null && !e.getMessage().contains("FirebaseApp with name [DEFAULT] doesn't exist")) {

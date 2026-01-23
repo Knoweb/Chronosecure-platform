@@ -200,6 +200,15 @@ class DB:
         con.close()
         return ok
 
+    def get_last_result(self, uid):
+        con = sqlite3.connect(self.path)
+        cur = con.cursor()
+        # Get the very last event for this user
+        cur.execute("""SELECT result FROM attendance WHERE uid=? ORDER BY id DESC LIMIT 1""", (uid,))
+        row = cur.fetchone()
+        con.close()
+        return row[0] if row else None
+
 # --------Firebase--------
 class Fire:
     def __init__(self):
@@ -556,25 +565,32 @@ class App(tk.Tk):
         if uid and score >= SCORE_ACCEPT:
             if not self._cooldown_ok(uid):
                 return
-            if self.db.already_marked_today(uid):
-                self.db.log_att("DUPLICATE", uid=uid, name=name, score=score)
-                self.log(f"⚠ Already marked: {name}")
-                self.result.set(f"⚠ {name} already checked in today")
-                if self.fire.db:
-                    try:
-                        self.fire.push_attendance(uid, name, score, "DUPLICATE")
-                    except Exception:
-                        pass
+            
+            # Toggle Logic
+            last_res = self.db.get_last_result(uid)
+            
+            # Determine new state: If last was MATCH (In), now is TIME_OFF (Out). Else MATCH (In).
+            if last_res == "MATCH":
+                new_res = "TIME_OFF"
+                msg_ui = f"✓ TIME OFF: {name}"
+                msg_status = f"✓ {name} Checked Out (Time Off)"
+                color = WARNING # distinct color
             else:
-                self.db.log_att("MATCH", uid=uid, name=name, score=score)
-                self.log(f"✓ MATCH: {name}")
-                self.result.set(f"✓ Welcome, {name}!")
-                self.result_label.configure(fg=SUCCESS)
-                if self.fire.db:
-                    try:
-                        self.fire.push_attendance(uid, name, score, "MATCH")
-                    except Exception:
-                        pass
+                new_res = "MATCH"
+                msg_ui = f"✓ MATCH: {name}"
+                msg_status = f"✓ Welcome, {name}! (Checked In)"
+                color = SUCCESS
+
+            self.db.log_att(new_res, uid=uid, name=name, score=score)
+            self.log(msg_ui)
+            self.result.set(msg_status)
+            self.result_label.configure(fg=color)
+            
+            if self.fire.db:
+                try:
+                    self.fire.push_attendance(uid, name, score, new_res)
+                except Exception:
+                    pass
         else:
             self.db.log_att("NO_MATCH", score=score)
             self.log(f"✗ No match (score={score})")
