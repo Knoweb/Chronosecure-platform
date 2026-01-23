@@ -41,6 +41,7 @@ export default function AttendancePage() {
       return response.data
     },
     enabled: !!companyId,
+    refetchInterval: 2000,
   })
 
   const { data: employees } = useQuery({
@@ -57,11 +58,12 @@ export default function AttendancePage() {
   })
 
   const filteredLogs = attendanceLogs?.filter((log: any) => {
+    if (log.eventType === 'CLOCK_OUT') return false // Hide CLOCK_OUT as per user request (shown in Time Off)
     if (!employeeFilter) return true
     const employee = employees?.find((e: any) => e.id === log.employeeId)
     return employee?.employeeCode?.toLowerCase().includes(employeeFilter.toLowerCase()) ||
-           employee?.firstName?.toLowerCase().includes(employeeFilter.toLowerCase()) ||
-           employee?.lastName?.toLowerCase().includes(employeeFilter.toLowerCase())
+      employee?.firstName?.toLowerCase().includes(employeeFilter.toLowerCase()) ||
+      employee?.lastName?.toLowerCase().includes(employeeFilter.toLowerCase())
   }) || []
 
   function getEventTypeBadge(eventType: string) {

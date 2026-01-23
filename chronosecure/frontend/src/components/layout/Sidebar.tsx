@@ -44,6 +44,11 @@ export function Sidebar() {
       icon: Monitor,
     },
     {
+      name: 'Calendar',
+      href: '/calendar',
+      icon: Calendar,
+    },
+    {
       name: 'Settings',
       href: '/settings',
       icon: Settings,

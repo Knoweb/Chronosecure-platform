@@ -40,6 +40,7 @@ public class FirebaseSyncService {
     private final EmployeeRepository employeeRepository;
     private final AttendanceLogRepository attendanceLogRepository;
     private final TimeOffRequestRepository timeOffRequestRepository;
+    private final com.chronosecure.backend.service.HoursCalculationService hoursCalculationService;
 
     private Firestore db;
     private long lastSyncedUnixTime = System.currentTimeMillis() / 1000 - 86400; // Last 24 hours
@@ -122,6 +123,7 @@ public class FirebaseSyncService {
                     String timeStr = java.time.format.DateTimeFormatter.ofPattern("hh:mm a")
                             .withZone(ZoneId.systemDefault()).format(scanTime);
 
+                    // 1. Create TimeOff Request
                     TimeOffRequest req = TimeOffRequest.builder()
                             .companyId(employee.getCompanyId())
                             .employeeId(employee.getId())
@@ -130,9 +132,23 @@ public class FirebaseSyncService {
                             .reason("Fingerprint Scanned Out at " + timeStr)
                             .status(TimeOffStatus.APPROVED)
                             .build();
-
                     timeOffRequestRepository.save(req);
-                    log.info("Synced Time Off for {}, Result: TIME_OFF", employee.getFirstName());
+
+                    // 2. Also log as CLOCK_OUT for calculation
+                    AttendanceLog logOut = AttendanceLog.builder()
+                            .companyId(employee.getCompanyId())
+                            .employee(employee)
+                            .eventType(AttendanceEventType.CLOCK_OUT)
+                            .eventTimestamp(scanTime)
+                            .deviceId(deviceId)
+                            .isOfflineSync(true)
+                            .build();
+                    attendanceLogRepository.save(logOut);
+
+                    // 3. Trigger Hours Calculation
+                    hoursCalculationService.calculateHoursForDate(employee.getCompanyId(), employee.getId(), date);
+
+                    log.info("Synced Time Off & Calculated Hours for {}, Result: TIME_OFF", employee.getFirstName());
                 } else {
                     // Default to Attendance Log for MATCH or others
                     AttendanceEventType eventType = AttendanceEventType.CLOCK_IN;

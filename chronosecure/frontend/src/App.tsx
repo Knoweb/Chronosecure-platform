@@ -12,6 +12,7 @@ import LocationsPage from './pages/Locations'
 import SettingsPage from './pages/Settings'
 import KioskPage from './pages/Kiosk'
 import ReportsPage from './pages/Reports'
+import CalendarPage from './pages/Calendar'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
@@ -73,6 +74,14 @@ function App() {
         }
       />
       <Route path="/kiosk" element={<KioskPage />} />
+      <Route
+        path="/calendar"
+        element={
+          <ProtectedRoute>
+            <CalendarPage />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/reports"
         element={
