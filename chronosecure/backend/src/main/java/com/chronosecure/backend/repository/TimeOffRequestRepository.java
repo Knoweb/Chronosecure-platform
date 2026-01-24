@@ -7,7 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 import java.util.List;
 
+import com.chronosecure.backend.model.enums.TimeOffStatus;
+
 @Repository
 public interface TimeOffRequestRepository extends JpaRepository<TimeOffRequest, UUID> {
     List<TimeOffRequest> findByCompanyIdOrderByCreatedAtDesc(UUID companyId);
+
+    long countByCompanyIdAndStatus(UUID companyId, TimeOffStatus status);
 }

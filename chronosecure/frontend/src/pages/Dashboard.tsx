@@ -12,15 +12,10 @@ export default function DashboardPage() {
   const { data: stats } = useQuery({
     queryKey: ['dashboard-stats', companyId],
     queryFn: async () => {
-      const [employeesRes] = await Promise.all([
-        api.get('/employees'),
-      ])
-      return {
-        totalEmployees: employeesRes.data.length,
-        clockedIn: 0,
-        clockedOut: 0,
-        pendingRequests: 0,
-      }
+      const response = await api.get('/attendance/today-stats', {
+        headers: { 'X-Company-Id': companyId }
+      })
+      return response.data
     },
     enabled: !!companyId,
   })

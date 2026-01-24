@@ -81,4 +81,12 @@ public class AttendanceController {
 
         return ResponseEntity.ok(attendanceService.getAttendanceLogs(companyId, startDate, endDate));
     }
+
+    @Operation(summary = "Get dashboard stats", description = "Fetch daily statistics for dashboard.")
+    @GetMapping("/today-stats")
+    @PreAuthorize("hasRole('COMPANY_ADMIN') or hasRole('SUPER_ADMIN')")
+    public ResponseEntity<java.util.Map<String, Object>> getTodayStats(
+            @RequestHeader("X-Company-Id") UUID companyId) {
+        return ResponseEntity.ok(attendanceService.getTodayStats(companyId));
+    }
 }
