@@ -1,4 +1,4 @@
-import os, time, sqlite3, ctypes, hashlib, threading, base64, urllib.request, json
+import os, time, sqlite3, ctypes, hashlib, threading, base64, urllib.request, json, winsound
 from datetime import datetime, date
 import numpy as np
 import cv2
@@ -366,9 +366,18 @@ class App(tk.Tk):
         
         # Employee ID (Dropdown)
         tk.Label(left, text="Employee ID", font=("Segoe UI", 10), fg=TEXT_LIGHT, bg=BG_CARD).pack(anchor="w", padx=15, pady=(10, 3))
-        self.uid_cb = ttk.Combobox(left, textvariable=self.uid, font=("Segoe UI", 10), width=27, state="readonly")
-        self.uid_cb.pack(anchor="w", padx=15, pady=(0, 5))
+        
+        # Container for Combobox and Refresh Button
+        id_frame = tk.Frame(left, bg=BG_CARD)
+        id_frame.pack(anchor="w", padx=15, pady=(0, 5), fill="x")
+        
+        self.uid_cb = ttk.Combobox(id_frame, textvariable=self.uid, font=("Segoe UI", 10), width=23, state="readonly")
+        self.uid_cb.pack(side="left")
         self.uid_cb.bind("<<ComboboxSelected>>", self.on_employee_select)
+        
+        btn_refresh = tk.Button(id_frame, text="⟳", command=self.refresh_employees, font=("Segoe UI", 10), bg="#252d38", fg=TEXT_LIGHT, relief="flat", bd=0, width=3, cursor="hand2")
+        btn_refresh.pack(side="left", padx=(5, 0))
+        
         if hasattr(self, 'emp_codes'):
              self.uid_cb['values'] = self.emp_codes
 
@@ -427,12 +436,18 @@ class App(tk.Tk):
                     self.emp_map = {e['code']: e['name'] for e in data}
                     self.emp_codes = list(self.emp_map.keys())
                     print(f"Fetched {len(self.emp_codes)} employees.")
+                    if hasattr(self, 'uid_cb') and self.uid_cb:
+                        self.uid_cb['values'] = self.emp_codes
                 else:
                     print(f"Failed to fetch employees. Code: {response.getcode()}")
                     self.emp_codes = []
         except Exception as e:
             print(f"Error fetching employees: {e}")
             self.emp_codes = []
+
+    def refresh_employees(self):
+        self.fetch_employees()
+        self.log(f"Refreshed: {len(self.emp_codes)} employees found")
 
     def on_employee_select(self, event):
         code = self.uid.get()
@@ -581,6 +596,7 @@ class App(tk.Tk):
                 self.log(f"✓ Enrolled: {name}")
                 self.result.set(f"✓ {name} enrolled successfully")
                 self.update_status("Ready", "green")
+                self.play_sound("ENROLLED")
                 self.uid.set("")
                 self.name.set("")
             except Exception as e:
@@ -589,6 +605,8 @@ class App(tk.Tk):
 
         threading.Thread(target=worker, daemon=True).start()
 
+    import os, time, sqlite3, ctypes, hashlib, threading, base64, urllib.request, json, winsound, subprocess
+
     def _cooldown_ok(self, uid: str) -> bool:
         nowu = int(time.time())
         last = self.cooldown_uid.get(uid, 0)
@@ -596,6 +614,57 @@ class App(tk.Tk):
             return False
         self.cooldown_uid[uid] = nowu
         return True
+
+    def play_sound(self, category):
+        def _play():
+            # Import subprocess locally to ensure it is available
+            import subprocess
+            import os
+            try:
+                txt = ""
+                if category == "IN":
+                    txt = "Clocked In"
+                elif category == "OUT":
+                    txt = "Clocked Out"
+                elif category == "ERROR":
+                    txt = "Try Again"
+                elif category == "ENROLLED":
+                    txt = "Enrolled Successfully"
+                
+                if txt:
+                    print(f"DEBUG: Speaking {txt}")
+                    # Use VBScript for reliable TTS on Windows
+                    # Attempt to use a female voice (Item(1)) if available
+                    vbs_filename = f"tts_{int(time.time()*1000)}.vbs"
+                    vbs_path = os.path.abspath(vbs_filename)
+                    
+                    vbs_content = f"""
+Set sapi = CreateObject("SAPI.SpVoice")
+On Error Resume Next
+Set sapi.Voice = sapi.GetVoices.Item(1)
+On Error Goto 0
+sapi.Rate = 0
+sapi.Volume = 100
+sapi.Speak "{txt}"
+"""
+                    with open(vbs_path, "w") as f:
+                        f.write(vbs_content)
+                    
+                    # Run and wait
+                    subprocess.run(["cscript", "//Nologo", vbs_path], check=False, shell=True)
+                    
+                    # Cleanup
+                    if os.path.exists(vbs_path):
+                        os.remove(vbs_path)
+                        
+            except Exception as e:
+                print(f"DEBUG: TTS Execution Failed: {e}")
+                import winsound
+                try:
+                     winsound.Beep(1000, 500)
+                except:
+                    pass
+        threading.Thread(target=_play, daemon=True).start()
 
     def _handle_result(self, uid, name, score):
         if uid and score >= SCORE_ACCEPT:
@@ -611,11 +680,13 @@ class App(tk.Tk):
                 msg_ui = f"✓ CLOCKED OUT: {name}"
                 msg_status = f"✓ {name} Checked Out (Time Off)"
                 color = WARNING # distinct color
+                self.play_sound("OUT")
             else:
                 new_res = "CLOCKED_IN"
                 msg_ui = f"✓ CLOCKED IN: {name}"
                 msg_status = f"✓ Welcome, {name}! (Checked In)"
                 color = SUCCESS
+                self.play_sound("IN")
 
             self.db.log_att(new_res, uid=uid, name=name, score=score)
             self.log(msg_ui)
@@ -632,6 +703,7 @@ class App(tk.Tk):
             self.log(f"✗ No match (score={score})")
             self.result.set(f"✗ Not recognized (score={score})")
             self.result_label.configure(fg=ERROR)
+            self.play_sound("ERROR")
 
     def identify_once(self):
         if not self.cap:

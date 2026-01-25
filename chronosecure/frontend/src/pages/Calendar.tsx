@@ -83,7 +83,8 @@ export default function CalendarPage() {
             const { startDate, endDate } = getMonthRange()
 
             const response = await api.get<CalendarEntry[]>('/calendar', {
-                params: { startDate, endDate }
+                params: { startDate, endDate },
+                headers: { 'X-Company-Id': companyId }
             })
 
             const newEntries: Record<string, CalendarEntry> = {}
@@ -169,6 +170,8 @@ export default function CalendarPage() {
                 type: dayType,
                 payMultiplier,
                 description
+            }, {
+                headers: { 'X-Company-Id': companyId }
             })
             setIsDialogOpen(false)
             if (!isMultiSelectMode) setSelectedDates([])
