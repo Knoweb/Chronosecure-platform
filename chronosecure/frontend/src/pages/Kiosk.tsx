@@ -26,6 +26,8 @@ export default function KioskPage() {
   const [verifiedEmployee, setVerifiedEmployee] = useState<any>(null)
   const [fingerprintError, setFingerprintError] = useState('')
   const [nextEventType, setNextEventType] = useState<string>('CLOCK_IN')
+  const [isCameraActive, setIsCameraActive] = useState(false)
+
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
 
@@ -60,6 +62,7 @@ export default function KioskPage() {
         setPhoto(null)
         setFingerprintVerified(false)
         setVerifiedEmployee(null)
+        stopCamera() // Ensure camera stops
         if (verifiedEmployee?.employeeId) {
           refetchNextEvent()
         }
@@ -75,9 +78,11 @@ export default function KioskPage() {
       if (videoRef.current) {
         videoRef.current.srcObject = stream
         streamRef.current = stream
+        setIsCameraActive(true)
       }
     } catch (err) {
       console.error('Error accessing camera:', err)
+      alert('Could not access camera. Please ensure you have granted permissions.')
     }
   }
 
@@ -86,10 +91,14 @@ export default function KioskPage() {
       streamRef.current.getTracks().forEach((track) => track.stop())
       streamRef.current = null
     }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null
+    }
+    setIsCameraActive(false)
   }
 
   function capturePhoto() {
-    if (videoRef.current) {
+    if (videoRef.current && isCameraActive) {
       const canvas = document.createElement('canvas')
       canvas.width = videoRef.current.videoWidth
       canvas.height = videoRef.current.videoHeight
@@ -116,7 +125,7 @@ export default function KioskPage() {
     try {
       // Check if biometric is supported
       const hasBiometric = isWebAuthnSupported() && await hasBiometricCapability()
-      
+
       let fingerprintHash: string
 
       if (hasBiometric) {
@@ -237,237 +246,17 @@ export default function KioskPage() {
 
   function getButtonLabel(eventType: string): string {
     switch (eventType) {
-      case 'CLOCK_IN':
-        return 'Clock In'
-      case 'BREAK_START':
-        return 'Start Break'
-      case 'BREAK_END':
-        return 'End Break'
-      case 'CLOCK_OUT':
-        return 'Clock Out'
-      default:
-        return 'Log Attendance'
+      case 'CLOCK_IN': return 'Clock In'
+      case 'BREAK_START': return 'Start Break'
+      case 'BREAK_END': return 'End Break'
+      case 'CLOCK_OUT': return 'Clock Out'
+      default: return 'Log Attendance'
     }
   }
 
   function getButtonColor(eventType: string): string {
     if (eventType === 'CLOCK_IN' || eventType === 'BREAK_END') {
-      return 'bg-green-600 hover:bg-green-700'
-    }
-    return 'bg-blue-600 hover:bg-blue-700'
-  }
-
-  return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold">Attendance Kiosk</h1>
-          <p className="text-muted-foreground mt-1">
-            Enter your employee code and capture your photo to clock in/out
-          </p>
-        </div>
-
-        {success && (
-          <Alert>
-            <CheckCircle2 className="h-4 w-4" />
-            <AlertDescription>Attendance logged successfully!</AlertDescription>
-          </Alert>
-        )}
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Employee Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="employeeCode">Employee Code</Label>
-                <Input
-                  id="employeeCode"
-                  value={employeeCode}
-                  onChange={(e) => {
-                    setEmployeeCode(e.target.value)
-                    setFingerprintVerified(false)
-                    setVerifiedEmployee(null)
-                  }}
-                  placeholder="Enter your employee code"
-                />
-              </div>
-
-              {/* Fingerprint Authentication Option */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="useFingerprint"
-                    checked={useFingerprint}
-                    onChange={(e) => {
-                      setUseFingerprint(e.target.checked)
-                      setFingerprintVerified(false)
-                      setVerifiedEmployee(null)
-                    }}
-                    className="rounded"
-                  />
-                  <Label htmlFor="useFingerprint" className="cursor-pointer">
-                    Use Fingerprint Authentication
-                  </Label>
-                </div>
-
-                {useFingerprint && (
-                  <div className="space-y-2 p-4 border rounded-lg bg-muted/50">
-                    {fingerprintVerified && verifiedEmployee ? (
-                      <Alert className="bg-green-50 text-green-800 border-green-200">
-                        <CheckCircle2 className="h-4 w-4 text-green-600" />
-                        <AlertDescription>
-                          Verified: {verifiedEmployee.firstName} {verifiedEmployee.lastName}
-                          <br />
-                          <span className="text-xs">Confidence: {(verifiedEmployee.confidenceScore * 100).toFixed(1)}%</span>
-                        </AlertDescription>
-                      </Alert>
-                    ) : (
-                      <>
-                        {fingerprintError && (
-                          <Alert variant="destructive">
-                            <AlertDescription>{fingerprintError}</AlertDescription>
-                          </Alert>
-                        )}
-                        <Button
-                          onClick={handleFingerprintVerification}
-                          disabled={!employeeCode || verifyingFingerprint}
-                          className="w-full"
-                          variant="outline"
-                        >
-                          {verifyingFingerprint ? (
-                            <>
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Verifying...
-                            </>
-                          ) : (
-                            <>
-                              <Fingerprint className="h-4 w-4 mr-2" />
-                              Verify Fingerprint
-                            </>
-                          )}
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label>Photo Capture {useFingerprint ? '(Required for Security)' : '(Required)'}</Label>
-                {!photo ? (
-                  <div className="space-y-2">
-                    <video
-                      ref={videoRef}
-                      autoPlay
-                      playsInline
-                      className="w-full rounded-lg border"
-                      style={{ display: streamRef.current ? 'block' : 'none' }}
-                    />
-                    <div className="flex gap-2">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={startCamera}
-                        className="w-full"
-                      >
-                        <Camera className="h-4 w-4 mr-2" />
-                        Start Camera
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={stopCamera}
-                        className="w-full"
-                      >
-                        Stop Camera
-                      </Button>
-                    </div>
-                    <Button
-                      type="button"
-                      onClick={capturePhoto}
-                      disabled={!streamRef.current}
-                      className="w-full"
-                    >
-                      Capture Photo
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    <img
-                      src={photo}
-                      alt="Captured"
-                      className="w-full rounded-lg border"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => {
-                        setPhoto(null)
-                        stopCamera()
-                      }}
-                      className="w-full"
-                    >
-                      Retake Photo
-                    </Button>
-                  </div>
-                )}
-              </div>
-
-              {verifiedEmployee && (
-                <div className="p-3 bg-muted rounded-lg">
-                  <p className="text-sm font-medium">Next Action:</p>
-                  <p className="text-lg font-bold">{getButtonLabel(nextEventType)}</p>
-                </div>
-              )}
-
-              <Button
-                onClick={handleAttendance}
-                disabled={
-                  !employeeCode ||
-                  (!useFingerprint && !photo) ||
-                  (useFingerprint && (!fingerprintVerified || !photo)) ||
-                  attendanceMutation.isPending
-                }
-                className={`w-full ${verifiedEmployee ? getButtonColor(nextEventType) : ''}`}
-              >
-                {attendanceMutation.isPending
-                  ? 'Logging...'
-                  : verifiedEmployee
-                    ? getButtonLabel(nextEventType)
-                    : 'Log Attendance'}
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Instructions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm text-muted-foreground">
-              <p><strong>Method 1: Fingerprint Authentication</strong></p>
-              <p>1. Enter your employee code</p>
-              <p>2. Check "Use Fingerprint Authentication"</p>
-              <p>3. Click "Verify Fingerprint" and use your device's biometric (Touch ID, Face ID, Windows Hello, or USB fingerprint reader)</p>
-              <p>4. Click "Clock In" once verified</p>
-              <p className="pt-2"><strong>Method 2: Photo Verification</strong></p>
-              <p>1. Enter your employee code</p>
-              <p>2. Click "Start Camera" to activate your webcam</p>
-              <p>3. Position yourself in front of the camera</p>
-              <p>4. Click "Capture Photo" to take your picture</p>
-              <p>5. Review your photo and click "Clock In"</p>
-              <p className="pt-4 text-xs">
-                <strong>Note:</strong> Fingerprint authentication is more secure and faster.
-                Your biometric data is encrypted and stored securely per BIPA compliance.
-                Photos are used for verification and compliance purposes.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
-}
-
+    }
