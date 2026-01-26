@@ -1,8 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
-import { Users, CheckCircle2, Clock, Calendar } from 'lucide-react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { Users, CheckCircle2, Clock, Calendar, Check, X } from 'lucide-react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
-import { Card } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
 
@@ -18,6 +19,33 @@ export default function DashboardPage() {
       return response.data
     },
     enabled: !!companyId,
+  })
+
+  const queryClient = useQueryClient()
+
+  const { data: pendingRequests } = useQuery({
+    queryKey: ['pendingTimeOff', companyId],
+    queryFn: async () => {
+      const response = await api.get('/time-off/requests', {
+        headers: { 'X-Company-Id': companyId }
+      })
+      // Filter for standard PENDING status if backend returns all
+      return response.data?.filter((r: any) => r.status === 'PENDING') || []
+    },
+    enabled: !!companyId,
+  })
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      await api.put(`/time-off/${id}/status`, null, {
+        params: { status },
+        headers: { 'X-Company-Id': companyId },
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pendingTimeOff'] })
+      queryClient.invalidateQueries({ queryKey: ['dashboard-stats'] })
+    },
   })
 
   return (
@@ -91,9 +119,48 @@ export default function DashboardPage() {
                 <h3 className="font-semibold text-lg mb-4">Today's Activity</h3>
                 <p className="text-sm text-muted-foreground text-center py-8">No activity today</p>
               </Card>
-              <Card className="p-6">
-                <h3 className="font-semibold text-lg mb-4">Recent Completed</h3>
-                <p className="text-sm text-muted-foreground text-center py-8">No completed records</p>
+              <Card className="flex flex-col">
+                <CardHeader>
+                  <CardTitle className="text-lg">Pending Approvals</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  {!pendingRequests || pendingRequests.length === 0 ? (
+                    <p className="text-sm text-muted-foreground text-center py-8">No pending requests</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {pendingRequests.slice(0, 5).map((request: any) => (
+                        <div key={request.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+                          <div>
+                            <p className="font-medium text-sm">{request.employeeName || 'Employee'}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {new Date(request.startDate).toLocaleDateString()} - {request.reason || 'Time Off'}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-8 w-8 p-0 rounded-full bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800"
+                              onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'APPROVED' })}
+                              disabled={updateStatusMutation.isPending}
+                            >
+                              <Check className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-8 w-8 p-0 rounded-full bg-red-100 text-red-700 hover:bg-red-200 hover:text-red-800"
+                              onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'REJECTED' })}
+                              disabled={updateStatusMutation.isPending}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
               </Card>
             </div>
           </div>

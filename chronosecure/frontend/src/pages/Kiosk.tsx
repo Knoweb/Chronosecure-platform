@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { api } from '@/lib/axios'
@@ -14,10 +13,11 @@ import {
   isWebAuthnSupported,
   hasBiometricCapability,
 } from '@/lib/biometric'
+import { EmployeeSearch } from '@/components/ui/employee-search'
 
 export default function KioskPage() {
   const companyId = useAuthStore((state) => state.companyId)
-  const [employeeCode, setEmployeeCode] = useState('')
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState('')
   const [photo, setPhoto] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [useFingerprint, setUseFingerprint] = useState(false)
@@ -45,6 +45,22 @@ export default function KioskPage() {
     enabled: !!verifiedEmployee?.employeeId && !!companyId,
   })
 
+  const { data: employees } = useQuery({
+    queryKey: ['employees', companyId],
+    queryFn: async () => {
+      const response = await api.get('/employees', {
+        headers: {
+          'X-Company-Id': companyId,
+        },
+      })
+      return response.data
+    },
+    enabled: !!companyId,
+  })
+
+  const selectedEmployee = employees?.find((e: any) => e.id === selectedEmployeeId)
+  const employeeCode = selectedEmployee?.employeeCode || ''
+
   useEffect(() => {
     if (nextEvent) {
       setNextEventType(nextEvent)
@@ -59,7 +75,7 @@ export default function KioskPage() {
       setSuccess(true)
       setTimeout(() => {
         setSuccess(false)
-        setEmployeeCode('')
+        setSelectedEmployeeId('')
         setPhoto(null)
         setFingerprintVerified(false)
         setVerifiedEmployee(null)
@@ -201,30 +217,20 @@ export default function KioskPage() {
         deviceId: 'web-kiosk',
       })
     } else {
-      if (!employeeCode || !photo) {
-        setGeneralError('Please enter employee code and capture photo')
+      if (!selectedEmployeeId || !photo) {
+        setGeneralError('Please select an employee and capture photo')
         return
       }
 
-      // First, get employee ID from employee code
       try {
-        const employeesRes = await api.get('/employees', {
-          headers: {
-            'X-Company-Id': companyId,
-          },
-        })
-        const employee = employeesRes.data.find(
-          (e: any) => e.employeeCode === employeeCode
-        )
-
-        if (!employee) {
+        if (!selectedEmployee) {
           setGeneralError('Employee not found')
           return
         }
 
         // Get next event for this employee
         const nextEventRes = await api.get(
-          `/attendance/next-state/${companyId}/${employee.id}`
+          `/attendance/next-state/${companyId}/${selectedEmployee.id}`
         )
         const eventType = nextEventRes.data
 
@@ -233,7 +239,7 @@ export default function KioskPage() {
 
         attendanceMutation.mutate({
           companyId,
-          employeeId: employee.id,
+          employeeId: selectedEmployee.id,
           eventType,
           photoBase64,
           confidenceScore: livenessScore,
@@ -298,17 +304,15 @@ export default function KioskPage() {
                 </Alert>
               )}
               <div className="space-y-1">
-                <Label htmlFor="employeeCode" className="text-sm">Employee Code</Label>
-                <Input
-                  id="employeeCode"
-                  value={employeeCode}
-                  onChange={(e) => {
-                    setEmployeeCode(e.target.value)
+                <Label htmlFor="employeeCode" className="text-sm">Employee</Label>
+                <EmployeeSearch
+                  employees={employees || []}
+                  value={selectedEmployeeId}
+                  onChange={(val) => {
+                    setSelectedEmployeeId(val)
                     setFingerprintVerified(false)
                     setVerifiedEmployee(null)
                   }}
-                  placeholder="e.g. EMP001"
-                  className="h-10"
                 />
               </div>
 
