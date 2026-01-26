@@ -256,7 +256,283 @@ export default function KioskPage() {
 
   function getButtonColor(eventType: string): string {
     if (eventType === 'CLOCK_IN' || eventType === 'BREAK_END') {
-      </div >
-    </div >
-  )
+      return 'bg-green-600 hover:bg-green-700'
     }
+    return 'bg-blue-600 hover:bg-blue-700'
+  }
+
+  return (
+    <div className="h-screen bg-background p-4 flex flex-col overflow-hidden">
+      <div className="max-w-6xl mx-auto w-full h-full flex flex-col gap-4">
+        <div className="text-center shrink-0 space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">Attendance Kiosk</h1>
+          <p className="text-sm text-muted-foreground">
+            Enter your credentials and verify your identity
+          </p>
+        </div>
+
+        {success && (
+          <Alert className="bg-green-50 border-green-200 py-2">
+            <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <AlertDescription className="text-green-800 font-medium ml-2 text-sm">
+              Attendance logged successfully!
+            </AlertDescription>
+          </Alert>
+        )}
+
+        <div className="grid lg:grid-cols-2 gap-4 flex-1 min-h-0">
+          {/* Left Column: Input & Verification */}
+          <Card className="flex flex-col h-full border-2 shadow-sm overflow-hidden">
+            <CardHeader className="py-3 px-4 bg-muted/20 shrink-0">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Fingerprint className="h-5 w-5 text-primary" />
+                Employee Verification
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-3 flex-1 flex flex-col overflow-y-auto scrollbar-thin">
+              <div className="space-y-1">
+                <Label htmlFor="employeeCode" className="text-sm">Employee Code</Label>
+                <Input
+                  id="employeeCode"
+                  value={employeeCode}
+                  onChange={(e) => {
+                    setEmployeeCode(e.target.value)
+                    setFingerprintVerified(false)
+                    setVerifiedEmployee(null)
+                  }}
+                  placeholder="e.g. EMP001"
+                  className="h-10"
+                />
+              </div>
+
+              <div className="p-3 bg-muted/30 rounded-lg space-y-2 shrink-0">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="useFingerprint"
+                    checked={useFingerprint}
+                    onChange={(e) => {
+                      setUseFingerprint(e.target.checked)
+                      setFingerprintVerified(false)
+                      setVerifiedEmployee(null)
+                    }}
+                    className="h-4 w-4 rounded border-gray-300 text-primary"
+                  />
+                  <Label htmlFor="useFingerprint" className="cursor-pointer text-sm font-medium">
+                    Biometric Auth (Optional)
+                  </Label>
+                </div>
+
+                {useFingerprint && (
+                  <div className="pt-1">
+                    {fingerprintVerified && verifiedEmployee ? (
+                      <div className="p-2 bg-green-50 text-green-700 border border-green-200 rounded text-sm flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4" />
+                        <span className="truncate">Verified: {verifiedEmployee.firstName}</span>
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        {fingerprintError && (
+                          <div className="text-xs text-red-600 bg-red-50 p-1 rounded">
+                            {fingerprintError}
+                          </div>
+                        )}
+                        <Button
+                          onClick={handleFingerprintVerification}
+                          disabled={!employeeCode || verifyingFingerprint}
+                          className="w-full h-9 text-xs"
+                          variant="secondary"
+                        >
+                          {verifyingFingerprint ? (
+                            <>
+                              <Loader2 className="h-3 w-3 mr-2 animate-spin" />
+                              Verifying...
+                            </>
+                          ) : (
+                            <>
+                              <Fingerprint className="h-3 w-3 mr-2" />
+                              Scan Fingerprint
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex-1 min-h-[200px] flex flex-col space-y-2">
+                <div className="flex items-center justify-between shrink-0">
+                  <Label className="text-sm">Photo Verification <span className="text-red-500">*</span></Label>
+                  {isCameraActive && (
+                    <span className="text-[10px] text-red-500 animate-pulse font-bold uppercase">
+                      ● Live
+                    </span>
+                  )}
+                </div>
+
+                <div className="relative flex-1 rounded-lg overflow-hidden bg-black/5 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center">
+                  {!photo ? (
+                    <>
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        className={`w-full h-full object-cover absolute inset-0 ${isCameraActive ? 'block' : 'hidden'}`}
+                      />
+                      {!isCameraActive && (
+                        <div className="text-center p-4 space-y-1">
+                          <Camera className="h-8 w-8 mx-auto text-muted-foreground/40" />
+                          <p className="text-xs text-muted-foreground">Camera off</p>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <img
+                      src={photo}
+                      alt="Captured"
+                      className="w-full h-full object-cover absolute inset-0"
+                    />
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 shrink-0">
+                  {!photo ? (
+                    isCameraActive ? (
+                      <>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={stopCamera}
+                          size="sm"
+                          className="border-red-200 text-red-700 hover:bg-red-50"
+                        >
+                          Stop
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={capturePhoto}
+                          size="sm"
+                        >
+                          Capture
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={startCamera}
+                        size="sm"
+                        className="col-span-2"
+                      >
+                        <Camera className="h-4 w-4 mr-2" />
+                        Start Camera
+                      </Button>
+                    )
+                  ) : (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => {
+                        setPhoto(null)
+                        startCamera()
+                      }}
+                      size="sm"
+                      className="col-span-2 text-primary h-8"
+                    >
+                      Retake Photo
+                    </Button>
+                  )}
+                </div>
+              </div>
+
+              {verifiedEmployee && (
+                <div className="p-3 bg-blue-50 text-blue-900 rounded border border-blue-200 flex justify-between items-center shrink-0">
+                  <span className="text-sm font-medium">Next Action:</span>
+                  <span className="font-bold">{getButtonLabel(nextEventType)}</span>
+                </div>
+              )}
+
+              <Button
+                onClick={handleAttendance}
+                disabled={
+                  !employeeCode ||
+                  (!useFingerprint && !photo) ||
+                  (useFingerprint && (!fingerprintVerified || !photo)) ||
+                  attendanceMutation.isPending
+                }
+                className={`w-full h-12 text-md font-bold shadow-sm shrink-0 ${verifiedEmployee ? getButtonColor(nextEventType) : ''}`}
+              >
+                {attendanceMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  verifiedEmployee ? getButtonLabel(nextEventType) : 'Log Attendance'
+                )}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Right Column: Instructions */}
+          <Card className="flex flex-col h-full border shadow-sm bg-muted/10 overflow-hidden">
+            <CardHeader className="py-3 px-4 shrink-0">
+              <CardTitle className="text-lg">How to use</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4 overflow-y-auto scrollbar-thin text-sm flex-1">
+              <div className="space-y-2">
+                <h3 className="font-semibold flex items-center gap-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">1</span>
+                  Identify Yourself
+                </h3>
+                <p className="text-muted-foreground pl-7">
+                  Enter your unique <strong>Employee Code</strong>.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="font-semibold flex items-center gap-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">2</span>
+                  Verify Identity
+                </h3>
+                <div className="pl-7 space-y-2">
+                  <div className="p-2 bg-white rounded border border-gray-100 shadow-sm">
+                    <p className="font-medium text-gray-900 text-xs">Option A: Biometrics</p>
+                    <p className="text-xs text-muted-foreground">
+                      Check box & scan fingerprint/face.
+                    </p>
+                  </div>
+                  <div className="p-2 bg-white rounded border border-gray-100 shadow-sm">
+                    <p className="font-medium text-gray-900 text-xs">Option B: Photo</p>
+                    <p className="text-xs text-muted-foreground">
+                      Take a clear photo of your face.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="font-semibold flex items-center gap-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">3</span>
+                  Submit
+                </h3>
+                <ul className="list-disc pl-11 text-muted-foreground space-y-1 text-xs">
+                  <li>Keep face visible.</li>
+                  <li>Click <strong>Start Camera</strong> → <strong>Capture</strong>.</li>
+                  <li>Click <strong>Log Attendance</strong>.</li>
+                </ul>
+              </div>
+
+              <div className="pt-4 mt-auto border-t">
+                <p className="text-[10px] text-center text-muted-foreground">
+                  By using this system, you consent to biometric data processing for attendance verification.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}

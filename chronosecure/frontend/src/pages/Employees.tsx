@@ -155,18 +155,21 @@ export default function EmployeesPage() {
                 <h1 className="text-3xl font-bold">Employees</h1>
                 <p className="text-muted-foreground mt-1">Manage your employees</p>
               </div>
-              <Button onClick={() => {
-                setEditingEmployee(null)
-                setFormData({
-                  employeeCode: '',
-                  firstName: '',
-                  lastName: '',
-                  email: '',
-                  department: '',
-                })
-                setShowAddForm(!showAddForm)
-              }}>
-                <Plus className="h-4 w-4 mr-2" />
+              <Button
+                onClick={() => {
+                  setEditingEmployee(null)
+                  setFormData({
+                    employeeCode: '',
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    department: '',
+                  })
+                  setShowAddForm(!showAddForm)
+                }}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+              >
+                <Plus className="h-5 w-5 mr-2" />
                 Add Employee
               </Button>
             </div>

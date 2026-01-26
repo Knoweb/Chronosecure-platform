@@ -56,8 +56,11 @@ export default function TimeOffPage() {
                 <h1 className="text-3xl font-bold">Time Off</h1>
                 <p className="text-muted-foreground mt-1">Manage time off requests and approvals</p>
               </div>
-              <Button onClick={() => setShowRequestForm(!showRequestForm)}>
-                <Plus className="h-4 w-4 mr-2" />
+              <Button
+                onClick={() => setShowRequestForm(!showRequestForm)}
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+              >
+                <Plus className="h-5 w-5 mr-2 stroke-2" />
                 Request Time Off
               </Button>
             </div>
