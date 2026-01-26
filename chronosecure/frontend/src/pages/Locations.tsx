@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
@@ -12,26 +12,64 @@ import { MapPin, Plus, Building } from 'lucide-react'
 
 export default function LocationsPage() {
   const companyId = useAuthStore((state) => state.companyId)
+  const queryClient = useQueryClient()
   const [showAddForm, setShowAddForm] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    address: '',
+    city: '',
+    zipCode: '',
+    timezone: '',
+  })
+  const [error, setError] = useState('')
 
   const { data: locations, isLoading } = useQuery({
     queryKey: ['locations', companyId],
     queryFn: async () => {
-      // Note: This endpoint needs to be implemented in the backend
-      // For now, return empty array
-      try {
-        const response = await api.get('/locations', {
-          headers: {
-            'X-Company-Id': companyId,
-          },
-        })
-        return response.data
-      } catch (error) {
-        return []
-      }
+      const response = await api.get('/locations', {
+        headers: {
+          'X-Company-Id': companyId,
+        },
+      })
+      return response.data
     },
     enabled: !!companyId,
   })
+
+  const createMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await api.post('/locations', data, {
+        headers: {
+          'X-Company-Id': companyId,
+        },
+      })
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['locations'] })
+      setShowAddForm(false)
+      setFormData({
+        name: '',
+        address: '',
+        city: '',
+        zipCode: '',
+        timezone: '',
+      })
+      setError('')
+    },
+    onError: (err: any) => {
+      setError(err.response?.data?.message || 'Failed to create location')
+    },
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.name) {
+      setError('Location name is required')
+      return
+    }
+    createMutation.mutate(formData)
+  }
 
   return (
     <div className="flex h-screen bg-background">
@@ -45,7 +83,7 @@ export default function LocationsPage() {
                 <h1 className="text-3xl font-bold">Locations</h1>
                 <p className="text-muted-foreground mt-1">Manage company locations and offices</p>
               </div>
-              <Button onClick={() => setShowAddForm(!showAddForm)}>
+              <Button onClick={() => setShowAddForm(!showAddForm)} className="border border-border shadow-sm">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Location
               </Button>
@@ -58,36 +96,82 @@ export default function LocationsPage() {
                   <CardTitle>Add New Location</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {error && (
+                      <div className="text-red-600 text-sm bg-red-50 p-2 rounded">
+                        {error}
+                      </div>
+                    )}
                     <div className="space-y-2">
-                      <Label htmlFor="name">Location Name</Label>
-                      <Input id="name" placeholder="e.g., Main Office, Branch Office" />
+                      <Label htmlFor="name">Location Name *</Label>
+                      <Input
+                        id="name"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        placeholder="e.g., Main Office, Branch Office"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="address">Address</Label>
-                      <Input id="address" placeholder="Street address" />
+                      <Input
+                        id="address"
+                        value={formData.address}
+                        onChange={(e) =>
+                          setFormData({ ...formData, address: e.target.value })
+                        }
+                        placeholder="Street address"
+                      />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="city">City</Label>
-                        <Input id="city" placeholder="City" />
+                        <Input
+                          id="city"
+                          value={formData.city}
+                          onChange={(e) =>
+                            setFormData({ ...formData, city: e.target.value })
+                          }
+                          placeholder="City"
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="zipCode">Zip Code</Label>
-                        <Input id="zipCode" placeholder="Zip code" />
+                        <Input
+                          id="zipCode"
+                          value={formData.zipCode}
+                          onChange={(e) =>
+                            setFormData({ ...formData, zipCode: e.target.value })
+                          }
+                          placeholder="Zip code"
+                        />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="timezone">Timezone</Label>
-                      <Input id="timezone" placeholder="e.g., America/New_York" />
+                      <Input
+                        id="timezone"
+                        value={formData.timezone}
+                        onChange={(e) =>
+                          setFormData({ ...formData, timezone: e.target.value })
+                        }
+                        placeholder="e.g., America/New_York"
+                      />
                     </div>
                     <div className="flex gap-2">
-                      <Button>Save Location</Button>
-                      <Button variant="outline" onClick={() => setShowAddForm(false)}>
+                      <Button type="submit" disabled={createMutation.isPending} className="border border-border shadow-sm">
+                        {createMutation.isPending ? 'Saving...' : 'Save Location'}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowAddForm(false)}
+                      >
                         Cancel
                       </Button>
                     </div>
-                  </div>
+                  </form>
                 </CardContent>
               </Card>
             )}
