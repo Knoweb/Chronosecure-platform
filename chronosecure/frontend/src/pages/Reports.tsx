@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { EmployeeSearch } from '@/components/ui/employee-search'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
 import { Download, User } from 'lucide-react'
@@ -147,21 +147,11 @@ export default function ReportsPage() {
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <Label>Select Employee</Label>
-                      <Select
+                      <EmployeeSearch
+                        employees={employees || []}
                         value={selectedEmployeeId}
-                        onValueChange={setSelectedEmployeeId}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select an employee" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {employees?.map((employee) => (
-                            <SelectItem key={employee.id} value={employee.id}>
-                              {employee.firstName} {employee.lastName} ({employee.employeeCode})
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                        onChange={setSelectedEmployeeId}
+                      />
                     </div>
                     <Button
                       onClick={downloadEmployeeReport}

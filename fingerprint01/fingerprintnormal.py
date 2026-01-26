@@ -371,9 +371,10 @@ class App(tk.Tk):
         id_frame = tk.Frame(left, bg=BG_CARD)
         id_frame.pack(anchor="w", padx=15, pady=(0, 5), fill="x")
         
-        self.uid_cb = ttk.Combobox(id_frame, textvariable=self.uid, font=("Segoe UI", 10), width=23, state="readonly")
+        self.uid_cb = ttk.Combobox(id_frame, textvariable=self.uid, font=("Segoe UI", 10), width=23)
         self.uid_cb.pack(side="left")
         self.uid_cb.bind("<<ComboboxSelected>>", self.on_employee_select)
+        self.uid_cb.bind("<KeyRelease>", self.on_combo_filter)
         
         btn_refresh = tk.Button(id_frame, text="⟳", command=self.refresh_employees, font=("Segoe UI", 10), bg="#252d38", fg=TEXT_LIGHT, relief="flat", bd=0, width=3, cursor="hand2")
         btn_refresh.pack(side="left", padx=(5, 0))
@@ -454,6 +455,18 @@ class App(tk.Tk):
         name = self.emp_map.get(code, "")
         if name:
             self.name.set(name)
+
+    def on_combo_filter(self, event):
+        if event.keysym in ('Up', 'Down', 'Left', 'Right', 'Return'):
+            return
+        
+        typed = self.uid.get().lower()
+        if not typed:
+            self.uid_cb['values'] = self.emp_codes
+            return
+
+        filtered = [c for c in self.emp_codes if typed in c.lower() or typed in self.emp_map.get(c, "").lower()]
+        self.uid_cb['values'] = filtered
     def show_raw(self, raw: bytes):
         try:
             img = Image.frombytes("L", (IMG_W, IMG_H), raw)

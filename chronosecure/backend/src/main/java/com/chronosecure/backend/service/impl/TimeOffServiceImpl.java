@@ -25,4 +25,18 @@ public class TimeOffServiceImpl implements TimeOffService {
         request.setCompanyId(companyId);
         return repository.save(request);
     }
+
+    @Override
+    public TimeOffRequest updateStatus(UUID companyId, UUID id,
+            com.chronosecure.backend.model.enums.TimeOffStatus status) {
+        TimeOffRequest request = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+
+        if (!request.getCompanyId().equals(companyId)) {
+            throw new RuntimeException("Unauthorized access to request");
+        }
+
+        request.setStatus(status);
+        return repository.save(request);
+    }
 }

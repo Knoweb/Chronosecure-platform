@@ -43,11 +43,10 @@ export default function SettingsPage() {
                           <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition ${
-                              activeTab === tab.id
+                            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition ${activeTab === tab.id
                                 ? 'bg-primary text-primary-foreground'
                                 : 'hover:bg-muted'
-                            }`}
+                              }`}
                           >
                             <Icon className="h-4 w-4" />
                             <span className="text-sm font-medium">{tab.label}</span>
@@ -83,7 +82,9 @@ export default function SettingsPage() {
                         <Input id="email" type="email" defaultValue={user?.email || ''} disabled />
                         <p className="text-xs text-muted-foreground">Email cannot be changed</p>
                       </div>
-                      <Button>Save Changes</Button>
+                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
+                        Save Changes
+                      </Button>
                     </CardContent>
                   </Card>
                 )}
@@ -108,7 +109,9 @@ export default function SettingsPage() {
                         <Label htmlFor="billingAddress">Billing Address</Label>
                         <Input id="billingAddress" placeholder="Enter billing address" />
                       </div>
-                      <Button>Save Changes</Button>
+                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
+                        Save Changes
+                      </Button>
                     </CardContent>
                   </Card>
                 )}
@@ -132,7 +135,9 @@ export default function SettingsPage() {
                         <Label htmlFor="confirmPassword">Confirm New Password</Label>
                         <Input id="confirmPassword" type="password" />
                       </div>
-                      <Button>Update Password</Button>
+                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
+                        Update Password
+                      </Button>
                     </CardContent>
                   </Card>
                 )}
@@ -161,7 +166,9 @@ export default function SettingsPage() {
                           </label>
                         </div>
                       </div>
-                      <Button>Save Preferences</Button>
+                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
+                        Save Preferences
+                      </Button>
                     </CardContent>
                   </Card>
                 )}

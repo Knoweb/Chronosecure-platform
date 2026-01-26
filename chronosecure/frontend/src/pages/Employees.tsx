@@ -11,6 +11,7 @@ import { useAuthStore } from '@/store/authStore'
 import { Plus, Fingerprint, AlertCircle, Trash2 } from 'lucide-react'
 import { FingerprintEnrollment } from '@/components/biometric/FingerprintEnrollment'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useSearchParams } from 'react-router-dom'
 
 export default function EmployeesPage() {
   const companyId = useAuthStore((state) => state.companyId)
@@ -25,6 +26,8 @@ export default function EmployeesPage() {
     email: '',
     department: '',
   })
+  const [searchParams] = useSearchParams()
+  const [filter, setFilter] = useState(searchParams.get('search') || '')
 
   const { data: employees, isLoading } = useQuery({
     queryKey: ['employees', companyId],
@@ -167,7 +170,8 @@ export default function EmployeesPage() {
                   })
                   setShowAddForm(!showAddForm)
                 }}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105"
+                variant="outline"
+                className="border border-border shadow-sm text-foreground hover:bg-muted"
               >
                 <Plus className="h-5 w-5 mr-2" />
                 Add Employee
@@ -255,7 +259,8 @@ export default function EmployeesPage() {
                       <Button
                         type="submit"
                         disabled={createMutation.isPending || updateMutation.isPending}
-                        className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold shadow-md transition-all duration-300 transform hover:scale-105"
+                        variant="outline"
+                        className="border border-border shadow-sm text-foreground hover:bg-muted"
                       >
                         {createMutation.isPending || updateMutation.isPending
                           ? 'Saving...'
@@ -265,6 +270,7 @@ export default function EmployeesPage() {
                         type="button"
                         variant="outline"
                         onClick={handleCancel}
+                        className="border border-border shadow-sm"
                       >
                         Cancel
                       </Button>
@@ -275,8 +281,16 @@ export default function EmployeesPage() {
             )}
 
             <Card>
-              <CardHeader>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle>Employee List</CardTitle>
+                <div className="w-[200px]">
+                  <Input
+                    placeholder="Search employees..."
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="h-8"
+                  />
+                </div>
               </CardHeader>
               <CardContent>
                 {isLoading ? (
@@ -285,47 +299,57 @@ export default function EmployeesPage() {
                   <p className="text-muted-foreground">No employees found</p>
                 ) : (
                   <div className="space-y-2">
-                    {employees?.map((employee: any) => (
-                      <div
-                        key={employee.id}
-                        className="flex items-center justify-between p-4 border rounded-lg"
-                      >
-                        <div>
-                          <p className="font-medium">
-                            {employee.firstName} {employee.lastName}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {employee.employeeCode} • {employee.department || 'No department'}
-                          </p>
+                    {employees
+                      ?.filter((employee: any) => {
+                        if (!filter) return true
+                        const search = filter.toLowerCase()
+                        return (
+                          employee.firstName.toLowerCase().includes(search) ||
+                          employee.lastName.toLowerCase().includes(search) ||
+                          employee.employeeCode.toLowerCase().includes(search)
+                        )
+                      })
+                      .map((employee: any) => (
+                        <div
+                          key={employee.id}
+                          className="flex items-center justify-between p-4 border rounded-lg"
+                        >
+                          <div>
+                            <p className="font-medium">
+                              {employee.firstName} {employee.lastName}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {employee.employeeCode} • {employee.department || 'No department'}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setEnrollingEmployee(employee.id)}
+                            >
+                              <Fingerprint className="h-4 w-4 mr-2" />
+                              Enroll Fingerprint
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleEditClick(employee)}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDelete(employee.id)}
+                              disabled={deleteMutation.isPending}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setEnrollingEmployee(employee.id)}
-                          >
-                            <Fingerprint className="h-4 w-4 mr-2" />
-                            Enroll Fingerprint
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleEditClick(employee)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDelete(employee.id)}
-                            disabled={deleteMutation.isPending}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 )}
               </CardContent>

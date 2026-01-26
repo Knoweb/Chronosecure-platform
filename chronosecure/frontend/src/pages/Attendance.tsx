@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
 import { Clock, Filter, Download, RefreshCw } from 'lucide-react'
+import { EmployeeSearch } from '@/components/ui/employee-search'
 
 export default function AttendancePage() {
   const companyId = useAuthStore((state) => state.companyId)
@@ -62,10 +63,7 @@ export default function AttendancePage() {
   const filteredLogs = attendanceLogs?.filter((log: any) => {
     if (log.eventType === 'CLOCK_OUT') return false // Hide CLOCK_OUT as per user request (shown in Time Off)
     if (!employeeFilter) return true
-    const employee = employees?.find((e: any) => e.id === log.employeeId)
-    return employee?.employeeCode?.toLowerCase().includes(employeeFilter.toLowerCase()) ||
-      employee?.firstName?.toLowerCase().includes(employeeFilter.toLowerCase()) ||
-      employee?.lastName?.toLowerCase().includes(employeeFilter.toLowerCase())
+    return log.employeeId === employeeFilter
   }) || []
 
   function getEventTypeBadge(eventType: string) {
@@ -94,7 +92,7 @@ export default function AttendancePage() {
                 variant="outline"
                 size="sm"
                 onClick={() => refetch()}
-                className="gap-2"
+                className="gap-2 border border-border shadow-sm"
               >
                 <RefreshCw className="h-4 w-4" />
                 Refresh
@@ -130,16 +128,15 @@ export default function AttendancePage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="employeeFilter">Employee</Label>
-                    <Input
-                      id="employeeFilter"
-                      placeholder="Search by name or code"
+                    <Label htmlFor="employeeFilter">Filter by Employee</Label>
+                    <EmployeeSearch
+                      employees={employees || []}
                       value={employeeFilter}
-                      onChange={(e) => setEmployeeFilter(e.target.value)}
+                      onChange={setEmployeeFilter}
                     />
                   </div>
                   <div className="space-y-2 flex items-end">
-                    <Button className="w-full">
+                    <Button className="w-full border border-border shadow-sm" variant="outline">
                       <Download className="h-4 w-4 mr-2" />
                       Export
                     </Button>

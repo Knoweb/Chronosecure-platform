@@ -16,8 +16,23 @@ public class TimeOffController {
 
     private final TimeOffService timeOffService;
 
+    @PostMapping
+    public ResponseEntity<TimeOffRequest> createRequest(
+            @RequestHeader("X-Company-Id") UUID companyId,
+            @RequestBody TimeOffRequest request) {
+        return ResponseEntity.ok(timeOffService.createRequest(companyId, request));
+    }
+
     @GetMapping("/requests")
     public ResponseEntity<List<TimeOffRequest>> getRequests(@RequestHeader("X-Company-Id") UUID companyId) {
         return ResponseEntity.ok(timeOffService.getRequests(companyId));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<TimeOffRequest> updateStatus(
+            @RequestHeader("X-Company-Id") UUID companyId,
+            @PathVariable UUID id,
+            @RequestParam com.chronosecure.backend.model.enums.TimeOffStatus status) {
+        return ResponseEntity.ok(timeOffService.updateStatus(companyId, id, status));
     }
 }

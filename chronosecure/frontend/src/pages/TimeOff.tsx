@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
@@ -9,11 +9,69 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
-import { Calendar, Plus, Clock, RefreshCw } from 'lucide-react'
+import { Calendar, Plus, Clock, RefreshCw, Check, X } from 'lucide-react'
+import { EmployeeSearch } from '@/components/ui/employee-search'
 
 export default function TimeOffPage() {
   const companyId = useAuthStore((state) => state.companyId)
+  const queryClient = useQueryClient()
   const [showRequestForm, setShowRequestForm] = useState(false)
+  const [formData, setFormData] = useState({
+    employeeId: '',
+    startDate: '',
+    endDate: '',
+    reason: '',
+  })
+  const [error, setError] = useState('')
+
+  const createMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await api.post('/time-off', data, {
+        headers: {
+          'X-Company-Id': companyId,
+        },
+      })
+      return response.data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['timeOff'] })
+      setShowRequestForm(false)
+      setFormData({
+        employeeId: '',
+        startDate: '',
+        endDate: '',
+        reason: '',
+      })
+      setError('')
+    },
+    onError: (err: any) => {
+      setError(err.response?.data?.message || 'Failed to create request')
+    },
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!formData.startDate || !formData.endDate || !formData.employeeId) {
+      setError('Start date, end date, and employee ID are required')
+      return
+    }
+    createMutation.mutate(formData)
+  }
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      await api.put(`/time-off/${id}/status`, null, {
+        params: { status },
+        headers: { 'X-Company-Id': companyId },
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['timeOff'] })
+    },
+    onError: (err: any) => {
+      alert('Failed to update status: ' + (err.response?.data?.message || err.message))
+    },
+  })
 
   const { data: timeOffRequests, isLoading, refetch } = useQuery({
     queryKey: ['timeOff', companyId],
@@ -30,6 +88,19 @@ export default function TimeOffPage() {
       } catch (error) {
         return []
       }
+    },
+    enabled: !!companyId,
+  })
+
+  const { data: employees } = useQuery({
+    queryKey: ['employees', companyId],
+    queryFn: async () => {
+      const response = await api.get('/employees', {
+        headers: {
+          'X-Company-Id': companyId,
+        },
+      })
+      return response.data
     },
     enabled: !!companyId,
   })
@@ -67,7 +138,8 @@ export default function TimeOffPage() {
                 </Button>
                 <Button
                   onClick={() => setShowRequestForm(!showRequestForm)}
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                  variant="outline"
+                  className="border border-border shadow-sm text-foreground hover:bg-muted"
                 >
                   <Plus className="h-5 w-5 mr-2 stroke-2" />
                   Request Time Off
@@ -82,28 +154,70 @@ export default function TimeOffPage() {
                   <CardTitle>New Time Off Request</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {error && (
+                      <div className="text-red-600 text-sm bg-red-50 p-2 rounded">
+                        {error}
+                      </div>
+                    )}
+                    <div className="space-y-2">
+                      <Label htmlFor="employeeId">Employee</Label>
+                      <EmployeeSearch
+                        employees={employees || []}
+                        value={formData.employeeId}
+                        onChange={(value) => setFormData({ ...formData, employeeId: value })}
+                      />
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="startDate">Start Date</Label>
-                        <Input id="startDate" type="date" />
+                        <Input
+                          id="startDate"
+                          type="date"
+                          value={formData.startDate}
+                          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                          required
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="endDate">End Date</Label>
-                        <Input id="endDate" type="date" />
+                        <Input
+                          id="endDate"
+                          type="date"
+                          value={formData.endDate}
+                          onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                          required
+                        />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="reason">Reason</Label>
-                      <Input id="reason" placeholder="Enter reason for time off" />
+                      <Input
+                        id="reason"
+                        placeholder="Enter reason for time off"
+                        value={formData.reason}
+                        onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                      />
                     </div>
                     <div className="flex gap-2">
-                      <Button>Submit Request</Button>
-                      <Button variant="outline" onClick={() => setShowRequestForm(false)}>
+                      <Button
+                        type="submit"
+                        variant="outline"
+                        className="border border-border shadow-sm"
+                        disabled={createMutation.isPending}
+                      >
+                        {createMutation.isPending ? 'Submitting...' : 'Submit Request'}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowRequestForm(false)}
+                        className="border border-border shadow-sm"
+                      >
                         Cancel
                       </Button>
                     </div>
-                  </div>
+                  </form>
                 </CardContent>
               </Card>
             )}
@@ -143,9 +257,35 @@ export default function TimeOffPage() {
                             )}
                           </div>
                         </div>
-                        <Badge className={getStatusBadge(request.status)}>
-                          {request.status}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                          {request.status === 'PENDING' && (
+                            <>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 w-8 p-0 rounded-full bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800"
+                                onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'APPROVED' })}
+                                disabled={updateStatusMutation.isPending}
+                                title="Approve"
+                              >
+                                <Check className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 w-8 p-0 rounded-full bg-red-100 text-red-700 hover:bg-red-200 hover:text-red-800"
+                                onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'REJECTED' })}
+                                disabled={updateStatusMutation.isPending}
+                                title="Reject"
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </>
+                          )}
+                          <Badge className={getStatusBadge(request.status)}>
+                            {request.status}
+                          </Badge>
+                        </div>
                       </div>
                     ))}
                   </div>

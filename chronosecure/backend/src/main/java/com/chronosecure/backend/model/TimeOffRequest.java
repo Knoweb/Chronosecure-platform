@@ -1,6 +1,7 @@
 package com.chronosecure.backend.model;
 
 import com.chronosecure.backend.model.enums.TimeOffStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,9 +47,11 @@ public class TimeOffRequest {
     private UUID employeeId;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @Column(columnDefinition = "TEXT")
