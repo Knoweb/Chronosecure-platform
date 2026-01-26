@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
-import { Clock, Filter, Download } from 'lucide-react'
+import { Clock, Filter, Download, RefreshCw } from 'lucide-react'
 
 export default function AttendancePage() {
   const companyId = useAuthStore((state) => state.companyId)
@@ -24,7 +24,7 @@ export default function AttendancePage() {
   const [endDate, setEndDate] = useState(getDateString(new Date()))
   const [employeeFilter, setEmployeeFilter] = useState('')
 
-  const { data: attendanceLogs, isLoading } = useQuery({
+  const { data: attendanceLogs, isLoading, refetch } = useQuery({
     queryKey: ['attendance', companyId, startDate, endDate],
     queryFn: async () => {
       // Note: This endpoint needs to be implemented in the backend
@@ -57,50 +57,7 @@ export default function AttendancePage() {
     enabled: !!companyId,
   })
 
-  // Audio feedback logic
-  const lastProcessedTimestampRef = useRef<number | null>(null)
 
-  useEffect(() => {
-    if (!attendanceLogs || attendanceLogs.length === 0 || !employees) return
-
-    // Sort logs by timestamp to find the latest ones
-    const sortedLogs = [...attendanceLogs].sort((a: any, b: any) =>
-      new Date(b.eventTimestamp).getTime() - new Date(a.eventTimestamp).getTime()
-    )
-
-    const latestLog = sortedLogs[0]
-    const latestTimestamp = new Date(latestLog.eventTimestamp).getTime()
-
-    // Initial load - set the timestamp and don't announce
-    if (lastProcessedTimestampRef.current === null) {
-      lastProcessedTimestampRef.current = latestTimestamp
-      return
-    }
-
-    // Check for new logs
-    if (latestTimestamp > lastProcessedTimestampRef.current) {
-      const newLogs = sortedLogs.filter((log: any) =>
-        new Date(log.eventTimestamp).getTime() > (lastProcessedTimestampRef.current as number)
-      )
-
-      // Play audio for new logs (oldest new -> newest new)
-      newLogs.reverse().forEach((log: any) => {
-        const employee = employees.find((e: any) => e.id === log.employeeId)
-        if (employee) {
-          const name = `${employee.firstName} ${employee.lastName}`
-          const type = log.eventType === 'CLOCK_IN' ? 'Checked in' :
-            log.eventType === 'CLOCK_OUT' ? 'Checked out' :
-              log.eventType.replace('_', ' ').toLowerCase()
-
-          const text = `${type}, ${name}`
-          const utterance = new SpeechSynthesisUtterance(text)
-          window.speechSynthesis.speak(utterance)
-        }
-      })
-
-      lastProcessedTimestampRef.current = latestTimestamp
-    }
-  }, [attendanceLogs, employees])
 
   const filteredLogs = attendanceLogs?.filter((log: any) => {
     if (log.eventType === 'CLOCK_OUT') return false // Hide CLOCK_OUT as per user request (shown in Time Off)
@@ -133,6 +90,15 @@ export default function AttendancePage() {
                 <h1 className="text-3xl font-bold">Attendance</h1>
                 <p className="text-muted-foreground mt-1">View and manage attendance records</p>
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => refetch()}
+                className="gap-2"
+              >
+                <RefreshCw className="h-4 w-4" />
+                Refresh
+              </Button>
             </div>
 
             {/* Filters */}

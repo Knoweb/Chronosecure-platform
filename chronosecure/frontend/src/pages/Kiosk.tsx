@@ -27,6 +27,7 @@ export default function KioskPage() {
   const [fingerprintError, setFingerprintError] = useState('')
   const [nextEventType, setNextEventType] = useState<string>('CLOCK_IN')
   const [isCameraActive, setIsCameraActive] = useState(false)
+  const [generalError, setGeneralError] = useState('')
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
@@ -201,7 +202,7 @@ export default function KioskPage() {
       })
     } else {
       if (!employeeCode || !photo) {
-        alert('Please enter employee code and capture photo')
+        setGeneralError('Please enter employee code and capture photo')
         return
       }
 
@@ -217,7 +218,7 @@ export default function KioskPage() {
         )
 
         if (!employee) {
-          alert('Employee not found')
+          setGeneralError('Employee not found')
           return
         }
 
@@ -238,8 +239,9 @@ export default function KioskPage() {
           confidenceScore: livenessScore,
           deviceId: 'web-kiosk',
         })
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error:', err)
+        setGeneralError(err.message || 'An error occurred')
       }
     }
   }
@@ -290,6 +292,11 @@ export default function KioskPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 space-y-3 flex-1 flex flex-col overflow-y-auto scrollbar-thin">
+              {generalError && (
+                <Alert variant="destructive" className="py-2">
+                  <AlertDescription>{generalError}</AlertDescription>
+                </Alert>
+              )}
               <div className="space-y-1">
                 <Label htmlFor="employeeCode" className="text-sm">Employee Code</Label>
                 <Input

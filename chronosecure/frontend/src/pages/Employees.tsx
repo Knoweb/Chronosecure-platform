@@ -255,6 +255,7 @@ export default function EmployeesPage() {
                       <Button
                         type="submit"
                         disabled={createMutation.isPending || updateMutation.isPending}
+                        className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold shadow-md transition-all duration-300 transform hover:scale-105"
                       >
                         {createMutation.isPending || updateMutation.isPending
                           ? 'Saving...'

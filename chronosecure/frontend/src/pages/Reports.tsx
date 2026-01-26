@@ -129,7 +129,11 @@ export default function ReportsPage() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Download comprehensive attendance report for all employees.
                     </p>
-                    <Button onClick={downloadCompanyReport} className="w-full">
+                    <Button
+                      onClick={downloadCompanyReport}
+                      variant="outline"
+                      className="w-full"
+                    >
                       <Download className="h-4 w-4 mr-2" />
                       Download Company Report
                     </Button>
