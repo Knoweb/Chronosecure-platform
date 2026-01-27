@@ -19,10 +19,6 @@ public class LoginResponse {
     private String role;
     private String firstName;
     private String lastName;
+    private String companyName;
+    private String subdomain;
 }
-
-
-
-
-
-

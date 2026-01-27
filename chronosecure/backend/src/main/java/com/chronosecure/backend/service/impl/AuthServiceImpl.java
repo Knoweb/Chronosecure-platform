@@ -47,8 +47,7 @@ public class AuthServiceImpl implements AuthService {
                 user.getId(),
                 user.getEmail(),
                 user.getCompanyId(),
-                user.getRole().name()
-        );
+                user.getRole().name());
 
         return LoginResponse.builder()
                 .token(token)
@@ -58,6 +57,8 @@ public class AuthServiceImpl implements AuthService {
                 .role(user.getRole().name())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .companyName(user.getCompany() != null ? user.getCompany().getName() : null)
+                .subdomain(user.getCompany() != null ? user.getCompany().getSubdomain() : null)
                 .build();
     }
 
@@ -76,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
         } else {
             // Generate subdomain from company name
             String subdomain = generateSubdomain(request.getCompanyName());
-            
+
             // Check if subdomain already exists
             int counter = 1;
             String originalSubdomain = subdomain;
@@ -93,12 +94,14 @@ public class AuthServiceImpl implements AuthService {
             company = companyRepository.save(company);
         }
 
-        // Create user with COMPANY_ADMIN role for new signups (when creating a new company)
-        // If companyId was provided, use the requested role, otherwise default to COMPANY_ADMIN
-        UserRole userRole = request.getCompanyId() != null 
+        // Create user with COMPANY_ADMIN role for new signups (when creating a new
+        // company)
+        // If companyId was provided, use the requested role, otherwise default to
+        // COMPANY_ADMIN
+        UserRole userRole = request.getCompanyId() != null
                 ? (request.getRole() != null ? request.getRole() : UserRole.EMPLOYEE)
                 : UserRole.COMPANY_ADMIN;
-        
+
         User user = User.builder()
                 .email(request.getEmail())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
@@ -116,8 +119,7 @@ public class AuthServiceImpl implements AuthService {
                 user.getId(),
                 user.getEmail(),
                 user.getCompanyId(),
-                user.getRole().name()
-        );
+                user.getRole().name());
 
         return LoginResponse.builder()
                 .token(token)
@@ -127,6 +129,8 @@ public class AuthServiceImpl implements AuthService {
                 .role(user.getRole().name())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .companyName(company.getName())
+                .subdomain(company.getSubdomain())
                 .build();
     }
 
@@ -142,10 +146,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout(String token) {
         // For stateless JWT, logout is handled client-side by removing the token
-        // In a production system with token blacklisting, you would add the token to a blacklist here
+        // In a production system with token blacklisting, you would add the token to a
+        // blacklist here
         // This could be stored in Redis for distributed systems
     }
 }
-
-
-

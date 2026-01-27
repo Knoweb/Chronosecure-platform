@@ -8,6 +8,8 @@ interface User {
   lastName?: string;
   role: 'SUPER_ADMIN' | 'COMPANY_ADMIN' | 'EMPLOYEE';
   companyId?: string;
+  companyName?: string;
+  subdomain?: string;
 }
 
 interface AuthState {

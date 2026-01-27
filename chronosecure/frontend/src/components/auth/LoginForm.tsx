@@ -23,8 +23,8 @@ export function LoginForm() {
 
     try {
       const response = await api.post('/auth/login', { email, password })
-      const { token, userId, email: userEmail, companyId, role, firstName, lastName } = response.data
-      
+      const { token, userId, email: userEmail, companyId, role, firstName, lastName, companyName, subdomain } = response.data
+
       setAuth(
         {
           id: userId,
@@ -33,6 +33,8 @@ export function LoginForm() {
           lastName,
           role,
           companyId,
+          companyName,
+          subdomain,
         },
         token,
         companyId

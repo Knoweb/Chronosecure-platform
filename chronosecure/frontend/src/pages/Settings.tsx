@@ -7,9 +7,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuthStore } from '@/store/authStore'
 import { User, Building, Shield, Bell } from 'lucide-react'
+import { CompanySettings } from '@/components/settings/CompanySettings'
 
 export default function SettingsPage() {
   const user = useAuthStore((state) => state.user)
+  const setAuth = useAuthStore((state) => state.setAuth)
   const [activeTab, setActiveTab] = useState('profile')
 
   const tabs = [
@@ -44,8 +46,8 @@ export default function SettingsPage() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition ${activeTab === tab.id
-                                ? 'bg-primary text-primary-foreground'
-                                : 'hover:bg-muted'
+                              ? 'bg-primary text-primary-foreground'
+                              : 'hover:bg-muted'
                               }`}
                           >
                             <Icon className="h-4 w-4" />
@@ -90,30 +92,10 @@ export default function SettingsPage() {
                 )}
 
                 {activeTab === 'company' && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Company Settings</CardTitle>
-                      <CardDescription>Manage your company information</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="companyName">Company Name</Label>
-                        <Input id="companyName" placeholder="Enter company name" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="subdomain">Subdomain</Label>
-                        <Input id="subdomain" placeholder="company" disabled />
-                        <p className="text-xs text-muted-foreground">Subdomain cannot be changed</p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="billingAddress">Billing Address</Label>
-                        <Input id="billingAddress" placeholder="Enter billing address" />
-                      </div>
-                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
-                        Save Changes
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <CompanySettings
+                    user={user}
+                    setAuth={setAuth}
+                  />
                 )}
 
                 {activeTab === 'security' && (
