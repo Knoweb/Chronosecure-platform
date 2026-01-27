@@ -111,8 +111,22 @@ public class HoursCalculationServiceImpl implements HoursCalculationService {
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
         if (logs.isEmpty()) {
-            // ... Return zero
-            return CalculatedHours.builder()
+            // Check for APPROVED Time Off Requests to credit Leave Hours
+            List<com.chronosecure.backend.model.TimeOffRequest> approvedLeaves = timeOffRequestRepository.findAll()
+                    .stream()
+                    .filter(req -> req.getEmployeeId().equals(employeeId)
+                            && req.getStatus() == com.chronosecure.backend.model.enums.TimeOffStatus.APPROVED
+                            && (req.getStartDate().isBefore(date.plusDays(1))
+                                    && req.getEndDate().isAfter(date.minusDays(1))))
+                    .collect(java.util.stream.Collectors.toList());
+
+            Duration leaveHours = Duration.ZERO;
+            if (!approvedLeaves.isEmpty()) {
+                // If on leave, credit standard 8 hours
+                leaveHours = Duration.ofHours(8);
+            }
+
+            return calculatedHoursRepository.save(CalculatedHours.builder()
                     .companyId(companyId)
                     .employee(employee)
                     .workDate(date)
@@ -121,7 +135,8 @@ public class HoursCalculationServiceImpl implements HoursCalculationService {
                     .saturdayHours(Duration.ZERO)
                     .sundayHours(Duration.ZERO)
                     .publicHolidayHours(Duration.ZERO)
-                    .build();
+                    .leaveHours(leaveHours)
+                    .build());
         }
 
         // Logic ...
@@ -208,6 +223,7 @@ public class HoursCalculationServiceImpl implements HoursCalculationService {
         calculatedHours.setSaturdayHours(saturdayHours);
         calculatedHours.setSundayHours(sundayHours);
         calculatedHours.setPublicHolidayHours(publicHolidayHours);
+        calculatedHours.setLeaveHours(Duration.ZERO); // If presence detected, set leave to 0 (Override)
 
         return calculatedHoursRepository.save(calculatedHours);
     }

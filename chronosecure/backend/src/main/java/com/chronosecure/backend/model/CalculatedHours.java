@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "calculated_hours", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"employee_id", "work_date"})
+        @UniqueConstraint(columnNames = { "employee_id", "work_date" })
 })
 @Data
 @NoArgsConstructor
@@ -54,6 +54,10 @@ public class CalculatedHours {
     @Column(name = "public_holiday_hours")
     @Builder.Default
     private Duration publicHolidayHours = Duration.ZERO;
+
+    @Column(name = "leave_hours")
+    @Builder.Default
+    private Duration leaveHours = Duration.ZERO;
 
     @CreationTimestamp
     @Column(name = "calculated_at")

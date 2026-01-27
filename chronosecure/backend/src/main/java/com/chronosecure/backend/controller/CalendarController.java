@@ -151,9 +151,11 @@ public class CalendarController {
                     dto.setStatus("HOLIDAY");
                 else if (isWeekend)
                     dto.setStatus("WEEKEND");
-                else if (current.isAfter(LocalDate.now()))
+                else if ("LEAVE".equals(dto.getStatus())) {
+                    // Keep LEAVE status (don't overwrite with FUTURE or ABSENT)
+                } else if (current.isAfter(LocalDate.now()))
                     dto.setStatus("FUTURE");
-                else if (!"LEAVE".equals(dto.getStatus()))
+                else
                     dto.setStatus("ABSENT");
             }
 

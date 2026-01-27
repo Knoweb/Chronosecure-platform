@@ -225,6 +225,24 @@ public class AttendanceServiceImpl implements AttendanceService {
                 stats.put("clockedIn", clockedInCount);
                 stats.put("clockedOut", clockedOutCount); // "Clocked Out (Today)"
 
+                // Count Approved Leaves for Today where employee is absent
+                long onLeaveCount = timeOffRequestRepository.findAll().stream()
+                                .filter(req -> req.getCompanyId().equals(companyId)
+                                                && req.getStatus() == TimeOffStatus.APPROVED
+                                                && (req.getStartDate().isBefore(java.time.LocalDate.now().plusDays(1))
+                                                                && req.getEndDate()
+                                                                                .isAfter(java.time.LocalDate.now()
+                                                                                                .minusDays(1))))
+                                .filter(req -> {
+                                        // Only count if NOT clocked in (Scenario A)
+                                        AttendanceLog log = latestLogMap.get(req.getEmployeeId());
+                                        return log == null || (log.getEventType() != AttendanceEventType.CLOCK_IN
+                                                        && log.getEventType() != AttendanceEventType.BREAK_END);
+                                })
+                                .count();
+
+                stats.put("onLeave", onLeaveCount);
+
                 // Count Pending Requests
                 long pendingRequests = timeOffRequestRepository.countByCompanyIdAndStatus(companyId,
                                 com.chronosecure.backend.model.enums.TimeOffStatus.PENDING);
