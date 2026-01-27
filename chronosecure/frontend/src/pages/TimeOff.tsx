@@ -11,6 +11,7 @@ import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
 import { Calendar, Plus, Clock, RefreshCw, Check, X } from 'lucide-react'
 import { EmployeeSearch } from '@/components/ui/employee-search'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function TimeOffPage() {
   const companyId = useAuthStore((state) => state.companyId)
@@ -222,76 +223,130 @@ export default function TimeOffPage() {
               </Card>
             )}
 
-            {/* Time Off Requests */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Time Off Requests</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isLoading ? (
-                  <p className="text-muted-foreground">Loading time off requests...</p>
-                ) : !timeOffRequests || timeOffRequests.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">No time off requests found.</p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Click "Request Time Off" to create a new request.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    {timeOffRequests.map((request: any) => (
-                      <div
-                        key={request.id}
-                        className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition"
-                      >
-                        <div className="flex items-center gap-4">
-                          <Clock className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="font-medium">{request.employeeName || 'Employee'}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {new Date(request.startDate).toLocaleDateString()} - {new Date(request.endDate).toLocaleDateString()}
-                            </p>
-                            {request.reason && (
-                              <p className="text-sm text-muted-foreground mt-1">{request.reason}</p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {request.status === 'PENDING' && (
-                            <>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                className="h-8 w-8 p-0 rounded-full bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800"
-                                onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'APPROVED' })}
-                                disabled={updateStatusMutation.isPending}
-                                title="Approve"
-                              >
-                                <Check className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                className="h-8 w-8 p-0 rounded-full bg-red-100 text-red-700 hover:bg-red-200 hover:text-red-800"
-                                onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'REJECTED' })}
-                                disabled={updateStatusMutation.isPending}
-                                title="Reject"
-                              >
-                                <X className="h-4 w-4" />
-                              </Button>
-                            </>
-                          )}
-                          <Badge className={getStatusBadge(request.status)}>
-                            {request.status}
-                          </Badge>
-                        </div>
+            <Tabs defaultValue="clock-outs" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6 h-auto bg-gray-100 p-1 rounded-xl border border-gray-200">
+                <TabsTrigger
+                  value="requests"
+                  className="py-2.5 text-base font-medium rounded-lg border-2 border-transparent data-[state=active]:bg-white data-[state=active]:border-blue-200 data-[state=active]:text-blue-700 data-[state=active]:shadow-md transition-all duration-200"
+                >
+                  Leave Requests
+                </TabsTrigger>
+                <TabsTrigger
+                  value="clock-outs"
+                  className="py-2.5 text-base font-medium rounded-lg border-2 border-transparent data-[state=active]:bg-white data-[state=active]:border-blue-200 data-[state=active]:text-blue-700 data-[state=active]:shadow-md transition-all duration-200"
+                >
+                  Clock-Out History
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="requests">
+                {/* Manual Time Off Requests */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Leave Requests</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {isLoading ? (
+                      <p className="text-muted-foreground">Loading...</p>
+                    ) : !timeOffRequests || timeOffRequests.filter((r: any) => !r.reason?.includes('Fingerprint Scanned Out')).length === 0 ? (
+                      <div className="text-center py-6">
+                        <p className="text-muted-foreground">No pending leave requests.</p>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                    ) : (
+                      <div className="space-y-2">
+                        {timeOffRequests.filter((r: any) => !r.reason?.includes('Fingerprint Scanned Out')).map((request: any) => (
+                          <div
+                            key={request.id}
+                            className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition"
+                          >
+                            <div className="flex items-center gap-4">
+                              <Calendar className="h-5 w-5 text-muted-foreground" />
+                              <div>
+                                <p className="font-medium">{request.employeeName || 'Employee'}</p>
+                                <p className="text-sm text-muted-foreground">
+                                  {new Date(request.startDate).toLocaleDateString()} - {new Date(request.endDate).toLocaleDateString()}
+                                </p>
+                                {request.reason && (
+                                  <p className="text-sm text-muted-foreground mt-1">{request.reason}</p>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {request.status === 'PENDING' && (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="h-8 w-8 p-0 rounded-full bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800"
+                                    onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'APPROVED' })}
+                                    disabled={updateStatusMutation.isPending}
+                                    title="Approve"
+                                  >
+                                    <Check className="h-4 w-4" />
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="h-8 w-8 p-0 rounded-full bg-red-100 text-red-700 hover:bg-red-200 hover:text-red-800"
+                                    onClick={() => updateStatusMutation.mutate({ id: request.id, status: 'REJECTED' })}
+                                    disabled={updateStatusMutation.isPending}
+                                    title="Reject"
+                                  >
+                                    <X className="h-4 w-4" />
+                                  </Button>
+                                </>
+                              )}
+                              <Badge className={getStatusBadge(request.status)}>
+                                {request.status}
+                              </Badge>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="clock-outs">
+                {/* Automated Clock Outs */}
+                <Card className="bg-muted/30">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Recent Clock-Out History</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {isLoading ? (
+                      <p className="text-muted-foreground">Loading...</p>
+                    ) : !timeOffRequests || timeOffRequests.filter((r: any) => r.reason?.includes('Fingerprint Scanned Out')).length === 0 ? (
+                      <p className="text-muted-foreground text-sm">No recent clock-outs recorded.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {timeOffRequests.filter((r: any) => r.reason?.includes('Fingerprint Scanned Out')).map((request: any) => (
+                          <div
+                            key={request.id}
+                            className="flex items-center justify-between p-3 border rounded-lg bg-background hover:bg-muted/50 transition"
+                          >
+                            <div className="flex items-center gap-4">
+                              <Clock className="h-5 w-5 text-black" />
+                              <div>
+                                <p className="font-medium text-black">{request.employeeName || 'Employee'}</p>
+                                <p className="text-sm text-black">
+                                  {new Date(request.startDate).toLocaleDateString()}
+                                </p>
+                                <p className="text-sm text-black mt-1">{request.reason}</p>
+                              </div>
+                            </div>
+                            <Badge className="bg-blue-100 text-blue-800 pointer-events-none">
+                              CLOCKED OUT
+                            </Badge>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
         </main>
       </div>

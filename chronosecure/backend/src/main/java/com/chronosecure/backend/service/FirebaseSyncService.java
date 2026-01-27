@@ -184,6 +184,9 @@ public class FirebaseSyncService {
                             .build();
 
                     attendanceLogRepository.save(logEntry);
+
+                    // Invalidate conflicting time off requests for TODAY since they are present
+                    this.invalidateConflictingRequests(employee);
                     log.info("Synced attendance for {}, Result: {}", employee.getFirstName(), result);
                 }
             }
@@ -191,6 +194,40 @@ public class FirebaseSyncService {
             if (e.getMessage() != null && !e.getMessage().contains("FirebaseApp with name [DEFAULT] doesn't exist")) {
                 log.error("Error during Firebase synchronization: {}", e.getMessage());
             }
+        }
+    }
+
+    private void invalidateConflictingRequests(Employee employee) {
+        try {
+            java.time.LocalDate today = java.time.LocalDate.now();
+            List<com.chronosecure.backend.model.TimeOffRequest> allCompanyRequests = timeOffRequestRepository
+                    .findByCompanyIdOrderByCreatedAtDesc(employee.getCompanyId());
+
+            List<com.chronosecure.backend.model.TimeOffRequest> conflictingRequests = allCompanyRequests.stream()
+                    .filter(req -> req.getEmployeeId().equals(employee.getId()))
+                    .filter(req -> req.getStatus() == TimeOffStatus.PENDING
+                            || req.getStatus() == TimeOffStatus.APPROVED)
+                    .filter(req -> {
+                        // Check overlap with Today OR Yesterday (to handle timezone slips)
+                        java.time.LocalDate yesterday = today.minusDays(1);
+                        return (req.getStartDate().isBefore(today) || req.getStartDate().equals(today)) &&
+                                (req.getEndDate().isAfter(yesterday) || req.getEndDate().equals(yesterday));
+                    })
+                    .collect(java.util.stream.Collectors.toList());
+
+            if (!conflictingRequests.isEmpty()) {
+                log.info("Firebase Sync: Found {} conflicting time-off requests for employee {}. Auto-rejecting.",
+                        conflictingRequests.size(), employee.getId());
+                for (com.chronosecure.backend.model.TimeOffRequest req : conflictingRequests) {
+                    req.setStatus(TimeOffStatus.REJECTED);
+                    String currentReason = req.getReason() == null ? "" : req.getReason();
+                    req.setReason(currentReason + " [Auto-rejected: Fingerprint Scan Synced]");
+                    timeOffRequestRepository.save(req);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Failed to auto-reject time off requests during Firebase sync for employee {}", employee.getId(),
+                    e);
         }
     }
 }

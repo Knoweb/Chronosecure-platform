@@ -104,12 +104,38 @@ public class AttendanceServiceImpl implements AttendanceService {
                 // 6. Invalidate Conflicting Time Off Requests (Auto-Reject if present)
                 try {
                         java.time.LocalDate today = java.time.LocalDate.now();
-                        List<com.chronosecure.backend.model.TimeOffRequest> conflictingRequests = timeOffRequestRepository
-                                        .findByEmployeeIdAndStatusInAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-                                                        employee.getId(),
-                                                        List.of(TimeOffStatus.PENDING, TimeOffStatus.APPROVED),
-                                                        today,
-                                                        today);
+                        List<com.chronosecure.backend.model.TimeOffRequest> allCompanyRequests = timeOffRequestRepository
+                                        .findByCompanyIdOrderByCreatedAtDesc(request.getCompanyId());
+
+                        List<com.chronosecure.backend.model.TimeOffRequest> conflictingRequests = allCompanyRequests
+                                        .stream()
+                                        .filter(req -> {
+                                                boolean isEmployee = req.getEmployeeId().equals(employee.getId());
+                                                if (isEmployee) {
+                                                        log.info("Checking Request {}: Status={}, Start={}, End={}, Today={}",
+                                                                        req.getId(), req.getStatus(),
+                                                                        req.getStartDate(), req.getEndDate(), today);
+                                                }
+                                                return isEmployee;
+                                        })
+                                        .filter(req -> req.getStatus() == TimeOffStatus.PENDING
+                                                        || req.getStatus() == TimeOffStatus.APPROVED)
+                                        .filter(req -> {
+                                                // Check overlap with Today OR Yesterday (to handle timezone slips)
+                                                java.time.LocalDate yesterday = today.minusDays(1);
+                                                boolean overlaps = (req.getStartDate().isBefore(today)
+                                                                || req.getStartDate().equals(today)) &&
+                                                                (req.getEndDate().isAfter(yesterday)
+                                                                                || req.getEndDate().equals(yesterday));
+
+                                                if (!overlaps && req.getEmployeeId().equals(employee.getId())) {
+                                                        log.info("Request {} skipped. Dates: {} - {}, Today: {}",
+                                                                        req.getId(), req.getStartDate(),
+                                                                        req.getEndDate(), today);
+                                                }
+                                                return overlaps;
+                                        })
+                                        .collect(Collectors.toList());
 
                         if (!conflictingRequests.isEmpty()) {
                                 log.info("Found {} conflicting time-off requests for employee {}. Auto-rejecting.",

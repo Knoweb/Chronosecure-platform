@@ -371,7 +371,7 @@ class App(tk.Tk):
         id_frame = tk.Frame(left, bg=BG_CARD)
         id_frame.pack(anchor="w", padx=15, pady=(0, 5), fill="x")
         
-        self.uid_cb = ttk.Combobox(id_frame, textvariable=self.uid, font=("Segoe UI", 10), width=23)
+        self.uid_cb = ttk.Combobox(id_frame, textvariable=self.uid, font=("Segoe UI", 10), width=23, postcommand=self.on_combo_open)
         self.uid_cb.pack(side="left")
         self.uid_cb.bind("<<ComboboxSelected>>", self.on_employee_select)
         self.uid_cb.bind("<KeyRelease>", self.on_combo_filter)
@@ -457,7 +457,7 @@ class App(tk.Tk):
             self.name.set(name)
 
     def on_combo_filter(self, event):
-        if event.keysym in ('Up', 'Down', 'Left', 'Right', 'Return'):
+        if event.keysym in ('Up', 'Down', 'Left', 'Right', 'Return', 'Tab'):
             return
         
         typed = self.uid.get().lower()
@@ -467,6 +467,20 @@ class App(tk.Tk):
 
         filtered = [c for c in self.emp_codes if typed in c.lower() or typed in self.emp_map.get(c, "").lower()]
         self.uid_cb['values'] = filtered
+        
+        # Automatically show dropdown if there are results
+        if filtered:
+            try:
+                self.uid_cb.event_generate('<Down>')
+            except:
+                pass
+
+    def on_combo_open(self):
+        # Reset to full list when clicking the arrow, unless there is text
+        typed = self.uid.get().lower()
+        if not typed:
+             self.uid_cb['values'] = self.emp_codes
+
     def show_raw(self, raw: bytes):
         try:
             img = Image.frombytes("L", (IMG_W, IMG_H), raw)
@@ -628,7 +642,7 @@ class App(tk.Tk):
         self.cooldown_uid[uid] = nowu
         return True
 
-    def play_sound(self, category):
+    def play_sound(self, category, text=None):
         def _play():
             # Import subprocess locally to ensure it is available
             import subprocess
@@ -643,6 +657,16 @@ class App(tk.Tk):
                     txt = "Try Again"
                 elif category == "ENROLLED":
                     txt = "Enrolled Successfully"
+                elif category == "IDENTIFIED":
+                    # This category expects the 'text' argument to be the name
+                    # The threading wrapper above doesn't pass **kwargs readily to this inner function easily
+                    # Wait, the inner function _play takes no args and uses outer scope 'category'
+                    # But 'text' kwarg from outer 'play_sound' is needed.
+                    # Redefine play_sound properly.
+                    pass
+                
+                if category == "IDENTIFIED" and text:
+                     txt = f"Identified {text}"
                 
                 if txt:
                     print(f"DEBUG: Speaking {txt}")
@@ -736,7 +760,18 @@ sapi.Speak "{txt}"
                     return
                 self.show_raw(raw)
                 uid, name, score = identify_best(raw_to_gray(raw), rows)
-                self._handle_result(uid, name, score)
+                
+                if uid and score >= SCORE_ACCEPT:
+                     self.log(f"Identified: {name}")
+                     self.result.set(f"Identified: {name}")
+                     self.result_label.configure(fg=SUCCESS)
+                     self.play_sound("IDENTIFIED", text=name)
+                else:
+                     self.log("Not Identified")
+                     self.result.set("Not Identified")
+                     self.result_label.configure(fg=ERROR)
+                     self.play_sound("ERROR")
+
                 self.wait_finger_removed(timeout=6.0)
                 self.update_status("Ready", "cyan")
             except Exception as e:
