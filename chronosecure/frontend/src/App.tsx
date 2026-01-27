@@ -10,7 +10,7 @@ import AttendancePage from './pages/Attendance'
 import TimeOffPage from './pages/TimeOff'
 import LocationsPage from './pages/Locations'
 import SettingsPage from './pages/Settings'
-import KioskPage from './pages/Kiosk'
+
 import ReportsPage from './pages/Reports'
 import CalendarPage from './pages/Calendar'
 
@@ -73,7 +73,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route path="/kiosk" element={<KioskPage />} />
       <Route
         path="/calendar"
         element={

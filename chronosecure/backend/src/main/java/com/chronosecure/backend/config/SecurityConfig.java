@@ -32,38 +32,42 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. Enable CORS (Cross-Origin Resource Sharing)
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            
-            // 2. Disable CSRF (Cross-Site Request Forgery) - Not needed for stateless APIs
-            .csrf(AbstractHttpConfigurer::disable)
-            
-            // 3. Set Session Management to STATELESS (No JSESSIONID)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            
-            // 4. Define Endpoint Permissions
-            .authorizeHttpRequests(auth -> auth
-                // Allow Swagger UI access (for development)
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui/index.html").permitAll()
-                
-                // Allow public authentication endpoints
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                
-                // Allow Attendance Logging Endpoints explicitly (for kiosk)
-                .requestMatchers("/api/v1/attendance/**").permitAll()
-                
-                // Allow Biometric Verification (for kiosk public access)
-                .requestMatchers("/api/v1/biometric/verify").permitAll()
-                
-                // Allow root path redirect
-                .requestMatchers("/", "/error").permitAll()
-                
-                // Lock down everything else
-                .anyRequest().authenticated()
-            )
-            
-            // 5. Add JWT filter before UsernamePasswordAuthenticationFilter
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                // 1. Enable CORS (Cross-Origin Resource Sharing)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+                // 2. Disable CSRF (Cross-Site Request Forgery) - Not needed for stateless APIs
+                .csrf(AbstractHttpConfigurer::disable)
+
+                // 3. Set Session Management to STATELESS (No JSESSIONID)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // 4. Define Endpoint Permissions
+                .authorizeHttpRequests(auth -> auth
+                        // Allow Swagger UI access (for development)
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
+                                "/swagger-ui/index.html")
+                        .permitAll()
+
+                        // Allow public authentication endpoints
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+
+                        // Allow Attendance Logging Endpoints explicitly (for kiosk)
+                        .requestMatchers("/api/v1/attendance/**").permitAll()
+
+                        // Allow Biometric Verification (for kiosk public access)
+                        .requestMatchers("/api/v1/biometric/verify").permitAll()
+
+                        // Allow Fingerprint Launch (for enrollment)
+                        .requestMatchers("/api/v1/fingerprint/**").permitAll()
+
+                        // Allow root path redirect
+                        .requestMatchers("/", "/error").permitAll()
+
+                        // Lock down everything else
+                        .anyRequest().authenticated())
+
+                // 5. Add JWT filter before UsernamePasswordAuthenticationFilter
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -71,17 +75,19 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
+
         // ALLOW FRONTEND ORIGIN
-        // In production, replace "*" with specific domains (e.g., https://app.chronosecure.com)
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000")); 
-        
+        // In production, replace "*" with specific domains (e.g.,
+        // https://app.chronosecure.com)
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));
+
         // ALLOW HTTP METHODS
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        
-        // ALLOW HEADERS (Content-Type for JSON, Authorization for JWT, X-Company-Id for multi-tenant)
+
+        // ALLOW HEADERS (Content-Type for JSON, Authorization for JWT, X-Company-Id for
+        // multi-tenant)
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "X-Company-Id"));
-        
+
         // Allow credentials (cookies/auth headers)
         configuration.setAllowCredentials(true);
 

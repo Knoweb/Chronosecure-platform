@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
 import { Plus, Fingerprint, AlertCircle, Trash2 } from 'lucide-react'
-import { FingerprintEnrollment } from '@/components/biometric/FingerprintEnrollment'
+
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { useSearchParams } from 'react-router-dom'
 
@@ -18,7 +18,7 @@ export default function EmployeesPage() {
   const queryClient = useQueryClient()
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingEmployee, setEditingEmployee] = useState<string | null>(null)
-  const [enrollingEmployee, setEnrollingEmployee] = useState<string | null>(null)
+
   const [formData, setFormData] = useState({
     employeeCode: '',
     firstName: '',
@@ -326,7 +326,21 @@ export default function EmployeesPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => setEnrollingEmployee(employee.id)}
+                              onClick={async () => {
+                                try {
+                                  console.log('Calling fingerprint launch API...');
+                                  const response = await api.post('/fingerprint/launch', {
+                                    employeeCode: employee.employeeCode,
+                                    name: `${employee.firstName} ${employee.lastName}`
+                                  });
+                                  console.log('API Response:', response.data);
+                                  alert('Fingerprint application launched successfully!');
+                                } catch (error: any) {
+                                  console.error('Failed to launch fingerprint app:', error);
+                                  console.error('Error response:', error.response?.data);
+                                  alert(`Failed to launch fingerprint application.\n\nError: ${error.response?.data?.error || error.message}\n\nPlease check the console for details.`);
+                                }
+                              }}
                             >
                               <Fingerprint className="h-4 w-4 mr-2" />
                               Enroll Fingerprint
@@ -355,39 +369,7 @@ export default function EmployeesPage() {
               </CardContent>
             </Card>
 
-            {/* Fingerprint Enrollment Modal */}
-            {enrollingEmployee && (() => {
-              const employee = employees?.find((e: any) => e.id === enrollingEmployee)
-              if (!employee) return null
 
-              return (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Enroll Fingerprint for {employee.firstName} {employee.lastName}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <FingerprintEnrollment
-                      employeeId={employee.id}
-                      employeeName={`${employee.firstName} ${employee.lastName}`}
-                      employeeCode={employee.employeeCode}
-                      onSuccess={() => {
-                        setEnrollingEmployee(null)
-                        queryClient.invalidateQueries({ queryKey: ['employees'] })
-                      }}
-                    />
-                    <div className="mt-4">
-                      <Button
-                        variant="outline"
-                        onClick={() => setEnrollingEmployee(null)}
-                        className="w-full"
-                      >
-                        Close
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              )
-            })()}
           </div>
         </main>
       </div>

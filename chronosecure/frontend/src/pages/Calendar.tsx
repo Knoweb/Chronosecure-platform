@@ -368,6 +368,7 @@ export default function CalendarPage() {
                                                         <span className={cn("font-bold text-sm h-6 w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
                                                         {empEntry && empEntry.status === 'LEAVE' && <span className="text-[9px] font-bold bg-amber-400 text-amber-950 px-1 rounded shadow-sm">LEAVE</span>}
                                                         {empEntry && empEntry.status === 'HOLIDAY' && <span className="text-[9px] font-bold bg-purple-400 text-purple-950 px-1 rounded shadow-sm">HOLIDAY</span>}
+                                                        {((!empEntry && isWeekend) || (empEntry?.status === 'WEEKEND')) && <span className="text-[9px] font-bold bg-orange-300 text-orange-950 px-1 rounded shadow-sm">WEEKEND</span>}
                                                     </div>
 
                                                     {empEntry && (

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Clock, LayoutDashboard, Users, Clock as ClockIcon, BarChart3, Settings, Calendar, MapPin, Monitor } from 'lucide-react'
+import { Clock, LayoutDashboard, Users, Clock as ClockIcon, BarChart3, Settings, Calendar, MapPin } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 
@@ -38,11 +38,7 @@ export function Sidebar() {
       href: '/locations',
       icon: MapPin,
     },
-    {
-      name: 'Kiosks',
-      href: '/kiosk',
-      icon: Monitor,
-    },
+
     {
       name: 'Calendar',
       href: '/calendar',

@@ -43,15 +43,22 @@ ROTATION_TESTS = [-10, -5, 0, 5, 10]
 ALLOW_ONE_MARK_PER_DAY = True
 COOLDOWN_SECONDS = 30
 
-# -------COLORS-------
-BG_DARK = "#0f1419"
-BG_CARD = "#1a1f26"
+# -------COLORS------- (Enhanced Modern Palette)
+BG_DARK = "#0a0e27"
+BG_CARD = "#1a1f3a"
+BG_CARD_LIGHT = "#252b4a"
 PRIMARY = "#00d4ff"
+PRIMARY_DARK = "#0099cc"
 SUCCESS = "#00ff88"
+SUCCESS_DARK = "#00cc6a"
 WARNING = "#ffaa00"
+WARNING_DARK = "#cc8800"
 ERROR = "#ff4444"
+ERROR_DARK = "#cc3333"
 TEXT_LIGHT = "#e0e6ed"
 TEXT_MUTED = "#8a92a0"
+ACCENT_PURPLE = "#a855f7"
+ACCENT_BLUE = "#3b82f6"
 
 # ---HELPER FUNCS---
 def now_iso():
@@ -304,6 +311,8 @@ class App(tk.Tk):
         self.cooldown_uid = {}
         
         self.emp_map = {} # Code -> Name
+        self.emp_codes = []
+        self.current_mode = tk.StringVar(value="IDLE")
         self.fetch_employees()
         
         self._build_ui()
@@ -330,6 +339,16 @@ class App(tk.Tk):
         self.status.set(msg)
         color_map = {"green": SUCCESS, "red": ERROR, "cyan": PRIMARY, "yellow": WARNING}
         self.status_label.configure(foreground=color_map.get(color, PRIMARY))
+    
+    def update_progress(self, index: int, completed: bool):
+        """Update enrollment progress indicator"""
+        def _update():
+            if 0 <= index < len(self.progress_labels):
+                if completed:
+                    self.progress_labels[index].configure(text="✓", fg=SUCCESS)
+                else:
+                    self.progress_labels[index].configure(text="○", fg=TEXT_MUTED)
+        self.after(0, _update)
 
     def log(self, msg: str):
         def _log():
@@ -345,10 +364,14 @@ class App(tk.Tk):
         header.pack(fill="x", padx=20, pady=(15, 10))
         header.pack_propagate(False)
         
-        tk.Label(header, text="fingerprint", font=("Segoe UI", 24, "bold"), fg=PRIMARY, bg=BG_DARK).pack(side="left")
-        tk.Label(header, text="attendance", font=("Segoe UI", 24), fg=TEXT_LIGHT, bg=BG_DARK).pack(side="left", padx=(5, 0))
+        tk.Label(header, text="🔐 ChronoSecure", font=("Segoe UI", 26, "bold"), fg=PRIMARY, bg=BG_DARK).pack(side="left")
+        tk.Label(header, text="Fingerprint Enrollment", font=("Segoe UI", 14), fg=TEXT_MUTED, bg=BG_DARK).pack(side="left", padx=(10, 0))
         
-        self.status_label = tk.Label(header, textvariable=self.status, font=("Segoe UI", 11), fg=PRIMARY, bg=BG_DARK)
+        # Mode indicator
+        self.mode_label = tk.Label(header, textvariable=self.current_mode, font=("Segoe UI", 11, "bold"), fg=WARNING, bg=BG_CARD_LIGHT, padx=15, pady=5, relief="flat")
+        self.mode_label.pack(side="right", padx=(10, 0))
+        
+        self.status_label = tk.Label(header, textvariable=self.status, font=("Segoe UI", 12, "bold"), fg=SUCCESS, bg=BG_DARK)
         self.status_label.pack(side="right")
 
         # Main content
@@ -359,22 +382,29 @@ class App(tk.Tk):
         left = tk.Frame(main, bg=BG_CARD, relief="flat")
         left.pack(side="left", fill="y", padx=(0, 15))
         
-        tk.Label(left, text="ENROLL NEW", font=("Segoe UI", 13, "bold"), fg=PRIMARY, bg=BG_CARD).pack(anchor="w", padx=15, pady=(15, 10))
+        # Enrollment header
+        enroll_header = tk.Frame(left, bg=BG_CARD)
+        enroll_header.pack(fill="x", padx=15, pady=(15, 10))
+        tk.Label(enroll_header, text="👤 ENROLL NEW USER", font=("Segoe UI", 14, "bold"), fg=PRIMARY, bg=BG_CARD).pack(anchor="w")
+        tk.Label(enroll_header, text="Register fingerprint for employee", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=BG_CARD).pack(anchor="w", pady=(2, 0))
         
         self.uid = tk.StringVar()
         self.name = tk.StringVar()
         
-        # Employee ID (Dropdown)
-        tk.Label(left, text="Employee ID", font=("Segoe UI", 10), fg=TEXT_LIGHT, bg=BG_CARD).pack(anchor="w", padx=15, pady=(10, 3))
+        # Employee Code label
+        tk.Label(left, text="Employee Code", font=("Segoe UI", 10, "bold"), fg=TEXT_LIGHT, bg=BG_CARD).pack(anchor="w", padx=15, pady=(15, 2))
         
         # Container for Combobox and Refresh Button
         id_frame = tk.Frame(left, bg=BG_CARD)
         id_frame.pack(anchor="w", padx=15, pady=(0, 5), fill="x")
         
         self.uid_cb = ttk.Combobox(id_frame, textvariable=self.uid, font=("Segoe UI", 10), width=23, postcommand=self.on_combo_open)
-        self.uid_cb.pack(side="left")
-        self.uid_cb.bind("<<ComboboxSelected>>", self.on_employee_select)
-        self.uid_cb.bind("<KeyRelease>", self.on_combo_filter)
+        self.uid_cb.pack(side="left", fill="x", expand=True)
+        self.uid_cb.bind('<<ComboboxSelected>>', self.on_employee_select)
+        self.uid_cb.bind('<KeyRelease>', self.on_combo_filter)
+        
+        # Add trace to auto-fetch name when employee code changes
+        self.uid.trace_add('write', lambda *args: self.auto_fetch_name())
         
         btn_refresh = tk.Button(id_frame, text="⟳", command=self.refresh_employees, font=("Segoe UI", 10), bg="#252d38", fg=TEXT_LIGHT, relief="flat", bd=0, width=3, cursor="hand2")
         btn_refresh.pack(side="left", padx=(5, 0))
@@ -387,8 +417,20 @@ class App(tk.Tk):
         self.txt_name = tk.Entry(left, textvariable=self.name, font=("Segoe UI", 10), width=28, bg="#252d38", fg=TEXT_LIGHT, relief="flat", bd=1)
         self.txt_name.pack(anchor="w", padx=15, pady=(0, 5))
         
-        btn_enroll = tk.Button(left, text="▶ Enroll (3 scans)", command=self.enroll, font=("Segoe UI", 11, "bold"), bg=PRIMARY, fg=BG_DARK, activebackground="#00ffff", relief="flat", bd=0, padx=15, pady=10, cursor="hand2")
-        btn_enroll.pack(fill="x", padx=15, pady=(15, 20))
+        self.btn_enroll = tk.Button(left, text="▶ Enroll (3 scans)", command=self.enroll, font=("Segoe UI", 11, "bold"), bg=PRIMARY, fg=BG_DARK, activebackground="#00ffff", relief="flat", bd=0, padx=15, pady=10, cursor="hand2")
+        self.btn_enroll.pack(fill="x", padx=15, pady=(15, 10))
+        
+        # Enrollment progress indicator
+        progress_frame = tk.Frame(left, bg=BG_CARD)
+        progress_frame.pack(fill="x", padx=15, pady=(10, 20))
+        
+        tk.Label(progress_frame, text="Progress:", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=BG_CARD).pack(side="left", padx=(0, 10))
+        
+        self.progress_labels = []
+        for i in range(3):
+            lbl = tk.Label(progress_frame, text="○", font=("Segoe UI", 14), fg=TEXT_MUTED, bg=BG_CARD)
+            lbl.pack(side="left", padx=2)
+            self.progress_labels.append(lbl)
         
         tk.Frame(left, bg=TEXT_MUTED, height=1).pack(fill="x", padx=15, pady=10)
 
@@ -398,13 +440,13 @@ class App(tk.Tk):
         
         tk.Label(mid, text="ATTENDANCE", font=("Segoe UI", 13, "bold"), fg=SUCCESS, bg=BG_CARD).pack(anchor="w", padx=15, pady=(15, 15))
         
-        self.btn_start = tk.Button(mid, text="▶ Start Scan", command=self.start_attendance, font=("Segoe UI", 10, "bold"), bg=SUCCESS, fg=BG_DARK, activebackground="#00ffaa", relief="flat", bd=0, padx=15, pady=8, cursor="hand2", width=25)
-        self.btn_start.pack(fill="x", padx=15, pady=(0, 8))
+        self.btn_start = tk.Button(mid, text="▶ Start Attendance Scan", command=self.start_attendance, font=("Segoe UI", 11, "bold"), bg=SUCCESS, fg="#0a0e27", activebackground=SUCCESS_DARK, relief="flat", bd=0, padx=20, pady=12, cursor="hand2", width=25)
+        self.btn_start.pack(fill="x", padx=15, pady=(0, 10))
         
-        self.btn_stop = tk.Button(mid, text="⏹ Stop Scan", command=self.stop_attendance, font=("Segoe UI", 10, "bold"), bg=ERROR, fg="white", activebackground="#ff6666", relief="flat", bd=0, padx=15, pady=8, cursor="hand2", state="disabled", width=25)
-        self.btn_stop.pack(fill="x", padx=15, pady=(0, 15))
+        self.btn_stop = tk.Button(mid, text="⏹ Stop Attendance Scan", command=self.stop_attendance, font=("Segoe UI", 11, "bold"), bg=ERROR, fg="white", activebackground=ERROR_DARK, relief="flat", bd=0, padx=20, pady=12, cursor="hand2", state="disabled", width=25)
+        self.btn_stop.pack(fill="x", padx=15, pady=(0, 10))
         
-        tk.Button(mid, text="🔍 Identify Once", command=self.identify_once, font=("Segoe UI", 10, "bold"), bg=WARNING, fg=BG_DARK, activebackground="#ffbb22", relief="flat", bd=0, padx=15, pady=8, cursor="hand2", width=25).pack(fill="x", padx=15, pady=(0, 20))
+        tk.Button(mid, text="🔍 Identify Once", command=self.identify_once, font=("Segoe UI", 11, "bold"), bg=WARNING, fg="#0a0e27", activebackground=WARNING_DARK, relief="flat", bd=0, padx=20, pady=12, cursor="hand2", width=25).pack(fill="x", padx=15, pady=(0, 20))
         
         tk.Frame(mid, bg=TEXT_MUTED, height=1).pack(fill="x", padx=15, pady=10)
         tk.Label(mid, text=f"Threshold: {SCORE_ACCEPT}", font=("Segoe UI", 9), fg=TEXT_MUTED, bg=BG_CARD).pack(anchor="w", padx=15)
@@ -413,7 +455,7 @@ class App(tk.Tk):
         right = tk.Frame(main, bg=BG_CARD, relief="flat")
         right.pack(side="left", fill="both", expand=True)
         
-        tk.Label(right, text="LIVE PREVIEW", font=("Segoe UI", 11, "bold"), fg=PRIMARY, bg=BG_CARD).pack(anchor="w", padx=15, pady=(15, 10))
+        tk.Label(right, text="📷 LIVE PREVIEW", font=("Segoe UI", 13, "bold"), fg=PRIMARY, bg=BG_CARD).pack(anchor="w", padx=15, pady=(15, 10))
         
         self.img_label = tk.Label(right, bg="#1a1f26", width=400, height=280)
         self.img_label.pack(padx=15, pady=(0, 15), fill="both", expand=True)
@@ -421,7 +463,7 @@ class App(tk.Tk):
         self.result_label = tk.Label(right, textvariable=self.result, font=("Segoe UI", 11), fg=TEXT_LIGHT, bg=BG_CARD, wraplength=400, justify="left")
         self.result_label.pack(anchor="w", padx=15, pady=(0, 15))
         
-        tk.Label(right, text="LOG", font=("Segoe UI", 10, "bold"), fg=TEXT_MUTED, bg=BG_CARD).pack(anchor="w", padx=15)
+        tk.Label(right, text="📋 ACTIVITY LOG", font=("Segoe UI", 11, "bold"), fg=TEXT_MUTED, bg=BG_CARD).pack(anchor="w", padx=15)
         
         self.logbox = tk.Text(right, height=8, font=("Segoe UI", 9), bg="#1a1f26", fg=TEXT_LIGHT, relief="flat", bd=0, state="disabled")
         self.logbox.pack(fill="both", expand=True, padx=15, pady=(5, 15))
@@ -450,11 +492,22 @@ class App(tk.Tk):
         self.fetch_employees()
         self.log(f"Refreshed: {len(self.emp_codes)} employees found")
 
-    def on_employee_select(self, event):
-        code = self.uid.get()
+    def on_employee_select(self, event=None):
+        code = self.uid.get().strip()
         name = self.emp_map.get(code, "")
         if name:
             self.name.set(name)
+            self.log(f"Selected: {code} - {name}")
+    
+    def auto_fetch_name(self):
+        """Automatically fetch name when employee code is entered"""
+        code = self.uid.get().strip()
+        if code in self.emp_map:
+            name = self.emp_map.get(code)
+            if self.name.get() != name:  # Only update if different
+                self.name.set(name)
+        elif self.name.get() != "": # Clear name if code is not found
+            self.name.set("")
 
     def on_combo_filter(self, event):
         if event.keysym in ('Up', 'Down', 'Left', 'Right', 'Return', 'Tab'):
@@ -482,13 +535,15 @@ class App(tk.Tk):
              self.uid_cb['values'] = self.emp_codes
 
     def show_raw(self, raw: bytes):
-        try:
-            img = Image.frombytes("L", (IMG_W, IMG_H), raw)
-            img = img.resize((400, 570))
-            self._imgtk = ImageTk.PhotoImage(img)
-            self.img_label.configure(image=self._imgtk)
-        except Exception as e:
-            self.log(f"Image error: {e}")
+        def _update_ui():
+            try:
+                img = Image.frombytes("L", (IMG_W, IMG_H), raw)
+                img = img.resize((400, 570))
+                self._imgtk = ImageTk.PhotoImage(img)
+                self.img_label.configure(image=self._imgtk)
+            except Exception as e:
+                self.log(f"Image error: {e}")
+        self.after(0, _update_ui)
 
     def _read_frame(self, timeout=1.2):
         raw = self.cap.capture_raw(timeout=timeout)
@@ -575,13 +630,18 @@ class App(tk.Tk):
     def enroll(self):
         if not self.cap:
             return
-        uid = self.uid.get().strip()
-        name = self.name.get().strip()
-        if not uid or not name:
-            messagebox.showwarning("Missing", "Enter User ID and Name")
-            return
+        
+        def do_enroll():
+            self.current_mode.set("📝 ENROLLMENT MODE")
+            self.mode_label.configure(fg="white", bg=PRIMARY)
+            uid = self.uid.get().strip()
+            name = self.name.get().strip()
+            if not uid or not name:
+                messagebox.showwarning("Missing", "Enter User ID and Name")
+                self.current_mode.set("IDLE")
+                self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
+                return
 
-        def worker():
             try:
                 tpls = []
                 for stage in range(1, 4):
@@ -590,6 +650,8 @@ class App(tk.Tk):
                     if not raw:
                         self.log("Failed: No stable capture")
                         self.update_status("Ready", "cyan")
+                        self.current_mode.set("IDLE")
+                        self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
                         return
                     self.show_raw(raw)
                     gray = preprocess(center_crop(raw_to_gray(raw)))
@@ -597,13 +659,21 @@ class App(tk.Tk):
                     if not blob:
                         self.log("Failed: Could not extract features")
                         self.update_status("Ready", "cyan")
+                        self.current_mode.set("IDLE")
+                        self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
                         return
                     tpls.append(blob)
                     self.log(f"✓ Scan {stage}/3 captured")
+                    
+                    # Update progress indicator
+                    self.update_progress(stage - 1, True)
+                    
                     ok = self.wait_finger_removed(timeout=10.0)
                     if not ok:
                         self.log("Failed: Lift finger fully")
                         self.update_status("Ready", "cyan")
+                        self.current_mode.set("IDLE")
+                        self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
                         return
 
                 self.db.upsert_user(uid, name)
@@ -629,8 +699,14 @@ class App(tk.Tk):
             except Exception as e:
                 self.log(f"Error: {e}")
                 self.update_status("Ready", "cyan")
+            finally:
+                self.current_mode.set("IDLE")
+                self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
+                # Reset progress indicators
+                for i in range(3):
+                    self.update_progress(i, False)
 
-        threading.Thread(target=worker, daemon=True).start()
+        threading.Thread(target=do_enroll, daemon=True).start()
 
     import os, time, sqlite3, ctypes, hashlib, threading, base64, urllib.request, json, winsound, subprocess
 
@@ -657,13 +733,6 @@ class App(tk.Tk):
                     txt = "Try Again"
                 elif category == "ENROLLED":
                     txt = "Enrolled Successfully"
-                elif category == "IDENTIFIED":
-                    # This category expects the 'text' argument to be the name
-                    # The threading wrapper above doesn't pass **kwargs readily to this inner function easily
-                    # Wait, the inner function _play takes no args and uses outer scope 'category'
-                    # But 'text' kwarg from outer 'play_sound' is needed.
-                    # Redefine play_sound properly.
-                    pass
                 
                 if category == "IDENTIFIED" and text:
                      txt = f"Identified {text}"
@@ -745,6 +814,10 @@ sapi.Speak "{txt}"
     def identify_once(self):
         if not self.cap:
             return
+        
+        # Set mode indicator
+        self.current_mode.set("🔍 IDENTIFY MODE")
+        self.mode_label.configure(fg="white", bg=ACCENT_BLUE)
 
         def worker():
             try:
@@ -752,11 +825,15 @@ sapi.Speak "{txt}"
                 if not rows:
                     self.log("No users enrolled")
                     self.update_status("Ready", "cyan")
+                    self.current_mode.set("IDLE")
+                    self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
                     return
                 raw = self.capture_when_stable_hold(timeout=20.0)
                 if not raw:
                     self.log("No stable scan")
                     self.update_status("Ready", "cyan")
+                    self.current_mode.set("IDLE")
+                    self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
                     return
                 self.show_raw(raw)
                 uid, name, score = identify_best(raw_to_gray(raw), rows)
@@ -777,10 +854,15 @@ sapi.Speak "{txt}"
             except Exception as e:
                 self.log(f"Error: {e}")
                 self.update_status("Ready", "cyan")
+            finally:
+                self.current_mode.set("IDLE")
+                self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
 
         threading.Thread(target=worker, daemon=True).start()
 
     def start_attendance(self):
+        self.current_mode.set("🔍 ATTENDANCE MODE")
+        self.mode_label.configure(fg="white", bg=SUCCESS)
         if not self.cap:
             return
         if self.attendance_on:
@@ -792,6 +874,8 @@ sapi.Speak "{txt}"
         threading.Thread(target=self._attendance_loop, daemon=True).start()
 
     def stop_attendance(self):
+        self.current_mode.set("IDLE")
+        self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
         self.attendance_on = False
         self.btn_start.configure(state="normal")
         self.btn_stop.configure(state="disabled")
@@ -817,4 +901,48 @@ sapi.Speak "{txt}"
         self.update_status("Ready", "cyan")
 
 if __name__ == "__main__":
-    App().mainloop()
+    import sys
+    from urllib.parse import urlparse, parse_qs
+    
+    app = App()
+    
+    # Check if launched with URL parameters
+    if len(sys.argv) > 1:
+        url = sys.argv[1]
+        try:
+            # Parse fingerprint://enroll?employeeCode=XXX&name=YYY
+            parsed = urlparse(url)
+            params = parse_qs(parsed.query)
+            
+            if 'employeeCode' in params:
+                employee_code = params['employeeCode'][0]
+                app.uid.set(employee_code)
+                app.log(f"✓ Employee Code: {employee_code}")
+            
+            if 'name' in params:
+                name = params['name'][0]
+                app.name.set(name)
+                app.log(f"✓ Employee Name: {name}")
+            
+            # Auto-focus on the enrollment section and highlight it
+            app.log("━" * 40)
+            app.log("🎯 READY FOR ENROLLMENT")
+            app.log("Please place finger on scanner to begin")
+            app.log("━" * 40)
+            app.update_status("Ready to Enroll", "green")
+            
+            # Flash the enroll button to draw attention
+            def flash_enroll():
+                try:
+                    app.btn_enroll.configure(bg=ACCENT_PURPLE)
+                    app.after(300, lambda: app.btn_enroll.configure(bg=PRIMARY))
+                    app.after(600, lambda: app.btn_enroll.configure(bg=ACCENT_PURPLE))
+                    app.after(900, lambda: app.btn_enroll.configure(bg=PRIMARY))
+                except:
+                    pass
+            app.after(500, flash_enroll)
+        except Exception as e:
+            app.log(f"⚠ URL parse error: {e}")
+    
+    app.mainloop()
+
