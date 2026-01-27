@@ -311,10 +311,10 @@ public class ReportServiceImpl implements ReportService {
 
     private String formatDuration(Duration duration) {
         if (duration == null || duration.isZero()) {
-            return "0:00";
+            return "0h 0m";
         }
         long hours = duration.toHours();
         long minutes = duration.toMinutes() % 60;
-        return String.format("%d:%02d", hours, minutes);
+        return String.format("%dh %dm", hours, minutes);
     }
 }
