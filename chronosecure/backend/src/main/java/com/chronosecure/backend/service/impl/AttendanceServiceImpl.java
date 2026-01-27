@@ -5,6 +5,7 @@ import com.chronosecure.backend.model.AttendanceLog;
 import com.chronosecure.backend.model.Company;
 import com.chronosecure.backend.model.Employee;
 import com.chronosecure.backend.model.enums.AttendanceEventType;
+import com.chronosecure.backend.model.enums.TimeOffStatus;
 import com.chronosecure.backend.repository.AttendanceLogRepository;
 import com.chronosecure.backend.repository.CompanyRepository;
 import com.chronosecure.backend.repository.EmployeeRepository;
@@ -81,7 +82,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                 }
 
                 // Use provided confidence score or detected liveness score
-                BigDecimal confidenceScore = request.getConfidenceScore() != null ? request.getConfidenceScore()
+                BigDecimal confidenceScore = request.getConfidenceScore() != null
+                                ? BigDecimal.valueOf(request.getConfidenceScore())
                                 : livenessScore;
 
                 // 4. Construct the Immutable Log
@@ -96,8 +98,37 @@ public class AttendanceServiceImpl implements AttendanceService {
                                 .isOfflineSync(false) // Defaulting to live online sync
                                 .build();
 
-                // 5. Save and Return
-                return attendanceLogRepository.save(newLog);
+                // 5. Save
+                AttendanceLog savedLog = attendanceLogRepository.save(newLog);
+
+                // 6. Invalidate Conflicting Time Off Requests (Auto-Reject if present)
+                try {
+                        java.time.LocalDate today = java.time.LocalDate.now();
+                        List<com.chronosecure.backend.model.TimeOffRequest> conflictingRequests = timeOffRequestRepository
+                                        .findByEmployeeIdAndStatusInAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                                                        employee.getId(),
+                                                        List.of(TimeOffStatus.PENDING, TimeOffStatus.APPROVED),
+                                                        today,
+                                                        today);
+
+                        if (!conflictingRequests.isEmpty()) {
+                                log.info("Found {} conflicting time-off requests for employee {}. Auto-rejecting.",
+                                                conflictingRequests.size(), employee.getId());
+                                for (com.chronosecure.backend.model.TimeOffRequest req : conflictingRequests) {
+                                        req.setStatus(TimeOffStatus.REJECTED);
+                                        // Optional: Append to reason to indicate system action, ensuring no null
+                                        // pointer
+                                        String currentReason = req.getReason() == null ? "" : req.getReason();
+                                        req.setReason(currentReason + " [Auto-rejected: Attendance Logged]");
+                                        timeOffRequestRepository.save(req);
+                                }
+                        }
+                } catch (Exception e) {
+                        log.error("Failed to auto-reject time off requests for employee {}", employee.getId(), e);
+                        // Don't fail the attendance log just because this cleanup failed
+                }
+
+                return savedLog;
         }
 
         @Override

@@ -57,8 +57,13 @@ public class AttendanceController {
     })
     @PostMapping("/log")
     public ResponseEntity<AttendanceLog> logAttendance(@Valid @RequestBody AttendanceRequest request) {
-        AttendanceLog log = attendanceService.logAttendance(request);
-        return ResponseEntity.ok(log);
+        try {
+            AttendanceLog log = attendanceService.logAttendance(request);
+            return ResponseEntity.ok(log);
+        } catch (Exception e) {
+            e.printStackTrace(); // PRINT STACK TRACE
+            throw new RuntimeException(e);
+        }
     }
 
     @Operation(summary = "Get next expected state", description = "Determines if the employee should likely 'Clock In' or 'Clock Out' based on history.")

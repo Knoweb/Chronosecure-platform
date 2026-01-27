@@ -13,5 +13,11 @@ import com.chronosecure.backend.model.enums.TimeOffStatus;
 public interface TimeOffRequestRepository extends JpaRepository<TimeOffRequest, UUID> {
     List<TimeOffRequest> findByCompanyIdOrderByCreatedAtDesc(UUID companyId);
 
+    List<TimeOffRequest> findByEmployeeIdAndStatusInAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+            UUID employeeId,
+            List<TimeOffStatus> statuses,
+            java.time.LocalDate date1,
+            java.time.LocalDate date2);
+
     long countByCompanyIdAndStatus(UUID companyId, TimeOffStatus status);
 }
