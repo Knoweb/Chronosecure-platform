@@ -76,6 +76,75 @@ export default function AttendancePage() {
     return colors[eventType] || 'bg-gray-100 text-gray-800'
   }
 
+  const handleExport = () => {
+    if (!filteredLogs || filteredLogs.length === 0) {
+      alert('No attendance records to export')
+      return
+    }
+
+    // CSV headers
+    const headers = ['Date', 'Time', 'Employee Code', 'Employee Name', 'Event Type']
+
+    // Convert logs to CSV rows
+    const rows = filteredLogs.map((log: any) => {
+      // Try to find the timestamp - it might be in different formats
+      let timestampValue = log.eventTimestamp || log.timestamp || log.createdAt
+
+      // Handle different timestamp formats
+      let timestamp: Date
+      if (typeof timestampValue === 'number') {
+        // Unix timestamp (seconds or milliseconds)
+        timestamp = new Date(timestampValue > 10000000000 ? timestampValue : timestampValue * 1000)
+      } else if (typeof timestampValue === 'string') {
+        // ISO string or other string format
+        timestamp = new Date(timestampValue)
+      } else if (timestampValue && typeof timestampValue === 'object') {
+        // Java Instant object with seconds and nanos
+        if ('epochSecond' in timestampValue || 'seconds' in timestampValue) {
+          const seconds = timestampValue.epochSecond || timestampValue.seconds || 0
+          const nanos = timestampValue.nano || timestampValue.nanos || 0
+          timestamp = new Date(seconds * 1000 + nanos / 1000000)
+        } else {
+          timestamp = new Date(timestampValue)
+        }
+      } else {
+        timestamp = new Date()
+      }
+
+      // Format date and time
+      const date = !isNaN(timestamp.getTime())
+        ? timestamp.toLocaleDateString('en-CA') // YYYY-MM-DD format
+        : 'N/A'
+      const time = !isNaN(timestamp.getTime())
+        ? timestamp.toLocaleTimeString('en-US', { hour12: false }) // HH:MM:SS format
+        : 'N/A'
+
+      const employeeCode = log.employeeCode || 'N/A'
+      const employeeName = log.employeeName || 'Unknown'
+      const eventType = log.eventType || 'N/A'
+
+      return [date, time, employeeCode, employeeName, eventType]
+    })
+
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(','),
+      ...rows.map((row: string[]) => row.map((cell: string) => `"${cell}"`).join(','))
+    ].join('\n')
+
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+
+    link.setAttribute('href', url)
+    link.setAttribute('download', `attendance_${startDate}_to_${endDate}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
@@ -136,7 +205,11 @@ export default function AttendancePage() {
                     />
                   </div>
                   <div className="space-y-2 flex items-end">
-                    <Button className="w-full border border-border shadow-sm" variant="outline">
+                    <Button
+                      className="w-full border border-border shadow-sm"
+                      variant="outline"
+                      onClick={handleExport}
+                    >
                       <Download className="h-4 w-4 mr-2" />
                       Export
                     </Button>
