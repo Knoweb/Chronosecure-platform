@@ -37,7 +37,7 @@ export default function LoginPage() {
         </div>
 
         <div className="text-xs text-primary-foreground/80 mt-10">
-          © 2025 ChronoSecure. All rights reserved.
+          © 2025 TimeVault Secure. All rights reserved.
         </div>
       </div>
 

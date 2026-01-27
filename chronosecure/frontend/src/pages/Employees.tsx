@@ -331,7 +331,8 @@ export default function EmployeesPage() {
                                   console.log('Calling fingerprint launch API...');
                                   const response = await api.post('/fingerprint/launch', {
                                     employeeCode: employee.employeeCode,
-                                    name: `${employee.firstName} ${employee.lastName}`
+                                    name: `${employee.firstName} ${employee.lastName}`,
+                                    companyId: companyId
                                   });
                                   console.log('API Response:', response.data);
                                   alert('Fingerprint application launched successfully!');

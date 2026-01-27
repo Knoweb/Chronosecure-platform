@@ -10,42 +10,48 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class FingerprintController {
 
-    @PostMapping("/launch")
-    public ResponseEntity<?> launchFingerprintApp(@RequestBody Map<String, String> request) {
-        try {
-            String employeeCode = request.get("employeeCode");
-            String name = request.get("name");
+        @PostMapping("/launch")
+        public ResponseEntity<?> launchFingerprintApp(@RequestBody Map<String, String> request) {
+                try {
+                        String employeeCode = request.get("employeeCode");
+                        String name = request.get("name");
+                        String companyId = request.get("companyId");
 
-            System.out.println("Launching fingerprint app for: " + employeeCode + " - " + name);
+                        System.out.println(
+                                        "Launching fingerprint app for: " + employeeCode + " - " + name + " (Company: "
+                                                        + companyId + ")");
 
-            // Path to batch file
-            String batchFile = "C:\\Users\\USER\\OneDrive - itum.mrt.ac.lk\\Desktop\\fingerprint project\\fingerprint01\\start_fingerprint.bat";
+                        // Path to batch file
+                        String batchFile = "C:\\Users\\USER\\OneDrive - itum.mrt.ac.lk\\Desktop\\fingerprint project\\fingerprint01\\start_fingerprint.bat";
 
-            // Build URL parameter
-            String url = String.format("fingerprint://enroll?employeeCode=%s&name=%s",
-                    employeeCode,
-                    name.replace(" ", "%20"));
+                        // Build URL parameter
+                        String url = String.format("fingerprint://enroll?employeeCode=%s&name=%s&companyId=%s",
+                                        employeeCode,
+                                        name.replace(" ", "%20"),
+                                        companyId != null ? companyId : "");
 
-            // Use cmd to run the batch file
-            ProcessBuilder processBuilder = new ProcessBuilder(
-                    "cmd.exe",
-                    "/c",
-                    batchFile,
-                    url);
+                        // Use cmd to run the batch file
+                        // We need to properly quote both the batch file path (due to spaces) and the
+                        // URL
+                        // Safest: cmd /c ""path" "arg""
+                        ProcessBuilder processBuilder = new ProcessBuilder(
+                                        "cmd.exe",
+                                        "/c",
+                                        "\"\"" + batchFile + "\" \"" + url + "\"\"");
 
-            processBuilder.start();
+                        processBuilder.start();
 
-            System.out.println("Fingerprint application launched successfully");
+                        System.out.println("Fingerprint application launched successfully");
 
-            return ResponseEntity.ok(Map.of(
-                    "message", "Fingerprint application launched successfully",
-                    "employeeCode", employeeCode,
-                    "name", name));
-        } catch (Exception e) {
-            System.err.println("Error launching fingerprint app: " + e.getMessage());
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(Map.of(
-                    "error", "Failed to launch fingerprint application: " + e.getMessage()));
+                        return ResponseEntity.ok(Map.of(
+                                        "message", "Fingerprint application launched successfully",
+                                        "employeeCode", employeeCode,
+                                        "name", name));
+                } catch (Exception e) {
+                        System.err.println("Error launching fingerprint app: " + e.getMessage());
+                        e.printStackTrace();
+                        return ResponseEntity.status(500).body(Map.of(
+                                        "error", "Failed to launch fingerprint application: " + e.getMessage()));
+                }
         }
-    }
 }

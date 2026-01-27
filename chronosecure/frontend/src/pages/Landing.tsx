@@ -281,9 +281,8 @@ export default function LandingPage() {
             {pricing.map((tier) => (
               <div
                 key={tier.name}
-                className={`p-6 bg-white border rounded-2xl shadow-sm hover:shadow-md transition ${
-                  tier.popular ? 'border-primary shadow-primary/20' : ''
-                }`}
+                className={`p-6 bg-white border rounded-2xl shadow-sm hover:shadow-md transition ${tier.popular ? 'border-primary shadow-primary/20' : ''
+                  }`}
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-bold">{tier.name}</h3>
@@ -296,9 +295,8 @@ export default function LandingPage() {
                 <div className="text-4xl font-bold mb-1">{tier.price}</div>
                 <p className="text-sm text-muted-foreground mb-4">{tier.note}</p>
                 <button
-                  className={`w-full rounded-full h-12 px-4 py-2 font-semibold text-sm transition ${
-                    tier.popular ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'border hover:bg-accent'
-                  }`}
+                  className={`w-full rounded-full h-12 px-4 py-2 font-semibold text-sm transition ${tier.popular ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'border hover:bg-accent'
+                    }`}
                 >
                   {tier.cta}
                 </button>

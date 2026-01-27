@@ -23,8 +23,33 @@ CAPTURE_DLL = "ID_FprCap.dll"
 SERVICE_KEY = "serviceAccountKey.json"
 DEVICE_CH = 0
 DEVICE_ID = "PC_SCANNER_01"
-# Hardcoded Company ID for Kiosk
-COMPANY_ID = "c69698a5-1796-43ab-af7e-c955fa23686f"
+# Hardcoded Company ID for Kiosk (Fallback)
+FALLBACK_COMPANY_ID = "c69698a5-1796-43ab-af7e-c955fa23686f"
+COMPANY_ID = FALLBACK_COMPANY_ID
+
+import sys
+import urllib.parse
+
+# Parse command line arguments for companyId
+# Expected arg: fingerprint://enroll?employeeCode=...&name=...&companyId=...
+if len(sys.argv) > 1:
+    try:
+        url_arg = sys.argv[1]
+        print(f"DEBUG: Received URL arg: {url_arg}")
+        # Remove protocol if present
+        if "://" in url_arg:
+             query_part = url_arg.split("?", 1)[1] if "?" in url_arg else ""
+        else:
+             query_part = url_arg
+        
+        params = urllib.parse.parse_qs(query_part)
+        if "companyId" in params:
+            cid = params["companyId"][0]
+            if cid and len(cid) > 10: # Basic validation
+                COMPANY_ID = cid
+                print(f"DEBUG: Using Company ID from args: {COMPANY_ID}")
+    except Exception as e:
+        print(f"DEBUG: Error parsing args: {e}")
 IMG_W = 256
 IMG_H = 360
 IMG_SIZE = IMG_W * IMG_H
