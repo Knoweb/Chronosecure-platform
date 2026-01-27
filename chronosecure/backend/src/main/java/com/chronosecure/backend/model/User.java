@@ -55,6 +55,9 @@ public class User {
     @Column(name = "last_login")
     private Instant lastLogin;
 
+    @Column(name = "notification_preferences", columnDefinition = "TEXT")
+    private String notificationPreferences;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
@@ -63,9 +66,3 @@ public class User {
     @Column(name = "updated_at")
     private Instant updatedAt;
 }
-
-
-
-
-
-

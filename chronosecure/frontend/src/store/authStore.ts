@@ -10,6 +10,7 @@ interface User {
   companyId?: string;
   companyName?: string;
   subdomain?: string;
+  notificationPreferences?: string;
 }
 
 interface AuthState {

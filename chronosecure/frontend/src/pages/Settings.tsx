@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Card, CardContent } from '@/components/ui/card'
 import { useAuthStore } from '@/store/authStore'
 import { User, Building, Shield, Bell } from 'lucide-react'
 import { CompanySettings } from '@/components/settings/CompanySettings'
+import { ProfileSettings } from '@/components/settings/ProfileSettings'
+import { SecuritySettings } from '@/components/settings/SecuritySettings'
+import { NotificationSettings } from '@/components/settings/NotificationSettings'
 
 export default function SettingsPage() {
   const user = useAuthStore((state) => state.user)
@@ -63,32 +63,10 @@ export default function SettingsPage() {
               {/* Content */}
               <div className="lg:col-span-3">
                 {activeTab === 'profile' && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Profile Settings</CardTitle>
-                      <CardDescription>Update your personal information</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="firstName">First Name</Label>
-                          <Input id="firstName" defaultValue={user?.firstName || ''} />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="lastName">Last Name</Label>
-                          <Input id="lastName" defaultValue={user?.lastName || ''} />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" defaultValue={user?.email || ''} disabled />
-                        <p className="text-xs text-muted-foreground">Email cannot be changed</p>
-                      </div>
-                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
-                        Save Changes
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <ProfileSettings
+                    user={user}
+                    setAuth={setAuth}
+                  />
                 )}
 
                 {activeTab === 'company' && (
@@ -99,60 +77,14 @@ export default function SettingsPage() {
                 )}
 
                 {activeTab === 'security' && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Security Settings</CardTitle>
-                      <CardDescription>Manage your account security</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="currentPassword">Current Password</Label>
-                        <Input id="currentPassword" type="password" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="newPassword">New Password</Label>
-                        <Input id="newPassword" type="password" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                        <Input id="confirmPassword" type="password" />
-                      </div>
-                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
-                        Update Password
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <SecuritySettings user={user} />
                 )}
 
                 {activeTab === 'notifications' && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Notification Settings</CardTitle>
-                      <CardDescription>Configure your notification preferences</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <Label>Email Notifications</Label>
-                        <div className="space-y-2">
-                          <label className="flex items-center gap-2">
-                            <input type="checkbox" defaultChecked />
-                            <span className="text-sm">Attendance reminders</span>
-                          </label>
-                          <label className="flex items-center gap-2">
-                            <input type="checkbox" defaultChecked />
-                            <span className="text-sm">Report generation</span>
-                          </label>
-                          <label className="flex items-center gap-2">
-                            <input type="checkbox" />
-                            <span className="text-sm">Weekly summaries</span>
-                          </label>
-                        </div>
-                      </div>
-                      <Button variant="outline" className="border border-border shadow-sm text-foreground hover:bg-muted">
-                        Save Preferences
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <NotificationSettings
+                    user={user}
+                    setAuth={setAuth}
+                  />
                 )}
               </div>
             </div>
