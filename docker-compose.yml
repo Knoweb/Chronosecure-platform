@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: chrono_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: securepassword123
+      POSTGRES_DB: chronosecure_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - chrono_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. Spring Boot Backend
+  backend:
+    build: ./backend
+    container_name: chrono_backend
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Connect to the 'db' service name
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/chronosecure_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: securepassword123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - chrono_net
+
+  # 3. React Frontend
+  frontend:
+    build: ./frontend
+    container_name: chrono_frontend
+    restart: on-failure
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - chrono_net
+
+volumes:
+  postgres_data:
+
+networks:
+  chrono_net:
+    driver: bridge
