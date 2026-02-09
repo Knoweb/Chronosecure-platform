@@ -67,7 +67,7 @@ export function SignupForm() {
       console.log('Signup response:', response.data)
 
       const { token, userId, email: userEmail, companyId, role, firstName: respFirstName, lastName: respLastName } = response.data
-      
+
       setAuth(
         {
           id: userId,
@@ -85,20 +85,20 @@ export function SignupForm() {
       console.error('Signup error:', err)
       console.error('Error response:', err.response?.data)
       console.error('Error status:', err.response?.status)
-      
+
       if (err.response) {
         // Server responded with error
         const errorData = err.response.data
         let errorMessage = 'An error occurred during sign up'
-        
+
         // Check for message field first (most common)
         if (errorData?.message) {
           errorMessage = errorData.message
-        } 
+        }
         // Check for error field
         else if (errorData?.error) {
           errorMessage = errorData.error
-        } 
+        }
         // Check for errors array (validation errors)
         else if (errorData?.errors) {
           if (Array.isArray(errorData.errors)) {
@@ -110,11 +110,11 @@ export function SignupForm() {
             const firstErrorKey = Object.keys(errorData.errors)[0]
             errorMessage = `${firstErrorKey}: ${errorData.errors[firstErrorKey]}`
           }
-        } 
+        }
         // Check if errorData is a string
         else if (errorData && typeof errorData === 'string') {
           errorMessage = errorData
-        } 
+        }
         // Fallback to status-based messages
         else {
           if (err.response.status === 400) {
@@ -127,9 +127,9 @@ export function SignupForm() {
             errorMessage = `Server error: ${err.response.status} ${err.response.statusText}`
           }
         }
-        
+
         setError(errorMessage)
-        } else if (err.request) {
+      } else if (err.request) {
         // Request was made but no response received
         console.error('No response received:', err.request)
         setError('Unable to connect to server. Please make sure the backend is running on http://localhost:8080')
@@ -138,7 +138,7 @@ export function SignupForm() {
         console.error('Error setting up request:', err.message)
         setError(err.message || 'An error occurred during sign up')
       }
-      
+
       // Log full error for debugging
       console.error('Full error object:', {
         error: err,
@@ -223,7 +223,7 @@ export function SignupForm() {
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full h-12 rounded-full bg-slate-900 text-white text-base font-semibold shadow-md hover:bg-slate-800 transition-all" disabled={loading}>
         {loading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin mr-2" />

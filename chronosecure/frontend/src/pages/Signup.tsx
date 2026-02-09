@@ -8,10 +8,10 @@ export default function SignupPage() {
       {/* Top navigation */}
       <header className="border-b bg-background/80 backdrop-blur">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
             <Clock className="h-6 w-6 text-primary" />
             <span className="font-bold text-xl">ChronoSecure</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-4 text-sm font-medium">
             <Link to="/login" className="text-primary hover:underline flex items-center gap-1">
               Sign in <ArrowRight className="h-4 w-4" />

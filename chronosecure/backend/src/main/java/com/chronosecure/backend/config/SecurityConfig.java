@@ -79,7 +79,8 @@ public class SecurityConfig {
         // ALLOW FRONTEND ORIGIN
         // In production, replace "*" with specific domains (e.g.,
         // https://app.chronosecure.com)
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));
+        configuration
+                .setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000", "http://localhost:5174"));
 
         // ALLOW HTTP METHODS
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

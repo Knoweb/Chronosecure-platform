@@ -73,21 +73,21 @@ export default function LandingPage() {
       {/* Top nav */}
       <header className="border-b bg-white sticky top-0 z-20">
         <div className="max-w-6xl md:max-w-7xl mx-auto px-6 md:px-8 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
             <Clock className="h-6 w-6 text-primary" />
             <span className="font-bold text-xl">ChronoSecure</span>
-          </div>
+          </Link>
           <nav className="hidden md:flex items-center gap-10 text-sm font-medium">
             <a className="text-muted-foreground hover:text-foreground" href="#features">Features</a>
             <a className="text-muted-foreground hover:text-foreground" href="#details">Product</a>
             <a className="text-muted-foreground hover:text-foreground" href="#pricing">Pricing</a>
             <a className="text-muted-foreground hover:text-foreground" href="#security">Security</a>
           </nav>
-          <div className="flex items-center gap-3 text-sm font-medium">
-            <Link to="/login" className="hover:underline">Sign In</Link>
+          <div className="flex items-center gap-4 text-sm font-medium">
+            <Link to="/login" className="px-6 py-3 rounded-full font-medium hover:bg-accent transition mr-2">Sign In</Link>
             <Link
               to="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90 transition"
+              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-white hover:bg-slate-800 transition"
             >
               Start Free Trial <ArrowRight className="h-4 w-4" />
             </Link>
@@ -295,8 +295,7 @@ export default function LandingPage() {
                 <div className="text-4xl font-bold mb-1">{tier.price}</div>
                 <p className="text-sm text-muted-foreground mb-4">{tier.note}</p>
                 <button
-                  className={`w-full rounded-full h-12 px-4 py-2 font-semibold text-sm transition ${tier.popular ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'border hover:bg-accent'
-                    }`}
+                  className="w-full rounded-full px-8 py-4 font-semibold text-sm md:text-base transition border border-input hover:bg-accent"
                 >
                   {tier.cta}
                 </button>
@@ -313,21 +312,21 @@ export default function LandingPage() {
         </section>
 
         {/* CTA banner */}
-        <section className="bg-primary text-primary-foreground rounded-2xl p-10 md:p-12 shadow-lg text-center space-y-4">
+        <section className="bg-slate-900 text-white rounded-2xl p-10 md:p-12 shadow-lg text-center space-y-4">
           <h2 className="text-3xl md:text-4xl font-bold">Ready to Transform Your Attendance Management?</h2>
           <p className="text-primary-foreground/90 text-sm md:text-base">
             Join hundreds of companies already saving time and reducing payroll errors with ChronoSecure.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-8">
             <Link
               to="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-white text-primary px-6 py-3 text-sm md:text-base font-semibold hover:bg-white/90 transition"
+              className="inline-flex items-center gap-2 rounded-full bg-white text-slate-900 px-8 py-4 text-sm md:text-base font-semibold hover:bg-white/90 transition"
             >
               Start Free 14-Day Trial
             </Link>
             <Link
               to="/kiosk"
-              className="inline-flex items-center gap-2 rounded-full border border-white px-6 py-3 text-sm md:text-base font-semibold hover:bg-white/10 transition"
+              className="inline-flex items-center gap-2 rounded-full border border-white px-8 py-4 text-sm md:text-base font-semibold hover:bg-white/10 transition"
             >
               Schedule a Demo
             </Link>

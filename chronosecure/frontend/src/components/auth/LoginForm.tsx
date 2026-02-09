@@ -88,7 +88,7 @@ export function LoginForm() {
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full h-12 rounded-full bg-slate-900 text-white text-base font-semibold shadow-md hover:bg-slate-800 transition-all" disabled={loading}>
         {loading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin mr-2" />

@@ -5,10 +5,13 @@ import com.chronosecure.backend.dto.LoginResponse;
 import com.chronosecure.backend.dto.SignupRequest;
 import com.chronosecure.backend.model.Company;
 import com.chronosecure.backend.model.User;
+import com.chronosecure.backend.model.PasswordResetToken;
 import com.chronosecure.backend.model.enums.UserRole;
 import com.chronosecure.backend.repository.CompanyRepository;
 import com.chronosecure.backend.repository.UserRepository;
+import com.chronosecure.backend.repository.PasswordResetTokenRepository;
 import com.chronosecure.backend.service.AuthService;
+import com.chronosecure.backend.service.EmailService;
 import com.chronosecure.backend.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +28,10 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -94,10 +99,7 @@ public class AuthServiceImpl implements AuthService {
             company = companyRepository.save(company);
         }
 
-        // Create user with COMPANY_ADMIN role for new signups (when creating a new
-        // company)
-        // If companyId was provided, use the requested role, otherwise default to
-        // COMPANY_ADMIN
+        // Create user with COMPANY_ADMIN role for new signups
         UserRole userRole = request.getCompanyId() != null
                 ? (request.getRole() != null ? request.getRole() : UserRole.EMPLOYEE)
                 : UserRole.COMPANY_ADMIN;
@@ -135,7 +137,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private String generateSubdomain(String companyName) {
-        // Convert to lowercase, remove special characters, replace spaces with hyphens
         return companyName.toLowerCase()
                 .replaceAll("[^a-z0-9\\s-]", "")
                 .replaceAll("\\s+", "-")
@@ -145,9 +146,43 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void logout(String token) {
-        // For stateless JWT, logout is handled client-side by removing the token
-        // In a production system with token blacklisting, you would add the token to a
-        // blacklist here
-        // This could be stored in Redis for distributed systems
+        // Stateless JWT logout
+    }
+
+    @Override
+    @Transactional
+    public void forgotPassword(String email) {
+        User user = userRepository.findByEmailAndIsActiveTrue(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with this email"));
+
+        passwordResetTokenRepository.deleteByUser(user);
+
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken passwordResetToken = PasswordResetToken.builder()
+                .token(token)
+                .user(user)
+                .expiryDate(Instant.now().plusSeconds(86400)) // 24 hours
+                .build();
+
+        passwordResetTokenRepository.save(passwordResetToken);
+
+        emailService.sendPasswordResetEmail(user, token);
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(String token, String newPassword) {
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid token"));
+
+        if (passwordResetToken.getExpiryDate().isBefore(Instant.now())) {
+            throw new IllegalArgumentException("Token has expired");
+        }
+
+        User user = passwordResetToken.getUser();
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        passwordResetTokenRepository.delete(passwordResetToken);
     }
 }

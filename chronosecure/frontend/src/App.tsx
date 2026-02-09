@@ -14,6 +14,8 @@ import SettingsPage from './pages/Settings'
 import ReportsPage from './pages/Reports'
 import CalendarPage from './pages/Calendar'
 
+import ResetPasswordPage from './pages/ResetPassword'
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />
@@ -25,6 +27,8 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+
       <Route
         path="/dashboard"
         element={

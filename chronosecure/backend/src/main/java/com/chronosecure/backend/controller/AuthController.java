@@ -35,7 +35,17 @@ public class AuthController {
         authService.logout(token);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody java.util.Map<String, String> request) {
+        authService.forgotPassword(request.get("email"));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestParam String token,
+            @RequestBody java.util.Map<String, String> request) {
+        authService.resetPassword(token, request.get("newPassword"));
+        return ResponseEntity.ok().build();
+    }
 }
-
-
-

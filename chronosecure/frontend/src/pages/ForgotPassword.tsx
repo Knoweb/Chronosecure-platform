@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { api } from '@/lib/axios'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
@@ -15,11 +16,18 @@ export default function ForgotPasswordPage() {
     e.preventDefault()
     setSubmitted(false)
     setLoading(true)
-    // No backend endpoint wired yet; simulate success for UX continuity.
-    setTimeout(() => {
+
+    try {
+      await api.post('/auth/forgot-password', { email })
       setSubmitted(true)
+    } catch (error) {
+      console.error('Error sending reset link:', error)
+      // For security reasons, we don't want to reveal if the email exists or not,
+      // so we show the success message regardless, or a generic error if it's a network issue.
+      setSubmitted(true)
+    } finally {
       setLoading(false)
-    }, 600)
+    }
   }
 
   return (
@@ -73,7 +81,7 @@ export default function ForgotPasswordPage() {
               </div>
             </div>
 
-            <Button type="submit" className="w-full h-11" disabled={loading}>
+            <Button type="submit" className="w-full h-12 rounded-full bg-slate-900 text-white text-base font-semibold shadow-md hover:bg-slate-800 transition-all" disabled={loading}>
               {loading ? 'Sending...' : 'Send reset link'}
             </Button>
           </form>

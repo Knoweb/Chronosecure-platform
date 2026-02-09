@@ -7,10 +7,10 @@ export default function LoginPage() {
     <div className="min-h-screen grid lg:grid-cols-[1.02fr,0.98fr] bg-white text-foreground">
       {/* Left hero panel */}
       <div className="bg-primary text-primary-foreground flex flex-col justify-between px-14 py-14">
-        <div className="flex items-center gap-2 mb-10">
+        <Link to="/" className="flex items-center gap-2 mb-10 hover:opacity-90 transition-opacity w-fit">
           <Clock className="h-6 w-6 text-primary-foreground" />
           <span className="font-bold text-xl">ChronoSecure</span>
-        </div>
+        </Link>
 
         <div className="space-y-6">
           <h1 className="text-4xl md:text-[48px] font-bold leading-tight">
