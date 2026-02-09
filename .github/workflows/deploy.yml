@@ -1,0 +1,67 @@
+# Deployment Workflow for DigitalOcean Droplet
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 1. Copy project files to correct folder on Droplet via SSH (using rsync/scp)
+    - name: Copy files to Droplet
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USERNAME }}
+        key: ${{ secrets.DO_SSH_KEY }}
+        source: "./chronosecure/"
+        target: "/home/${{ secrets.DO_USERNAME }}/chronosecure-app"
+        strip_components: 1
+
+    # 2. Add the Service Account Key file to the remote server
+    - name: Create Service Account Key on Remote Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USERNAME }}
+        key: ${{ secrets.DO_SSH_KEY }}
+        script: |
+          # Write the secret JSON content to the file expected by docker-compose
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}' > /home/${{ secrets.DO_USERNAME }}/chronosecure-app/serviceAccountKey.json
+          chmod 600 /home/${{ secrets.DO_USERNAME }}/chronosecure-app/serviceAccountKey.json
+
+    # 3. Create .env file from secrets
+    - name: Create .env file on Remote Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USERNAME }}
+        key: ${{ secrets.DO_SSH_KEY }}
+        script: |
+          cd /home/${{ secrets.DO_USERNAME }}/chronosecure-app
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" > .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
+          echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
+
+    # 4. Run Docker Compose
+    - name: Deploy with Docker Compose
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USERNAME }}
+        key: ${{ secrets.DO_SSH_KEY }}
+        script: |
+          cd /home/${{ secrets.DO_USERNAME }}/chronosecure-app
+          # Stop existing containers
+          docker compose down || true
+          # Rebuild and start in detached mode
+          docker compose up -d --build
+          # Clean up unused images
+          docker image prune -f
