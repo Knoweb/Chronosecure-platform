@@ -139,8 +139,8 @@ jobs:
             ports:
               - "8080:8080"
             environment:
-              - DB_USERNAME=\${DB_USERNAME}
-              - DB_PASSWORD=\${DB_PASSWORD}
+              - SPRING_DATASOURCE_USERNAME=\${DB_USERNAME}
+              - SPRING_DATASOURCE_PASSWORD=\${DB_PASSWORD}
               - MAIL_USERNAME=\${MAIL_USERNAME}
               - MAIL_PASSWORD=\${MAIL_PASSWORD}
               - GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
