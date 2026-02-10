@@ -121,12 +121,8 @@ jobs:
           fi
           cd $TARGET_DIR
           
-          # Fix nested folder issue if scp copied directory inside directory
-          if [ -d "chronosecure" ]; then
-            echo "Found nested chronosecure folder, moving files up..."
-            mv chronosecure/* .
-            rm -rf chronosecure
-          fi
+          # Clean up any potential failed state
+          rm -rf chronosecure || true
           
           # Stop existing containers
           docker compose down || true
