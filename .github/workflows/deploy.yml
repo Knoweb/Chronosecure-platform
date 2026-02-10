@@ -50,6 +50,9 @@ jobs:
         cache-dependency-path: chronosecure/frontend/package-lock.json
 
     - name: Build Frontend (Node)
+      env:
+        # Set API URL for production build (relative path for Nginx proxy)
+        VITE_API_URL: /api/v1
       run: |
         cd chronosecure/frontend
         npm ci
@@ -112,6 +115,15 @@ jobs:
             index index.html;
             location / {
                 try_files \$uri \$uri/ /index.html;
+            }
+
+            # Proxy API requests to Backend Container
+            location /api/ {
+                proxy_pass http://backend:8080/api/;
+                proxy_set_header Host \$host;
+                proxy_set_header X-Real-IP \$remote_addr;
+                proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto \$scheme;
             }
         }
         EOF
