@@ -210,6 +210,6 @@ jobs:
 
           # Restart Application
           docker compose down || true
-          docker compose up -d --build
+          docker compose build --no-cache
+          docker compose up -d
           docker image prune -f
-
