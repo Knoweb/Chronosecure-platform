@@ -93,6 +93,22 @@ export default function TimeOffPage() {
     enabled: !!companyId,
   })
 
+  // Fetch Attendance Logs for Clock-Out History
+  const { data: attendanceLogs } = useQuery({
+    queryKey: ['attendance', companyId],
+    queryFn: async () => {
+      const response = await api.get('/attendance/logs', {
+        headers: { 'X-Company-Id': companyId },
+        params: {
+          startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Last 30 days
+          endDate: new Date().toISOString().split('T')[0]
+        }
+      })
+      return response.data
+    },
+    enabled: !!companyId,
+  })
+
   const { data: employees } = useQuery({
     queryKey: ['employees', companyId],
     queryFn: async () => {
@@ -116,6 +132,13 @@ export default function TimeOffPage() {
     return colors[status] || 'bg-gray-100 text-gray-800'
   }
 
+  // Filter for Clock-Outs from both sources
+  // 1. TimeOffRequests with specific reason (Legacy/Manual)
+  const manualClockOuts = timeOffRequests?.filter((r: any) => r.reason?.includes('Fingerprint Scanned Out')) || []
+
+  // 2. Real Attendance Logs (Machine)
+  const machineClockOuts = attendanceLogs?.filter((l: any) => l.eventType === 'CLOCK_OUT') || []
+
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
@@ -131,7 +154,7 @@ export default function TimeOffPage() {
               <div className="flex gap-2">
                 <Button
                   variant="outline"
-                  onClick={() => refetch()}
+                  onClick={() => { refetch(); queryClient.invalidateQueries({ queryKey: ['attendance'] }); }}
                   className="gap-2"
                 >
                   <RefreshCw className="h-4 w-4" />
@@ -309,19 +332,58 @@ export default function TimeOffPage() {
               </TabsContent>
 
               <TabsContent value="clock-outs">
-                {/* Automated Clock Outs */}
+                {/* Automated Clock Outs (Mixed Source) */}
                 <Card className="bg-muted/30">
                   <CardHeader>
                     <CardTitle className="text-lg">Recent Clock-Out History</CardTitle>
                   </CardHeader>
                   <CardContent>
+
+                    {/* DEBUG: Temporary Dump to Verify Data Arrival */}
+                    <div className="mb-4 p-2 bg-black text-green-400 text-xs font-mono rounded overflow-auto h-32">
+                      <strong>DATA DEBUG (v3.1):</strong>
+                      <br />
+                      Logs Loaded: {attendanceLogs?.length || 0}
+                      <br />
+                      Sample Event Types: {attendanceLogs?.map((l: any) => l.eventType).slice(0, 10).join(', ')}
+                      <br />
+                      First Clock Out: {JSON.stringify(attendanceLogs?.find((l: any) => l.eventType === 'CLOCK_OUT') || 'NONE')}
+                    </div>
+
                     {isLoading ? (
                       <p className="text-muted-foreground">Loading...</p>
-                    ) : !timeOffRequests || timeOffRequests.filter((r: any) => r.reason?.includes('Fingerprint Scanned Out')).length === 0 ? (
+                    ) : (manualClockOuts.length === 0 && machineClockOuts.length === 0) ? (
                       <p className="text-muted-foreground text-sm">No recent clock-outs recorded.</p>
                     ) : (
                       <div className="space-y-2">
-                        {timeOffRequests.filter((r: any) => r.reason?.includes('Fingerprint Scanned Out')).map((request: any) => (
+                        {/* Display Machine Logs (Attendance) */}
+                        {machineClockOuts.map((log: any) => {
+                          const emp = employees?.find((e: any) => e.id === log.employeeId);
+                          const empName = emp ? `${emp.firstName} ${emp.lastName}` : (log.employeeName || 'Unknown');
+                          return (
+                            <div
+                              key={log.id}
+                              className="flex items-center justify-between p-3 border rounded-lg bg-background hover:bg-muted/50 transition"
+                            >
+                              <div className="flex items-center gap-4">
+                                <Clock className="h-5 w-5 text-black" />
+                                <div>
+                                  <p className="font-medium text-black">{empName}</p>
+                                  <p className="text-sm text-black">
+                                    {new Date(log.eventTimestamp).toLocaleString()}
+                                  </p>
+                                  <p className="text-sm text-black mt-1">Fingerprint Audit Log</p>
+                                </div>
+                              </div>
+                              <Badge className="bg-blue-100 text-blue-800 pointer-events-none">
+                                CLOCKED OUT
+                              </Badge>
+                            </div>
+                          )
+                        })}
+
+                        {/* Display Manual Requests (Legacy) */}
+                        {manualClockOuts.map((request: any) => (
                           <div
                             key={request.id}
                             className="flex items-center justify-between p-3 border rounded-lg bg-background hover:bg-muted/50 transition"
