@@ -58,7 +58,32 @@ jobs:
           echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
 
-    # 4. Install Docker & Docker Compose if missing
+    # 4. Configure Swap (Crucial for 2GB Droplets!)
+    - name: Configure Swap File
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USERNAME }}
+        key: ${{ secrets.DO_SSH_KEY }}
+        script: |
+          # Check if swap exists
+          if ! swapon --show | grep -q '/swapfile'; then
+            echo "Creating 2GB Swap File..."
+            fallocate -l 2G /swapfile
+            chmod 600 /swapfile
+            mkswap /swapfile
+            swapon /swapfile
+            echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
+            echo "Swap created."
+          else
+            echo "Swap already exists."
+          fi
+          
+          # Adjust swappiness
+          sysctl vm.swappiness=10
+          echo 'vm.swappiness=10' | tee -a /etc/sysctl.conf
+
+    # 5. Install Docker & Docker Compose if missing
     - name: Install Docker & Docker Compose
       uses: appleboy/ssh-action@master
       with:
