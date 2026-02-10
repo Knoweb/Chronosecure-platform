@@ -1,0 +1,52 @@
+# General
+.DS_Store
+Thumbs.db
+*.log
+logs/
+temp/
+tmp/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# Java / Maven (Backend)
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+.mvn/
+mvnw
+mvnw.cmd
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/logs/
+
+# Node / React (Frontend)
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env*
+
+# OS specific
+.fsevents_cache
+.Spotlight-V100
+.Trashes
