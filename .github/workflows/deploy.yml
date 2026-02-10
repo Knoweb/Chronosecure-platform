@@ -113,6 +113,7 @@ jobs:
         host: ${{ secrets.DO_HOST }}
         username: ${{ secrets.DO_USERNAME }}
         key: ${{ secrets.DO_SSH_KEY }}
+        command_timeout: 30m
         script: |
           TARGET_DIR="/root/chronosecure-app"
           if [ "${{ secrets.DO_USERNAME }}" != "root" ]; then
