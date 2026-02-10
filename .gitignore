@@ -1,0 +1,11 @@
+
+# Build Artifacts
+fingerprint01/dist/
+fingerprint01/build/
+fingerprint01/Output/
+
+# Security
+fingerprint01/serviceAccountKey.json
+
+# PyInstaller Specifics
+fingerprint01/ChronoFingerprint.spec
