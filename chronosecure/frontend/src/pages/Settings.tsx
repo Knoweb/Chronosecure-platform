@@ -3,11 +3,12 @@ import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent } from '@/components/ui/card'
 import { useAuthStore } from '@/store/authStore'
-import { User, Building, Shield, Bell } from 'lucide-react'
+import { User, Building, Shield, Bell, Download } from 'lucide-react'
 import { CompanySettings } from '@/components/settings/CompanySettings'
 import { ProfileSettings } from '@/components/settings/ProfileSettings'
 import { SecuritySettings } from '@/components/settings/SecuritySettings'
 import { NotificationSettings } from '@/components/settings/NotificationSettings'
+import { DownloadApp } from '@/components/settings/DownloadApp'
 
 export default function SettingsPage() {
   const user = useAuthStore((state) => state.user)
@@ -19,6 +20,7 @@ export default function SettingsPage() {
     { id: 'company', label: 'Company', icon: Building },
     { id: 'security', label: 'Security', icon: Shield },
     { id: 'notifications', label: 'Notifications', icon: Bell },
+    { id: 'apps', label: 'Apps & Devices', icon: Download },
   ]
 
   return (
@@ -85,6 +87,10 @@ export default function SettingsPage() {
                     user={user}
                     setAuth={setAuth}
                   />
+                )}
+
+                {activeTab === 'apps' && (
+                  <DownloadApp />
                 )}
               </div>
             </div>
