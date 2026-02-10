@@ -154,7 +154,7 @@ export default function AttendancePage() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold">Attendance</h1>
+                <h1 className="text-3xl font-bold">Attendance <span className="text-sm text-red-500">(v2.1)</span></h1>
                 <p className="text-muted-foreground mt-1">View and manage attendance records</p>
               </div>
               <Button
