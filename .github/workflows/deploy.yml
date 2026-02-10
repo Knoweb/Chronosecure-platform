@@ -14,10 +14,10 @@ jobs:
       uses: actions/checkout@v3
 
     # Build Backend
-    - name: Set up JDK 17
+    - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
         cache: maven
     
@@ -87,7 +87,7 @@ jobs:
         
         # Create Optimized Dockerfile for Backend (Runtime Only)
         cat <<EOF > deploy-bundle/Dockerfile.backend
-        FROM eclipse-temurin:17-jre-jammy
+        FROM eclipse-temurin:21-jre-jammy
         WORKDIR /app
         COPY app.jar app.jar
         EXPOSE 8080
