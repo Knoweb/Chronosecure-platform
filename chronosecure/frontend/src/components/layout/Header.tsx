@@ -3,6 +3,8 @@ import { Bell, LogOut } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { useNavigate } from 'react-router-dom'
 
+import { MobileNav } from './MobileNav'
+
 export function Header() {
   const logout = useAuthStore((state) => state.logout)
   const navigate = useNavigate()
@@ -12,7 +14,8 @@ export function Header() {
   }
 
   return (
-    <header className="h-16 border-b bg-card px-6 flex items-center justify-between">
+    <header className="h-16 border-b bg-card px-4 md:px-6 flex items-center justify-between sticky top-0 z-40 w-full">
+      <MobileNav />
       <div className="flex-1" />
 
       <div className="flex items-center gap-3">
