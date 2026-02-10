@@ -41,6 +41,7 @@ public class AttendanceController {
                 .map(e -> {
                     java.util.Map<String, String> map = new java.util.HashMap<>();
                     map.put("code", e.getEmployeeCode());
+                    map.put("id", e.getId().toString());
                     String name = (e.getFirstName() != null ? e.getFirstName() : "") + " "
                             + (e.getLastName() != null ? e.getLastName() : "");
                     map.put("name", name.trim());
