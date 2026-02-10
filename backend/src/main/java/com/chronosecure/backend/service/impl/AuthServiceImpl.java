@@ -152,9 +152,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void forgotPassword(String email) {
+        System.out.println("Processing forgotPassword for email: " + email);
         User user = userRepository.findByEmailAndIsActiveTrue(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with this email"));
+                .orElseThrow(() -> {
+                    System.out.println("User NOT FOUND for email: " + email);
+                    return new IllegalArgumentException("User not found with this email");
+                });
 
+        System.out.println("User found: " + user.getId());
         passwordResetTokenRepository.deleteByUser(user);
 
         String token = UUID.randomUUID().toString();
@@ -166,7 +171,9 @@ public class AuthServiceImpl implements AuthService {
 
         passwordResetTokenRepository.save(passwordResetToken);
 
+        System.out.println("Token saved. Sending email...");
         emailService.sendPasswordResetEmail(user, token);
+        System.out.println("Email sent successfully.");
     }
 
     @Override

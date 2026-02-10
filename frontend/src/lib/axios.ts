@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,18 +12,18 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     const companyId = localStorage.getItem('companyId');
-    
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     if (companyId) {
       // Only set if not already set in the request
       if (!config.headers['X-Company-Id']) {
         config.headers['X-Company-Id'] = companyId;
       }
     }
-    
+
     console.log('API Request:', {
       url: config.url,
       method: config.method,
@@ -33,7 +33,7 @@ api.interceptors.request.use(
       },
       data: config.data,
     });
-    
+
     return config;
   },
   (error) => {
@@ -52,7 +52,7 @@ api.interceptors.response.use(
       data: error.response?.data,
       message: error.message
     });
-    
+
     if (error.response?.status === 401) {
       // Unauthorized - clear token and redirect to login
       localStorage.removeItem('token');

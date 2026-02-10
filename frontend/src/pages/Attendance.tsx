@@ -61,7 +61,7 @@ export default function AttendancePage() {
 
 
   const filteredLogs = attendanceLogs?.filter((log: any) => {
-    if (log.eventType === 'CLOCK_OUT') return false // Hide CLOCK_OUT as per user request (shown in Time Off)
+    // if (log.eventType === 'CLOCK_OUT') return false // REMOVED to show Clock Out
     if (!employeeFilter) return true
     return log.employeeId === employeeFilter
   }) || []

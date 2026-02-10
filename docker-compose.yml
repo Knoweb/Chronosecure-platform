@@ -1,61 +1,64 @@
 version: '3.8'
 
 services:
-  # 1. PostgreSQL Database
-  db:
-    image: postgres:15-alpine
-    container_name: chrono_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: securepassword123
-      POSTGRES_DB: chronosecure_db
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - chrono_net
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # 2. Spring Boot Backend
+  # --- BACKEND ---
   backend:
-    build: ./backend
-    container_name: chrono_backend
-    restart: on-failure
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      # Connect to the 'db' service name
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/chronosecure_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: securepassword123
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chronosecure-backend
     ports:
       - "8080:8080"
-    networks:
-      - chrono_net
-
-  # 3. React Frontend
-  frontend:
-    build: ./frontend
-    container_name: chrono_frontend
-    restart: on-failure
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chronosecure
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_MAIL_USERNAME=${MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${MAIL_PASSWORD}
+      # The application expects the service key at this path
+      # We mount it via volumes or create it at startup
+    volumes:
+      # Mount the service key file from the host machine to the container
+      - ./serviceAccountKey.json:/app/serviceAccountKey.json
     depends_on:
-      - backend
+      - db
+    networks:
+      - chrono-net
+
+  # --- FRONTEND ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: chronosecure-frontend
     ports:
       - "80:80"
+    depends_on:
+      - backend
     networks:
-      - chrono_net
+      - chrono-net
 
-volumes:
-  postgres_data:
+  # --- DATABASE ---
+  db:
+    image: postgres:15-alpine
+    container_name: chronosecure-db
+    restart: always
+    environment:
+      POSTGRES_DB: chronosecure
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - chrono-net
+  # --- REDIS (Add if needed later) ---
 
 networks:
-  chrono_net:
+  chrono-net:
     driver: bridge
+
+volumes:
+  db_data:
