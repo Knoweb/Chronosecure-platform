@@ -200,6 +200,43 @@ export default function CalendarPage() {
 
     // -- RENDER HELPERS --
 
+    const formatUtcTime = (dateStr: string, timeStr?: string) => {
+        if (!timeStr) return '--:--'
+        try {
+            const cleanTime = timeStr.trim()
+            const time = cleanTime.length === 5 ? `${cleanTime}:00` : cleanTime
+
+            // Create date object treating input as UTC
+            const utcDate = new Date(`${dateStr}T${time}Z`)
+
+            if (isNaN(utcDate.getTime())) return timeStr
+
+            // Format to local time
+            const timeFormatted = utcDate.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            })
+
+            // Check if date shifted (e.g. UTC 20:00 -> IST 01:30 Next Day)
+            const inputDate = new Date(dateStr)
+            const entryDate = new Date(utcDate)
+
+            // Normalize dates to compare just the calendar day
+            entryDate.setHours(0, 0, 0, 0)
+            inputDate.setHours(0, 0, 0, 0)
+
+            if (entryDate.getTime() > inputDate.getTime()) {
+                return `${timeFormatted} (+1)`
+            }
+            if (entryDate.getTime() < inputDate.getTime()) {
+                return `${timeFormatted} (-1)`
+            }
+
+            return timeFormatted
+        } catch { return timeStr }
+    }
+
     const getEmployeeCellStyle = (entry?: EmployeeCalendarEntry, isWeekend?: boolean) => {
         if (!entry) return isWeekend ? "bg-orange-100 dark:bg-orange-900/40" : "bg-card"
 
@@ -369,8 +406,8 @@ export default function CalendarPage() {
                                                         <div className="text-[10px] space-y-0.5 mt-1 font-medium">
                                                             {empEntry.status === 'PRESENT' && (
                                                                 <>
-                                                                    <div className="text-emerald-900 dark:text-emerald-100 font-semibold">IN: {empEntry.checkInTime || '--:--'}</div>
-                                                                    <div className="text-emerald-900 dark:text-emerald-100 font-semibold">OUT: {empEntry.checkOutTime || '--:--'}</div>
+                                                                    <div className="text-emerald-900 dark:text-emerald-100 font-semibold">IN: {formatUtcTime(dateStr, empEntry.checkInTime)}</div>
+                                                                    <div className="text-emerald-900 dark:text-emerald-100 font-semibold">OUT: {formatUtcTime(dateStr, empEntry.checkOutTime)}</div>
                                                                 </>
                                                             )}
                                                             {empEntry.status === 'ABSENT' && <div className="text-red-700 font-bold">ABSENT</div>}
