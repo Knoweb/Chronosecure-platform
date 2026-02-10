@@ -1,0 +1,59 @@
+﻿.\mvnw.cmd : WARNING: A 
+terminally deprecated 
+method in sun.misc.Unsafe 
+has been called
+At line:1 char:1
++ .\mvnw.cmd clean package 
+-DskipTests > build_v22.log 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
+    + CategoryInfo          
+    : NotSpecified: (WARNI  
+  NG: A term...has been c   
+ alled:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+WARNING: sun.misc.Unsafe::st
+aticFieldBase has been 
+called by com.google.inject.
+internal.aop.HiddenClassDefi
+ner (file:/C:/Users/USER/.m2
+/wrapper/dists/apache-maven-
+3.9.11/03d7e36a140982eea48e2
+2c1dcac01d8862b2550b2939e09a
+0809bbc5182a5bc/lib/guice-5.
+1.0-classes.jar)
+WARNING: Please consider 
+reporting this to the 
+maintainers of class com.goo
+gle.inject.internal.aop.Hidd
+enClassDefiner
+WARNING: sun.misc.Unsafe::st
+aticFieldBase will be 
+removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.chronosecure:backend >----------------------
+[INFO] Building backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ backend ---
+[INFO] Deleting C:\Users\USER\OneDrive - itum.mrt.ac.lk\Desktop\fingerprint project\chronosecure\backend\target
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.142 s
+[INFO] Finished at: 2026-01-23T13:59:09+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean (default-clean) on project backend: Failed to clean project: Failed to delete C:\Users\USER\OneDrive - itum.mrt.ac.lk\Desktop\fingerprint project\chronosecure\backend\target\test-classes -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

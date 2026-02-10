@@ -1,0 +1,59 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Users/USER/.m2/wrapper/dists/apache-maven-3.9.11/03d7e36a140982eea48e22c1dcac01d8862b2550b2939e09a0809bbc5182a5bc/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.chronosecure:backend >----------------------
+[INFO] Building backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.2.0:run (default-cli) > test-compile @ backend >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ backend ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 63 source files with javac [debug release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[33,19] implicitly declared classes are not supported in -source 21
+  (use -source 25 or higher to enable implicitly declared classes)
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[40,9] 'try' without 'catch', 'finally' or resource declarations
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[57,5] illegal start of expression
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[59,9] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[60,9] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[61,5] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[66,9] statements not expected outside of methods and initializers
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[133,5] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[1,1] compact source file should not have package declaration
+[INFO] 9 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.981 s
+[INFO] Finished at: 2026-01-23T04:47:26+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project backend: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[33,19] implicitly declared classes are not supported in -source 21
+[ERROR]   (use -source 25 or higher to enable implicitly declared classes)
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[40,9] 'try' without 'catch', 'finally' or resource declarations
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[57,5] illegal start of expression
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[59,9] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[60,9] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[61,5] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[66,9] statements not expected outside of methods and initializers
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[133,5] class, interface, enum, or record expected
+[ERROR] /C:/Users/USER/OneDrive - itum.mrt.ac.lk/Desktop/fingerprint project/chronosecure/backend/src/main/java/com/chronosecure/backend/service/FirebaseSyncService.java:[1,1] compact source file should not have package declaration
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
