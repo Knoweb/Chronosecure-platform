@@ -119,7 +119,7 @@ jobs:
 
             # Proxy API requests to Backend Container
             location /api/ {
-                proxy_pass http://backend:8080/api/;
+                proxy_pass http://chronosecure-backend:8080/api/;
                 proxy_set_header Host \$host;
                 proxy_set_header X-Real-IP \$remote_addr;
                 proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -145,6 +145,7 @@ jobs:
               - MAIL_PASSWORD=\${MAIL_PASSWORD}
               - GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
               - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chronosecure
+              - SPRING_JPA_HIBERNATE_DDL_AUTO=update
             volumes:
               - ./serviceAccountKey.json:/app/serviceAccountKey.json
             depends_on:
