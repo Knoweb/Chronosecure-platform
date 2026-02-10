@@ -94,7 +94,7 @@ jobs:
         WORKDIR /app
         COPY app.jar app.jar
         EXPOSE 8080
-        ENTRYPOINT ["java", "-jar", "app.jar"]
+        ENTRYPOINT ["java", "-Xmx512m", "-Xms256m", "-jar", "app.jar"]
         EOF
 
         # Create Optimized Dockerfile for Frontend (Nginx Only)
@@ -144,7 +144,7 @@ jobs:
               - MAIL_USERNAME=\${MAIL_USERNAME}
               - MAIL_PASSWORD=\${MAIL_PASSWORD}
               - GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
-              - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chronosecure
+              - SPRING_DATASOURCE_URL=jdbc:postgresql://chronosecure-db:5432/chronosecure
               - SPRING_JPA_HIBERNATE_DDL_AUTO=update
             volumes:
               - ./serviceAccountKey.json:/app/serviceAccountKey.json
