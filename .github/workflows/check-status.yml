@@ -14,31 +14,17 @@ jobs:
         username: ${{ secrets.DO_USERNAME }}
         key: ${{ secrets.DO_SSH_KEY }}
         script: |
-          echo "=== USER INFO ==="
-          whoami
-          pwd
+          echo "=== DOCKER PS (Running Containers) ==="
+          docker ps
           
-          echo "=== CHECKING DIRECTORIES ==="
-          ls -ld /home/root/chronosecure-app || echo "/home/root/chronosecure-app does not exist"
-          ls -ld /root/chronosecure-app || echo "/root/chronosecure-app does not exist"
+          echo "=== DOCKER PS -A (Everything) ==="
+          docker ps -a
           
-          echo "=== LISTING FILES IN TARGET ==="
-          # Check where we think files are
-          TARGET_DIR="/home/${{ secrets.DO_USERNAME }}/chronosecure-app"
-          if [ -d "$TARGET_DIR" ]; then
-            cd "$TARGET_DIR"
-            ls -la
-            
-            echo "=== DOCKER COMPOSE CONFIG ==="
-            docker compose config || echo "Docker Compose Config Failed"
-            
-            echo "=== TRYING TO START MANUAL ==="
-            # Dry run of up to see errors
-            docker compose up -d --dry-run || echo "Dry run failed"
-          else
-             echo "Directory $TARGET_DIR not found!"
-          fi
+          echo "=== BACKEND LOGS (Last 50 lines) ==="
+          docker logs --tail 50 chronosecure-backend || echo "Backend container not found"
           
-          echo "=== DOCKER INFO ==="
-          docker version
-          docker compose version
+          echo "=== FRONTEND LOGS (Last 50 lines) ==="
+          docker logs --tail 50 chronosecure-frontend || echo "Frontend container not found"
+          
+          echo "=== DB LOGS (Last 20 lines) ==="
+          docker logs --tail 20 chronosecure-db || echo "DB container not found"
