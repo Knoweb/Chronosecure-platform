@@ -280,7 +280,7 @@ export default function TimeOffPage() {
                         {timeOffRequests.filter((r: any) => !r.reason?.includes('Fingerprint Scanned Out')).map((request: any) => (
                           <div
                             key={request.id}
-                            className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition"
+                            className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition gap-4"
                           >
                             <div className="flex items-center gap-4">
                               <Calendar className="h-5 w-5 text-muted-foreground" />
@@ -352,7 +352,7 @@ export default function TimeOffPage() {
                           return (
                             <div
                               key={log.id}
-                              className="flex items-center justify-between p-3 border rounded-lg bg-background hover:bg-muted/50 transition"
+                              className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 border rounded-lg bg-background hover:bg-muted/50 transition gap-4"
                             >
                               <div className="flex items-center gap-4">
                                 <Clock className="h-5 w-5 text-black" />
@@ -375,7 +375,7 @@ export default function TimeOffPage() {
                         {manualClockOuts.map((request: any) => (
                           <div
                             key={request.id}
-                            className="flex items-center justify-between p-3 border rounded-lg bg-background hover:bg-muted/50 transition"
+                            className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 border rounded-lg bg-background hover:bg-muted/50 transition gap-4"
                           >
                             <div className="flex items-center gap-4">
                               <Clock className="h-5 w-5 text-black" />

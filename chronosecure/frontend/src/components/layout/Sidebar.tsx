@@ -52,7 +52,7 @@ export function Sidebar() {
   ]
 
   return (
-    <div className="w-64 border-r bg-card flex flex-col">
+    <div className="w-64 border-r bg-card flex-col hidden md:flex shrink-0 h-screen sticky top-0">
       <div className="p-6 border-b">
         <Link to="/dashboard" className="flex items-center gap-2">
           <Clock className="h-8 w-8 text-primary" />

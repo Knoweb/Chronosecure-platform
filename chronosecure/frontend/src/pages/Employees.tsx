@@ -281,9 +281,9 @@ export default function EmployeesPage() {
             )}
 
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between space-y-0 pb-2 gap-4">
                 <CardTitle>Employee List</CardTitle>
-                <div className="w-[200px]">
+                <div className="w-full md:w-[200px]">
                   <Input
                     placeholder="Search employees..."
                     value={filter}
@@ -312,7 +312,7 @@ export default function EmployeesPage() {
                       .map((employee: any) => (
                         <div
                           key={employee.id}
-                          className="flex items-center justify-between p-4 border rounded-lg"
+                          className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 border rounded-lg gap-4"
                         >
                           <div>
                             <p className="font-medium">
