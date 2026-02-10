@@ -335,7 +335,17 @@ export default function EmployeesPage() {
                                     companyId: companyId
                                   });
                                   console.log('API Response:', response.data);
-                                  alert('Fingerprint application launched successfully!');
+
+                                  if (response.data.launchUrl) {
+                                    console.log('Launching custom protocol:', response.data.launchUrl);
+                                    window.location.href = response.data.launchUrl;
+                                    // Optional: Short timeout to allow browser to hand off to OS
+                                    setTimeout(() => {
+                                      alert('Launching fingerprint application on your computer...\n\nPlease ensure the Fingerprint App is installed.');
+                                    }, 500);
+                                  } else {
+                                    alert('Fingerprint application launched successfully!');
+                                  }
                                 } catch (error: any) {
                                   console.error('Failed to launch fingerprint app:', error);
                                   console.error('Error response:', error.response?.data);
