@@ -19,12 +19,66 @@ except Exception as e:
 
 
 # ----------------CONFIG----------------
-CAPTURE_DLL = "ID_FprCap.dll"
-SERVICE_KEY = "serviceAccountKey.json"
+# DLL Path Resolution for PyInstaller
+def get_dll_path(dll_name):
+    # Potential paths to check
+    paths_to_check = [
+        dll_name, # Current directory
+        os.path.join(os.path.dirname(__file__), dll_name), # Script directory
+    ]
+    
+    if getattr(sys, 'frozen', False):
+        # PyInstaller paths
+        base_dir = os.path.dirname(sys.executable)
+        paths_to_check.append(os.path.join(base_dir, dll_name)) # Root next to exe
+        paths_to_check.append(os.path.join(base_dir, '_internal', dll_name)) # Inside _internal
+        if hasattr(sys, '_MEIPASS'):
+             paths_to_check.append(os.path.join(sys._MEIPASS, dll_name))
+
+    # Add the directory of the found DLL to the system DLL search path
+    # This fixes the issue where ID_FprCap.dll cannot find ZhiAngCamera.dll dependencies
+    for p in paths_to_check:
+        if os.path.exists(p):
+            dll_dir = os.path.dirname(os.path.abspath(p))
+            try:
+                os.add_dll_directory(dll_dir)
+                print(f"DEBUG: Added DLL directory: {dll_dir}")
+            except Exception as e:
+                print(f"DEBUG: Could not add DLL directory (might be < Py3.8): {e}")
+            return p
+            
+    # Fallback to simple name (let OS find it)
+    return dll_name
+
+def get_resource_path(filename):
+    """Helper to find non-DLL resources like JSON files"""
+    paths_to_check = [
+        filename, # Current directory
+        os.path.join(os.path.dirname(__file__), filename), # Script directory
+    ]
+    
+    if getattr(sys, 'frozen', False):
+        # PyInstaller paths
+        base_dir = os.path.dirname(sys.executable)
+        paths_to_check.append(os.path.join(base_dir, filename)) # Root next to exe
+        paths_to_check.append(os.path.join(base_dir, '_internal', filename)) # Inside _internal
+        if hasattr(sys, '_MEIPASS'):
+             paths_to_check.append(os.path.join(sys._MEIPASS, filename))
+
+    for p in paths_to_check:
+        if os.path.exists(p):
+            return p
+            
+    return filename
+
+CAPTURE_DLL = get_dll_path("ID_FprCap.dll")
+ZHIANG_DLL = get_dll_path("ZhiAngCamera.dll") # Assuming this is also used
+
+SERVICE_KEY = get_resource_path("serviceAccountKey.json")
 DEVICE_CH = 0
 DEVICE_ID = "PC_SCANNER_01"
 # Hardcoded Company ID for Kiosk (Fallback)
-FALLBACK_COMPANY_ID = "c69698a5-1796-43ab-af7e-c955fa23686f"
+FALLBACK_COMPANY_ID = "cf525652-0f91-4b11-93a1-3e08f1ed2977"
 COMPANY_ID = FALLBACK_COMPANY_ID
 
 import sys
@@ -53,20 +107,61 @@ if len(sys.argv) > 1:
 IMG_W = 256
 IMG_H = 360
 IMG_SIZE = IMG_W * IMG_H
-DB_FILE = "fp_local.db"
+
+# --- Database Path Fix for Windows Installer ---
+# Determine AppData path for writable database
+import shutil
+
+APP_NAME = "ChronoSecureFingerprint"
+if os.name == 'nt':
+    app_data_dir = os.path.join(os.getenv('APPDATA'), APP_NAME)
+else:
+    app_data_dir = os.path.join(os.path.expanduser('~'), '.chronosecure')
+
+if not os.path.exists(app_data_dir):
+    try:
+        os.makedirs(app_data_dir)
+        print(f"DEBUG: Created AppData directory: {app_data_dir}")
+    except OSError as e:
+        print(f"DEBUG: Failed to create AppData directory: {e}")
+
+# Define writable DB path
+DB_FILE = os.path.join(app_data_dir, "fp_local.db")
+
+# Logic to copy bundled DB to writable location on first run
+# Check if we are running frozen (PyInstaller)
+if getattr(sys, 'frozen', False):
+    bundled_db_path = os.path.join(sys._MEIPASS, "fp_local.db")
+else:
+    bundled_db_path = "fp_local.db" # Dev mode
+
+# If writable DB doesn't exist, copy from bundle (or create empty if bundle missing)
+if not os.path.exists(DB_FILE):
+    if os.path.exists(bundled_db_path):
+        try:
+            shutil.copy2(bundled_db_path, DB_FILE)
+            print(f"DEBUG: Copied bundled DB to {DB_FILE}")
+        except Exception as e:
+            print(f"DEBUG: Failed to copy DB: {e}")
+    else:
+        print("DEBUG: No bundled DB found, a new empty one will be created.")
+
+print(f"DEBUG: Database path set to: {DB_FILE}")
 
 # SOFTER PRESSURE (light touch, not hard press)
 MIN_QUALITY = 20  # Lower for small fingers
 PRESSURE_TARGET_MEAN = (60, 150)  # Extended range for all finger sizes
 STABLE_FRAMES = 2  # Faster stabilization
 STABLE_DIFF_MAX = 5.0  # More tolerance for small fingers
-FINGER_PRESENT_STD = 28  # Easier detection
-FINGER_REMOVED_STD = 14
+# INCREASED THRESHOLD to prevent ghost touches
+FINGER_PRESENT_STD = 35  # Was 28. Higher = Needs clearer finger image to trigger
+FINGER_REMOVED_STD = 15  # Was 14
 DUPLICATE_MD5_BLOCK_SEC = 2.0
 SCORE_ACCEPT = 20  # Lower threshold
 ROTATION_TESTS = [-10, -5, 0, 5, 10]
 ALLOW_ONE_MARK_PER_DAY = True
 COOLDOWN_SECONDS = 30
+WARMUP_SEC = 1.5 # Ignore frames for first 1.5s to clear buffer
 
 # -------COLORS------- (Enhanced Modern Palette)
 BG_DARK = "#0a0e27"
@@ -263,8 +358,11 @@ class Fire:
             return "Connected"
         except Exception as e:
             self.db = None
-            print(f"DEBUG: Firebase init failed: {e}")
-            return f"Init Error: {e}"
+            msg = str(e)
+            if "invalid_grant" in msg or "JWT Signature" in msg:
+                msg += " (PLEASE ADJUST YOUR PC CLOCK)"
+            print(f"DEBUG: Firebase init failed: {msg}")
+            return f"Init Error: {msg}"
 
 
     def push_user(self, uid, name):
@@ -332,6 +430,7 @@ class App(tk.Tk):
         self._imgtk = None
         self.last_md5 = None
         self.last_md5_time = 0.0
+        self.ready_time = time.time() + WARMUP_SEC # Wait for camera buffer to clear
         self.attendance_on = False
         self.cooldown_uid = {}
         
@@ -496,22 +595,36 @@ class App(tk.Tk):
     def fetch_employees(self):
         try:
             print(f"Fetching employees from backend for Company {COMPANY_ID}...")
-            url = f"http://localhost:8080/api/v1/attendance/employees?companyId={COMPANY_ID}"
-            with urllib.request.urlopen(url) as response:
+            # POINT TO REMOTE BACKEND
+            url = f"http://165.232.174.162:8080/api/v1/attendance/employees?companyId={COMPANY_ID}"
+            req = urllib.request.Request(url)
+            with urllib.request.urlopen(req) as response:
                 if response.getcode() == 200:
                     data = json.loads(response.read().decode())
-                    # data = list of {code, name}
-                    self.emp_map = {e['code']: e['name'] for e in data}
+                    # data = list of {code, name, id}
+                    self.emp_map = {}
+                    for e in data:
+                        code = e['code']
+                        self.emp_map[code] = {
+                            "name": e['name'],
+                            "id": e.get('id', "") # Backend must provide ID
+                        }
                     self.emp_codes = list(self.emp_map.keys())
-                    print(f"Fetched {len(self.emp_codes)} employees.")
+                    print(f"Fetched {len(self.emp_codes)} employees: {self.emp_codes}")
                     if hasattr(self, 'uid_cb') and self.uid_cb:
                         self.uid_cb['values'] = self.emp_codes
+                    
+                    if not self.emp_codes:
+                        self.log("⚠ No employees found for this Company ID.")
+                        # messagebox.showwarning("Config Warning", "No employees found. Check Company ID.")
                 else:
                     print(f"Failed to fetch employees. Code: {response.getcode()}")
                     self.emp_codes = []
+                    self.log(f"⚠ Fetch Failed: HTTP {response.getcode()}")
         except Exception as e:
             print(f"Error fetching employees: {e}")
             self.emp_codes = []
+            self.log(f"⚠ Fetch Error: {str(e)}")
 
     def refresh_employees(self):
         self.fetch_employees()
@@ -519,16 +632,18 @@ class App(tk.Tk):
 
     def on_employee_select(self, event=None):
         code = self.uid.get().strip()
-        name = self.emp_map.get(code, "")
-        if name:
+        info = self.emp_map.get(code)
+        if info:
+            name = info["name"]
             self.name.set(name)
             self.log(f"Selected: {code} - {name}")
     
     def auto_fetch_name(self):
         """Automatically fetch name when employee code is entered"""
         code = self.uid.get().strip()
-        if code in self.emp_map:
-            name = self.emp_map.get(code)
+        info = self.emp_map.get(code)
+        if info:
+            name = info["name"]
             if self.name.get() != name:  # Only update if different
                 self.name.set(name)
         elif self.name.get() != "": # Clear name if code is not found
@@ -543,7 +658,13 @@ class App(tk.Tk):
             self.uid_cb['values'] = self.emp_codes
             return
 
-        filtered = [c for c in self.emp_codes if typed in c.lower() or typed in self.emp_map.get(c, "").lower()]
+        filtered = []
+        for c in self.emp_codes:
+            info = self.emp_map.get(c)
+            name = info["name"] if info else ""
+            if typed in c.lower() or typed in name.lower():
+                filtered.append(c)
+                
         self.uid_cb['values'] = filtered
         
         # Automatically show dropdown if there are results
@@ -571,6 +692,10 @@ class App(tk.Tk):
         self.after(0, _update_ui)
 
     def _read_frame(self, timeout=1.2):
+        if time.time() < self.ready_time:
+            # Still warming up, ignore frames
+            return None
+            
         raw = self.cap.capture_raw(timeout=timeout)
         if raw is None:
             return None
@@ -583,74 +708,58 @@ class App(tk.Tk):
         return raw
 
     def _pressure_hint(self, gray: np.ndarray) -> str:
-        m = int(gray.mean())
-        lo, hi = PRESSURE_TARGET_MEAN
-        if m > hi:
-            return f"Lift slightly (pressure={m})"
-        if m < lo:
-            return f"Touch lightly (pressure={m})"
-        return f"Perfect (pressure={m})"
+        # Simple heuristic
+        m = gray.mean()
+        if m < PRESSURE_TARGET_MEAN[0]:
+            return "Press Harder"
+        if m > PRESSURE_TARGET_MEAN[1]:
+            return "Lift Slightly"
+        return "Good Pressure"
 
-    def wait_finger_removed(self, timeout=8.0):
-        self.update_status("Lift finger...", "yellow")
+    def wait_finger_removed(self, timeout=5.0):
         start = time.time()
-        stable_removed = 0
         while time.time() - start < timeout:
-            raw = self._read_frame(timeout=0.8)
+            raw = self.cap.capture_raw(timeout=0.1)
             if raw is None:
-                time.sleep(0.08)
-                continue
+                return True
             gray = raw_to_gray(raw)
-            s = img_std(gray)
-            if s <= FINGER_REMOVED_STD:
-                stable_removed += 1
-                if stable_removed >= 3:
-                    return True
-            else:
-                stable_removed = 0
-            time.sleep(0.08)
+            if img_std(gray) < FINGER_REMOVED_STD:
+                return True
+            self.result.set("Please lift finger...")
+            time.sleep(0.1)
         return False
 
     def capture_when_stable_hold(self, timeout=20.0):
         self.update_status("Touch scanner lightly...", "cyan")
         start = time.time()
-        prev = None
-        stable = 0
-        last_hint_time = 0
+        best_img = None
+        best_score = -1
+        stable_count = 0
+        
         while time.time() - start < timeout:
-            raw = self._read_frame(timeout=1.0)
-            if raw is None:
-                time.sleep(0.05)
-                continue
-            gray = raw_to_gray(raw)
-            s = img_std(gray)
-            if s < FINGER_PRESENT_STD:
-                stable = 0
-                prev = None
-                if time.time() - last_hint_time > 2:
-                    self.update_status("Waiting for contact...", "cyan")
-                    last_hint_time = time.time()
-                time.sleep(0.08)
-                continue
-            q = quality_score(gray)
-            hint = self._pressure_hint(gray)
-            remaining = int(timeout - (time.time() - start))
-            self.update_status(f"Quality: {q}% | {hint} | {remaining}s", "cyan")
-            last_hint_time = time.time()
-            
-            if q < MIN_QUALITY:
-                stable = 0
-                prev = None
-                time.sleep(0.08)
-                continue
-            if prev is not None:
-                diff = float(np.mean(np.abs(gray.astype(np.int16) - prev.astype(np.int16))))
-                stable = stable + 1 if diff <= STABLE_DIFF_MAX else 0
-            prev = gray
-            if stable >= STABLE_FRAMES:
-                return raw
-            time.sleep(0.07)
-        return None
+             raw = self._read_frame(timeout=0.1)
+             if raw is None:
+                 continue
+             
+             gray = raw_to_gray(raw)
+             score = quality_score(gray)
+             
+             if score < MIN_QUALITY:
+                 stable_count = 0
+                 self.result.set(f"Quality Low: {score}/{MIN_QUALITY}")
+                 continue
+                 
+             stable_count += 1
+             self.result.set(f"Holding... {stable_count}/{STABLE_FRAMES}")
+             
+             if score > best_score:
+                 best_score = score
+                 best_img = raw
+                 
+             if stable_count >= STABLE_FRAMES:
+                 return best_img
+                 
+        return best_img
 
     def enroll(self):
         if not self.cap:
@@ -765,9 +874,9 @@ class App(tk.Tk):
                 if txt:
                     print(f"DEBUG: Speaking {txt}")
                     # Use VBScript for reliable TTS on Windows
-                    # Attempt to use a female voice (Item(1)) if available
+                    import tempfile
                     vbs_filename = f"tts_{int(time.time()*1000)}.vbs"
-                    vbs_path = os.path.abspath(vbs_filename)
+                    vbs_path = os.path.join(tempfile.gettempdir(), vbs_filename)
                     
                     vbs_content = f"""
 Set sapi = CreateObject("SAPI.SpVoice")
@@ -797,6 +906,44 @@ sapi.Speak "{txt}"
                     pass
         threading.Thread(target=_play, daemon=True).start()
 
+    def post_attendance_to_backend(self, uid, event_type):
+        """Send attendance log to Spring Boot Backend via REST API"""
+        info = self.emp_map.get(uid)
+        if not info:
+            self.log("Skip Backend: Unknown UID")
+            return
+
+        emp_id = info.get("id")
+        if not emp_id:
+             self.log("Skip Backend: No UUID for Employee")
+             return
+
+        try:
+             # URL = http://165.232.174.162:8080/api/v1/attendance/log
+             url = "http://165.232.174.162:8080/api/v1/attendance/log"
+             
+             # Payload matches AttendanceRequest.java
+             payload = {
+                 "companyId": COMPANY_ID,
+                 "employeeId": emp_id,
+                 "eventType": event_type, # CLOCK_IN or CLOCK_OUT
+                 "deviceId": DEVICE_ID,
+                 "confidenceScore": 100.0,
+                 "photoBase64": ""
+             }
+             
+             data = json.dumps(payload).encode('utf-8')
+             req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'})
+             
+             with urllib.request.urlopen(req) as response:
+                 if response.getcode() == 200:
+                     self.log(f"✓ Backend Synced: {event_type}")
+                 else:
+                     self.log(f"⚠ Backend Error: {response.getcode()}")
+
+        except Exception as e:
+             self.log(f"⚠ Backend Connection Failed: {e}")
+
     def _handle_result(self, uid, name, score):
         if uid and score >= SCORE_ACCEPT:
             if not self._cooldown_ok(uid):
@@ -808,12 +955,14 @@ sapi.Speak "{txt}"
             # Determine new state: If last was IN (MATCH/CLOCKED_IN), now is OUT (TIME_OFF). Else IN (CLOCKED_IN).
             if last_res in ["MATCH", "CLOCKED_IN"]:
                 new_res = "TIME_OFF"
+                event_type = "CLOCK_OUT" # Backend Enum
                 msg_ui = f"✓ CLOCKED OUT: {name}"
                 msg_status = f"✓ {name} Checked Out (Time Off)"
                 color = WARNING # distinct color
                 self.play_sound("OUT")
             else:
                 new_res = "CLOCKED_IN"
+                event_type = "CLOCK_IN" # Backend Enum
                 msg_ui = f"✓ CLOCKED IN: {name}"
                 msg_status = f"✓ Welcome, {name}! (Checked In)"
                 color = SUCCESS
@@ -827,8 +976,13 @@ sapi.Speak "{txt}"
             if self.fire.db:
                 try:
                     self.fire.push_attendance(uid, name, score, new_res)
-                except Exception:
-                    pass
+                    self.log(f"✓ Synced: {new_res}")
+                except Exception as e:
+                    self.log(f"FIREBASE FAILED: {str(e)[:30]}...")
+            
+            # 2. Try Backend API (Primary)
+            threading.Thread(target=self.post_attendance_to_backend, args=(uid, event_type), daemon=True).start()
+            
         else:
             self.db.log_att("NO_MATCH", score=score)
             self.log(f"✗ No match (score={score})")

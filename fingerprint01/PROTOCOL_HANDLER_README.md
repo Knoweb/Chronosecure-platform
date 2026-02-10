@@ -5,9 +5,9 @@ This allows the web application to launch the fingerprint enrollment application
 ## Installation Steps
 
 1. **Register the Protocol Handler**
-   - Double-click `register_protocol.reg`
-   - Click "Yes" when Windows asks for permission to modify the registry
-   - Click "OK" on the confirmation dialog
+   - Run `setup_protocol.bat` (Double-click it)
+   - This script will automatically detect your installation path and register the protocol.
+   - Click "Yes" if Windows asks for permission to modify the registry.
 
 2. **Test the Integration**
    - Open the ChronoSecure web application
