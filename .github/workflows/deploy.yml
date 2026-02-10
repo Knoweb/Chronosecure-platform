@@ -82,6 +82,14 @@ jobs:
         key: ${{ secrets.DO_SSH_KEY }}
         script: |
           cd /home/${{ secrets.DO_USERNAME }}/chronosecure-app
+          
+          # Fix nested folder issue if scp copied directory inside directory
+          if [ -d "chronosecure" ]; then
+            echo "Found nested chronosecure folder, moving files up..."
+            mv chronosecure/* .
+            rm -rf chronosecure
+          fi
+          
           # Stop existing containers
           docker compose down || true
           # Rebuild and start in detached mode
