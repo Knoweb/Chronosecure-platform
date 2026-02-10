@@ -8,11 +8,11 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { api } from '@/lib/axios'
-import { Calendar as CalendarIcon, Save, Check, X, User, Users, Settings } from 'lucide-react'
+import { Calendar as CalendarIcon, Check, X, Users, Settings } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+// Tabs removed as they were unused
 
 type CalendarDayType = 'WORKING_DAY' | 'HOLIDAY' | 'WEEKEND'
 
@@ -41,7 +41,7 @@ export default function CalendarPage() {
     const [entries, setEntries] = useState<Record<string, CalendarEntry>>({})
     const [employeeEntries, setEmployeeEntries] = useState<Record<string, EmployeeCalendarEntry>>({})
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [loading, setLoading] = useState(false)
+    // loading state removed as unused
 
     // View Mode
     const [viewMode, setViewMode] = useState<'COMPANY' | 'EMPLOYEE'>('COMPANY')
@@ -78,7 +78,6 @@ export default function CalendarPage() {
 
     async function fetchCompanyCalendar() {
         if (!companyId) return
-        setLoading(true)
         try {
             const { startDate, endDate } = getMonthRange()
 
@@ -94,14 +93,11 @@ export default function CalendarPage() {
             setEntries(newEntries)
         } catch (error) {
             console.error('Error fetching calendar:', error)
-        } finally {
-            setLoading(false)
         }
     }
 
     async function fetchEmployeeCalendar() {
         if (!companyId || !selectedEmployeeId) return
-        setLoading(true)
         try {
             const { startDate, endDate } = getMonthRange()
 
@@ -117,8 +113,6 @@ export default function CalendarPage() {
             setEmployeeEntries(newEntries)
         } catch (error) {
             console.error('Error fetching employee calendar:', error)
-        } finally {
-            setLoading(false)
         }
     }
 

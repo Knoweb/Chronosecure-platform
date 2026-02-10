@@ -81,6 +81,7 @@ export function SignupForm() {
         companyId
       )
       navigate('/dashboard')
+      setSuccess(true)
     } catch (err: any) {
       console.error('Signup error:', err)
       console.error('Error response:', err.response?.data)
@@ -153,6 +154,12 @@ export function SignupForm() {
   }
 
   if (success) {
+    // success variable is used here, so setSuccess IS needed if we want to toggle it.
+    // wait, the error said setSuccess is unused.
+    // Ah, line 22: const [success, setSuccess] = useState(false)
+    // I see setSuccess is used nowhere in the code?
+    // Let's check where it should be used.
+    // It should be used after successful signup.
     return (
       <Alert>
         <AlertDescription>Check your email for a confirmation link to complete your registration.</AlertDescription>
