@@ -338,6 +338,18 @@ export default function TimeOffPage() {
                     <CardTitle className="text-lg">Recent Clock-Out History</CardTitle>
                   </CardHeader>
                   <CardContent>
+
+                    {/* DEBUG: Temporary Dump to Verify Data Arrival */}
+                    <div className="mb-4 p-2 bg-black text-green-400 text-xs font-mono rounded overflow-auto h-32">
+                      <strong>DATA DEBUG (v3.1):</strong>
+                      <br />
+                      Logs Loaded: {attendanceLogs?.length || 0}
+                      <br />
+                      Sample Event Types: {attendanceLogs?.map((l: any) => l.eventType).slice(0, 10).join(', ')}
+                      <br />
+                      First Clock Out: {JSON.stringify(attendanceLogs?.find((l: any) => l.eventType === 'CLOCK_OUT') || 'NONE')}
+                    </div>
+
                     {isLoading ? (
                       <p className="text-muted-foreground">Loading...</p>
                     ) : (manualClockOuts.length === 0 && machineClockOuts.length === 0) ? (
