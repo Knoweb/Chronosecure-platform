@@ -7,8 +7,8 @@ export function DownloadApp() {
     const handleDownload = () => {
         // Download the installer from the public folder
         const link = document.createElement('a')
-        link.href = '/ChronoSecureSetup.exe'
-        link.download = 'ChronoSecureSetup.exe'
+        link.href = '/AttendWatchSetup.exe'
+        link.download = 'AttendWatchSetup.exe'
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
@@ -34,7 +34,7 @@ export function DownloadApp() {
                                     <ShieldCheck className="h-8 w-8 text-primary" />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-semibold text-lg">ChronoSecure Fingerprint Client</h3>
+                                    <h3 className="font-semibold text-lg">AttendWatch Fingerprint Client</h3>
                                     <p className="text-sm text-muted-foreground mt-1">
                                         Required for enrolling employee fingerprints and managing device connections.
                                         Includes drivers and the local service agent.
@@ -57,9 +57,9 @@ export function DownloadApp() {
                         <Terminal className="h-4 w-4" />
                         <AlertTitle>Installation Instructions</AlertTitle>
                         <AlertDescription className="mt-2 text-sm text-muted-foreground list-decimal pl-4 space-y-1">
-                            <p>1. Download and run the <b>ChronoSecureSetup.exe</b> installer.</p>
+                            <p>1. Download and run the <b>AttendWatchSetup.exe</b> installer.</p>
                             <p>2. Follow the on-screen prompts to install the application and drivers.</p>
-                            <p>3. Once installed, the <b>ChronoFingerprint Service</b> will start automatically.</p>
+                            <p>3. Once installed, the <b>AttendWatch Fingerprint Service</b> will start automatically.</p>
                             <p>4. You can then use the "Enroll Fingerprint" feature on the Employees page.</p>
                         </AlertDescription>
                     </Alert>

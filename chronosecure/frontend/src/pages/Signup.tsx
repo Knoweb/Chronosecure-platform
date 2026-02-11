@@ -9,10 +9,10 @@ export default function SignupPage() {
       <header className="border-b bg-background/80 backdrop-blur">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="relative bg-slate-900 p-2 rounded-lg shadow-md">
+            <div className="relative bg-black p-2 rounded-xl shadow-lg ring-1 ring-white/10">
               <CheckCircle2 className="h-6 w-6 text-emerald-500" strokeWidth={2.5} />
             </div>
-            <span className="font-bold text-xl">ChronoSecure</span>
+            <span className="font-extrabold text-xl tracking-tight">AttendWatch</span>
           </Link>
           <div className="flex items-center gap-4 text-sm font-medium">
             <Link to="/login" className="text-primary hover:underline flex items-center gap-1">
