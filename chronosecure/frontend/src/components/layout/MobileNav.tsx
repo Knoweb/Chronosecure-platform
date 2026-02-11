@@ -38,9 +38,9 @@ export function MobileNav() {
                     {/* Drawer */}
                     <div className="relative z-50 flex flex-col w-72 h-full bg-white dark:bg-slate-950 border-r shadow-2xl animate-in slide-in-from-left duration-300 ease-in-out">
                         <div className="p-4 border-b flex items-center justify-between">
-                            <Link to="/dashboard" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                                <Clock className="h-6 w-6 text-primary" />
-                                <span className="font-bold text-lg">ChronoSecure</span>
+                            <Link to="/dashboard" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity" onClick={() => setIsOpen(false)}>
+                                <Clock className="h-7 w-7 text-primary" strokeWidth={2.5} />
+                                <span className="font-bold text-xl tracking-tight">ChronoSecure</span>
                             </Link>
                             <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="-mr-2">
                                 <X className="h-5 w-5" />

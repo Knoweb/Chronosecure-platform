@@ -42,13 +42,13 @@ export default function LoginPage() {
       </div>
 
       {/* Right form panel */}
-      <div className="flex items-center justify-center p-6 md:p-14 lg:px-20 bg-muted/10 lg:bg-transparent">
+      <div className="flex items-center justify-center p-6 md:p-14 lg:px-20 bg-gradient-to-b from-background to-muted/30 lg:bg-none">
         <div className="w-full max-w-sm md:max-w-md space-y-6 md:space-y-8">
           {/* Mobile-only brand */}
           <div className="lg:hidden text-center mb-8">
-            <Link to="/" className="inline-flex items-center gap-2 hover:opacity-90 transition-opacity">
-              <Clock className="h-8 w-8 text-primary" />
-              <span className="font-bold text-2xl text-foreground">ChronoSecure</span>
+            <Link to="/" className="inline-flex items-center gap-2 md:gap-3 hover:opacity-90 transition-opacity">
+              <Clock className="h-7 w-7 md:h-8 md:w-8 text-primary" strokeWidth={2.5} />
+              <span className="font-bold text-xl md:text-2xl tracking-tight text-foreground">ChronoSecure</span>
             </Link>
           </div>
 
@@ -56,6 +56,7 @@ export default function LoginPage() {
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">Welcome back</h2>
             <p className="text-sm md:text-base text-muted-foreground">Sign in to your account to continue</p>
           </div>
+
           <div className="bg-card border rounded-2xl shadow-lg p-6 md:p-10 space-y-6">
             <LoginForm />
           </div>

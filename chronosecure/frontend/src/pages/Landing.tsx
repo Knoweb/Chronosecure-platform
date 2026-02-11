@@ -69,13 +69,14 @@ const pricing = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white text-foreground">
+    <div className="min-h-screen bg-white text-foreground selection:bg-primary/10 selection:text-primary">
+      <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] opacity-[0.03]"></div>
       {/* Top nav */}
       <header className="border-b bg-white sticky top-0 z-20">
         <div className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity shrink-0">
-            <Clock className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg md:text-xl">ChronoSecure</span>
+          <Link to="/" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity shrink-0">
+            <Clock className="h-7 w-7 md:h-8 md:w-8 text-primary" strokeWidth={2.5} />
+            <span className="font-bold text-xl md:text-2xl tracking-tight">ChronoSecure</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#features">Features</a>
@@ -84,10 +85,15 @@ export default function LandingPage() {
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#security">Security</a>
           </nav>
           <div className="flex items-center gap-2 md:gap-4 text-sm font-medium">
-            <Link to="/login" className="px-4 py-2 md:px-6 md:py-3 text-sm rounded-full font-medium hover:bg-accent transition">Sign In</Link>
+            <Link
+              to="/login"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 md:px-6 md:py-2.5 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+            >
+              Sign In
+            </Link>
             <Link
               to="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 md:px-6 md:py-3 text-sm text-white hover:bg-slate-800 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 md:px-6 md:py-2.5 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
             >
               <span className="hidden sm:inline">Start Free Trial</span>
               <span className="sm:hidden">Start</span>
@@ -99,17 +105,18 @@ export default function LandingPage() {
 
       <main className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-10 lg:py-18 space-y-12 md:space-y-16">
         {/* Hero */}
-        <section className="grid lg:grid-cols-[1.05fr,0.95fr] gap-10 md:gap-16 items-center">
-          <div className="space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-semibold">
+        <section className="grid lg:grid-cols-[1.05fr,0.95fr] gap-10 md:gap-16 items-center pt-8 md:pt-16 pb-16">
+          <div className="space-y-8 text-center lg:text-left relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 text-slate-800 border border-slate-200 px-4 py-1.5 text-sm font-semibold shadow-sm transition-transform hover:scale-105">
+              <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
               Trusted by 500+ companies worldwide
             </div>
-            <h1 className="text-3xl md:text-5xl xl:text-[58px] font-bold leading-[1.1] tracking-tight">
-              Attendance Tracking <span className="block text-primary">Reimagined</span>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-slate-900 leading-[0.9] text-balance mb-6 mt-4">
+              Secure Time <br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Tracking</span> Simplified.
             </h1>
-            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Secure biometric time tracking with automated payroll calculations. ChronoSecure combines
-              fingerprint verification and photo capture to eliminate time theft and ensure compliance.
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+              Experience the future of workforce management with our biometric-secure platform. Precision, speed, and reliability.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <Link
