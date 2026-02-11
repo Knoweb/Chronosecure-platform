@@ -146,16 +146,16 @@ export default function TimeOffPage() {
         <Header />
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h1 className="text-3xl font-bold">Time Off</h1>
                 <p className="text-muted-foreground mt-1">Manage time off requests and approvals</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                 <Button
                   variant="outline"
                   onClick={() => { refetch(); queryClient.invalidateQueries({ queryKey: ['attendance'] }); }}
-                  className="gap-2"
+                  className="gap-2 w-full sm:w-auto"
                 >
                   <RefreshCw className="h-4 w-4" />
                   Refresh
@@ -163,7 +163,7 @@ export default function TimeOffPage() {
                 <Button
                   onClick={() => setShowRequestForm(!showRequestForm)}
                   variant="outline"
-                  className="border border-border shadow-sm text-foreground hover:bg-muted"
+                  className="border border-border shadow-sm text-foreground hover:bg-muted w-full sm:w-auto"
                 >
                   <Plus className="h-5 w-5 mr-2 stroke-2" />
                   Request Time Off
