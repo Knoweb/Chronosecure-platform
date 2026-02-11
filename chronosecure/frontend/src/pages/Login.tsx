@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen grid lg:grid-cols-[1.02fr,0.98fr] bg-white text-foreground">
       {/* Left hero panel */}
-      <div className="bg-primary text-primary-foreground flex flex-col justify-between px-14 py-14">
+      <div className="hidden lg:flex flex-col justify-between bg-primary text-primary-foreground px-14 py-14">
         <Link to="/" className="flex items-center gap-2 mb-10 hover:opacity-90 transition-opacity w-fit">
           <Clock className="h-6 w-6 text-primary-foreground" />
           <span className="font-bold text-xl">ChronoSecure</span>
@@ -17,7 +17,7 @@ export default function LoginPage() {
             Secure attendance tracking
             <span className="block">for modern businesses</span>
           </h1>
-          <p className="text-base md:text-lg text-primary-foreground/90 max-w-xl leading-relaxed">
+          <p className="text-lg text-primary-foreground/90 max-w-xl leading-relaxed">
             Biometric verification, automated payroll, and comprehensive reporting in one powerful platform.
           </p>
           <div className="space-y-2 text-sm font-medium">
@@ -42,13 +42,21 @@ export default function LoginPage() {
       </div>
 
       {/* Right form panel */}
-      <div className="flex items-center justify-center px-8 py-14 lg:px-20">
-        <div className="w-full max-w-md space-y-8">
-          <div className="space-y-2 text-center">
-            <h2 className="text-3xl font-bold text-foreground">Welcome back</h2>
-            <p className="text-muted-foreground">Sign in to your account to continue</p>
+      <div className="flex items-center justify-center p-6 md:p-14 lg:px-20 bg-muted/10 lg:bg-transparent">
+        <div className="w-full max-w-sm md:max-w-md space-y-6 md:space-y-8">
+          {/* Mobile-only brand */}
+          <div className="lg:hidden text-center mb-8">
+            <Link to="/" className="inline-flex items-center gap-2 hover:opacity-90 transition-opacity">
+              <Clock className="h-8 w-8 text-primary" />
+              <span className="font-bold text-2xl text-foreground">ChronoSecure</span>
+            </Link>
           </div>
-          <div className="bg-card border rounded-2xl shadow-lg p-11 space-y-6">
+
+          <div className="space-y-2 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Welcome back</h2>
+            <p className="text-sm md:text-base text-muted-foreground">Sign in to your account to continue</p>
+          </div>
+          <div className="bg-card border rounded-2xl shadow-lg p-6 md:p-10 space-y-6">
             <LoginForm />
           </div>
           <p className="text-center text-sm text-muted-foreground">

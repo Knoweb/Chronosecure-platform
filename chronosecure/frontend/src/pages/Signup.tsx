@@ -23,7 +23,8 @@ export default function SignupPage() {
       <main className="max-w-6xl mx-auto px-6 py-12 lg:py-16">
         <div className="grid lg:grid-cols-[1.1fr,0.9fr] gap-12 items-center">
           {/* Hero copy + image */}
-          <div className="space-y-8">
+          {/* Hero copy + image */}
+          <div className="hidden lg:block space-y-8">
             <div className="space-y-4">
               <p className="text-sm font-semibold text-primary">Trusted by 500+ companies worldwide</p>
               <h1 className="text-4xl md:text-5xl font-bold leading-tight">

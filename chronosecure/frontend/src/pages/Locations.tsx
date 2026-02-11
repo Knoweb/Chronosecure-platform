@@ -78,12 +78,12 @@ export default function LocationsPage() {
         <Header />
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h1 className="text-3xl font-bold">Locations</h1>
                 <p className="text-muted-foreground mt-1">Manage company locations and offices</p>
               </div>
-              <Button onClick={() => setShowAddForm(!showAddForm)} className="border border-border shadow-sm">
+              <Button onClick={() => setShowAddForm(!showAddForm)} className="w-full md:w-auto border border-border shadow-sm">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Location
               </Button>
@@ -124,7 +124,7 @@ export default function LocationsPage() {
                         placeholder="Street address"
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="city">City</Label>
                         <Input
