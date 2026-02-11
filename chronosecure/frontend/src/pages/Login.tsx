@@ -78,10 +78,30 @@ export default function LoginPage() {
             <LoginForm />
           </div>
 
-          <p className="text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-            Secure Connection Established
-          </p>
+          <div className="space-y-4 text-center">
+            <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Secure Connection Established
+            </p>
+            <button
+              onClick={() => {
+                import('@/store/authStore').then(({ useAuthStore }) => {
+                  useAuthStore.getState().setAuth({
+                    id: 'demo-user',
+                    email: 'demo@chronosecure.com',
+                    role: 'COMPANY_ADMIN',
+                    firstName: 'Demo',
+                    lastName: 'Admin',
+                    companyName: 'Demo Corp'
+                  }, 'demo-token', 'demo-company-id');
+                  window.location.href = '/dashboard';
+                });
+              }}
+              className="text-xs text-slate-400 hover:text-slate-600 underline decoration-dotted transition-colors"
+            >
+              Preview Dashboard (Demo Mode)
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -28,15 +28,15 @@ export function MobileNav() {
             </Button>
 
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex">
+                <div className="fixed inset-0 z-[9999] flex">
                     {/* Backdrop */}
                     <div
-                        className="fixed inset-0 bg-black/50 backdrop-blur-[2px] transition-opacity"
+                        className="fixed inset-0 bg-black/50 backdrop-blur-[2px]"
                         onClick={() => setIsOpen(false)}
                     />
 
                     {/* Drawer */}
-                    <div className="relative z-50 flex flex-col w-72 h-full bg-white dark:bg-slate-950 border-r shadow-2xl animate-in slide-in-from-left duration-300 ease-in-out">
+                    <div className="relative z-[9999] flex flex-col w-72 h-full bg-white dark:bg-slate-950 border-r shadow-2xl">
                         <div className="p-4 border-b flex items-center justify-between">
                             <Link to="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setIsOpen(false)}>
                                 <div className="relative bg-slate-900 p-2 rounded-lg shadow-md">
