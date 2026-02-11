@@ -41,6 +41,9 @@ export default function CalendarPage() {
     const [entries, setEntries] = useState<Record<string, CalendarEntry>>({})
     const [employeeEntries, setEmployeeEntries] = useState<Record<string, EmployeeCalendarEntry>>({})
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [viewDialogOpen, setViewDialogOpen] = useState(false)
+    const [selectedEntry, setSelectedEntry] = useState<EmployeeCalendarEntry | null>(null)
+    const [selectedDateStr, setSelectedDateStr] = useState<string>('')
     // loading state removed as unused
 
     // View Mode
@@ -125,11 +128,17 @@ export default function CalendarPage() {
     }
 
     function handleDateClick(day: number) {
-        if (viewMode === 'EMPLOYEE') return // View Only
-
         const year = currentDate.getFullYear()
         const month = currentDate.getMonth() + 1
         const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+
+        if (viewMode === 'EMPLOYEE') {
+            // Open Read-Only Dialog
+            setSelectedDateStr(dateStr)
+            setSelectedEntry(employeeEntries[dateStr] || null)
+            setViewDialogOpen(true)
+            return
+        }
 
         if (isMultiSelectMode) {
             if (selectedDates.includes(dateStr)) {
@@ -369,8 +378,8 @@ export default function CalendarPage() {
 
                         {/* Grid */}
                         <Card className="flex-1 flex flex-col border shadow-lg bg-background/50 backdrop-blur-sm overflow-hidden">
-                            <CardContent className="flex-1 flex flex-col p-4 overflow-auto">
-                                <div className="min-w-[800px] flex-1 flex flex-col">
+                            <CardContent className="flex-1 flex flex-col p-2 md:p-4 overflow-auto">
+                                <div className="flex-1 flex flex-col">
                                     <div className="grid grid-cols-7 gap-2 mb-2 text-center shrink-0">
                                         {/* CHANGED TO MONDAY START */}
                                         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
@@ -395,16 +404,29 @@ export default function CalendarPage() {
                                                 if (!empEntry && isWeekend) style = "bg-orange-200 dark:bg-orange-950/40 border-orange-300 dark:border-orange-800"
 
                                                 return (
-                                                    <div key={i} className={cn("rounded-lg p-2 border flex flex-col justify-between overflow-hidden relative group transition-colors", style)}>
+                                                    <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 border flex flex-col justify-start md:justify-between overflow-hidden relative group transition-colors cursor-pointer aspect-square md:aspect-auto md:h-32", style)}>
                                                         <div className="flex justify-between items-start">
-                                                            <span className={cn("font-bold text-sm h-6 w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
-                                                            {empEntry && empEntry.status === 'LEAVE' && <span className="text-[9px] font-bold bg-amber-400 text-amber-950 px-1 rounded shadow-sm">LEAVE</span>}
-                                                            {empEntry && empEntry.status === 'HOLIDAY' && <span className="text-[9px] font-bold bg-purple-400 text-purple-950 px-1 rounded shadow-sm">HOLIDAY</span>}
-                                                            {((!empEntry && isWeekend) || (empEntry?.status === 'WEEKEND')) && <span className="text-[9px] font-bold bg-orange-300 text-orange-950 px-1 rounded shadow-sm">WEEKEND</span>}
+                                                            <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
+                                                            <div className="hidden md:flex gap-1">
+                                                                {empEntry && empEntry.status === 'LEAVE' && <span className="text-[9px] font-bold bg-amber-400 text-amber-950 px-1 rounded shadow-sm">LEAVE</span>}
+                                                                {empEntry && empEntry.status === 'HOLIDAY' && <span className="text-[9px] font-bold bg-purple-400 text-purple-950 px-1 rounded shadow-sm">HOLIDAY</span>}
+                                                                {((!empEntry && isWeekend) || (empEntry?.status === 'WEEKEND')) && <span className="text-[9px] font-bold bg-orange-300 text-orange-950 px-1 rounded shadow-sm">WEEKEND</span>}
+                                                            </div>
                                                         </div>
 
+                                                        {/* Mobile Status Dot */}
                                                         {empEntry && (
-                                                            <div className="text-[10px] space-y-0.5 mt-1 font-medium">
+                                                            <div className="md:hidden mt-1 flex justify-center">
+                                                                <div className={cn("h-2 w-2 rounded-full",
+                                                                    empEntry.status === 'PRESENT' && "bg-emerald-600",
+                                                                    empEntry.status === 'ABSENT' && "bg-red-600",
+                                                                    empEntry.status === 'LEAVE' && "bg-amber-600",
+                                                                )} />
+                                                            </div>
+                                                        )}
+
+                                                        {empEntry && (
+                                                            <div className="hidden md:block text-[10px] space-y-0.5 mt-1 font-medium">
                                                                 {empEntry.status === 'PRESENT' && (
                                                                     <>
                                                                         <div className="text-emerald-900 dark:text-emerald-100 font-semibold">IN: {formatUtcTime(dateStr, empEntry.checkInTime)}</div>
@@ -437,17 +459,17 @@ export default function CalendarPage() {
                                                 }
 
                                                 return (
-                                                    <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-2 cursor-pointer transition-all border flex flex-col justify-between relative select-none", cardStyle)}>
+                                                    <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 cursor-pointer transition-all border flex flex-col justify-start md:justify-between relative select-none aspect-square md:aspect-auto md:h-32", cardStyle)}>
                                                         <div className="flex justify-between items-start">
-                                                            <span className={cn("font-bold text-sm h-6 w-6 flex items-center justify-center rounded-full transition-colors", isSelected ? "bg-white/20" : "bg-white/30 shadow-sm")}>{day}</span>
+                                                            <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full transition-colors", isSelected ? "bg-white/20" : "bg-white/30 shadow-sm")}>{day}</span>
                                                             {entry && entry.payMultiplier !== 1 && (
-                                                                <span className={cn("text-[8px] font-bold px-1.5 py-0.5 rounded-full border", isSelected ? "bg-white/20 border-white/30" : "bg-white/50 border-white/20")}>
+                                                                <span className={cn("hidden md:inline-block text-[8px] font-bold px-1.5 py-0.5 rounded-full border", isSelected ? "bg-white/20 border-white/30" : "bg-white/50 border-white/20")}>
                                                                     {entry.payMultiplier}x
                                                                 </span>
                                                             )}
                                                         </div>
                                                         {entry ? (
-                                                            <div className="space-y-0.5 mt-1">
+                                                            <div className="hidden md:block space-y-0.5 mt-1">
                                                                 <div className={cn("text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit truncate max-w-full", isSelected ? "bg-white/20 text-white" : "bg-white/50 text-foreground/80")}>
                                                                     {entry.type.replace('_', ' ')}
                                                                 </div>
@@ -455,7 +477,7 @@ export default function CalendarPage() {
                                                             </div>
                                                         ) : isWeekend && (
                                                             // Default Label for Weekend
-                                                            <div className="space-y-0.5 mt-1 opacity-70">
+                                                            <div className="hidden md:block space-y-0.5 mt-1 opacity-70">
                                                                 <div className="text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit bg-orange-300/50 text-orange-900 border border-orange-400/30">
                                                                     WEEKEND
                                                                 </div>
@@ -500,6 +522,60 @@ export default function CalendarPage() {
                                     <Input value={description} onChange={(e) => setDescription(e.target.value)} />
                                 </div>
                                 <Button onClick={handleSave} className="w-full">Save</Button>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+
+                    {/* Read-Only Details Dialog */}
+                    <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
+                        <DialogContent className="bg-white dark:bg-zinc-950 sm:max-w-sm">
+                            <DialogHeader>
+                                <DialogTitle>{new Date(selectedDateStr).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 py-2">
+                                {!selectedEntry ? (
+                                    <p className="text-muted-foreground">No specific status recorded for this day.</p>
+                                ) : (
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between p-3 bg-muted/40 rounded-lg">
+                                            <span className="font-medium text-sm">Status</span>
+                                            <span className={cn("px-2 py-1 rounded text-xs font-bold",
+                                                selectedEntry.status === 'PRESENT' && "bg-emerald-100 text-emerald-800",
+                                                selectedEntry.status === 'ABSENT' && "bg-red-100 text-red-800",
+                                                selectedEntry.status === 'LEAVE' && "bg-amber-100 text-amber-800",
+                                                selectedEntry.status === 'HOLIDAY' && "bg-purple-100 text-purple-800",
+                                            )}>{selectedEntry.status}</span>
+                                        </div>
+
+                                        {selectedEntry.status === 'PRESENT' && (
+                                            <div className="grid grid-cols-2 gap-3">
+                                                <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg text-center">
+                                                    <div className="text-xs text-muted-foreground mb-1">Check In</div>
+                                                    <div className="font-bold text-lg text-emerald-700">{formatUtcTime(selectedDateStr, selectedEntry.checkInTime)}</div>
+                                                </div>
+                                                <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg text-center">
+                                                    <div className="text-xs text-muted-foreground mb-1">Check Out</div>
+                                                    <div className="font-bold text-lg text-emerald-700">{formatUtcTime(selectedDateStr, selectedEntry.checkOutTime)}</div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {selectedEntry.leaveReason && (
+                                            <div className="p-3 bg-amber-50 rounded-lg border border-amber-100">
+                                                <div className="text-xs text-amber-900 font-semibold mb-1">Leave Reason</div>
+                                                <div className="text-sm text-amber-800">{selectedEntry.leaveReason}</div>
+                                            </div>
+                                        )}
+
+                                        {selectedEntry.companyDescription && (
+                                            <div className="p-3 bg-purple-50 rounded-lg border border-purple-100">
+                                                <div className="text-xs text-purple-900 font-semibold mb-1">Event</div>
+                                                <div className="text-sm text-purple-800">{selectedEntry.companyDescription}</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                                <Button variant="outline" className="w-full" onClick={() => setViewDialogOpen(false)}>Close</Button>
                             </div>
                         </DialogContent>
                     </Dialog>

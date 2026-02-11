@@ -36,7 +36,7 @@ export function MobileNav() {
                     />
 
                     {/* Drawer */}
-                    <div className="relative flex flex-col w-72 h-full bg-background dark:bg-slate-950 border-r shadow-2xl animate-in slide-in-from-left duration-300 ease-in-out">
+                    <div className="relative z-50 flex flex-col w-72 h-full bg-white dark:bg-slate-950 border-r shadow-2xl animate-in slide-in-from-left duration-300 ease-in-out">
                         <div className="p-4 border-b flex items-center justify-between">
                             <Link to="/dashboard" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
                                 <Clock className="h-6 w-6 text-primary" />
