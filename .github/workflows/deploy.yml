@@ -158,7 +158,7 @@ jobs:
               dockerfile: Dockerfile.frontend
             container_name: chronosecure-frontend
             ports:
-              - "80:80"
+              - "3000:80"
             restart: always
 
           db:
