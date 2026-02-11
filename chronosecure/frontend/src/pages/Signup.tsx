@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Clock, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { SignupForm } from '@/components/auth/SignupForm'
 
 export default function SignupPage() {
