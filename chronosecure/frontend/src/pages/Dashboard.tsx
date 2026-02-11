@@ -63,51 +63,51 @@ export default function DashboardPage() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground font-medium">Total Employees</p>
-                    <p className="text-3xl font-bold">{stats?.totalEmployees || 0}</p>
+            <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+              <Card className="p-4 md:p-6">
+                <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
+                  <div className="space-y-0.5 md:space-y-1">
+                    <p className="text-xs md:text-sm text-muted-foreground font-medium">Total Employees</p>
+                    <p className="text-xl md:text-3xl font-bold">{stats?.totalEmployees || 0}</p>
                   </div>
-                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Users className="h-6 w-6 text-primary" />
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground font-medium">Clocked In</p>
-                    <p className="text-3xl font-bold">{stats?.clockedIn || 0}</p>
-                  </div>
-                  <div className="h-12 w-12 rounded-lg bg-green-500/10 flex items-center justify-center">
-                    <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-500" />
+                  <div className="h-8 w-8 md:h-12 md:w-12 rounded-lg bg-primary/10 flex items-center justify-center self-end md:self-auto shrink-0">
+                    <Users className="h-4 w-4 md:h-6 md:w-6 text-primary" />
                   </div>
                 </div>
               </Card>
 
-              <Card className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground font-medium">Clocked Out</p>
-                    <p className="text-3xl font-bold">{stats?.clockedOut || 0}</p>
+              <Card className="p-4 md:p-6">
+                <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
+                  <div className="space-y-0.5 md:space-y-1">
+                    <p className="text-xs md:text-sm text-muted-foreground font-medium">Clocked In</p>
+                    <p className="text-xl md:text-3xl font-bold">{stats?.clockedIn || 0}</p>
                   </div>
-                  <div className="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                    <Clock className="h-6 w-6 text-blue-600 dark:text-blue-500" />
+                  <div className="h-8 w-8 md:h-12 md:w-12 rounded-lg bg-green-500/10 flex items-center justify-center self-end md:self-auto shrink-0">
+                    <CheckCircle2 className="h-4 w-4 md:h-6 md:w-6 text-green-600 dark:text-green-500" />
                   </div>
                 </div>
               </Card>
 
-              <Card className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground font-medium">Pending Requests</p>
-                    <p className="text-3xl font-bold">{stats?.pendingRequests || 0}</p>
+              <Card className="p-4 md:p-6">
+                <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
+                  <div className="space-y-0.5 md:space-y-1">
+                    <p className="text-xs md:text-sm text-muted-foreground font-medium">Clocked Out</p>
+                    <p className="text-xl md:text-3xl font-bold">{stats?.clockedOut || 0}</p>
                   </div>
-                  <div className="h-12 w-12 rounded-lg bg-orange-500/10 flex items-center justify-center">
-                    <Calendar className="h-6 w-6 text-orange-600 dark:text-orange-500" />
+                  <div className="h-8 w-8 md:h-12 md:w-12 rounded-lg bg-blue-500/10 flex items-center justify-center self-end md:self-auto shrink-0">
+                    <Clock className="h-4 w-4 md:h-6 md:w-6 text-blue-600 dark:text-blue-500" />
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-4 md:p-6">
+                <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
+                  <div className="space-y-0.5 md:space-y-1">
+                    <p className="text-xs md:text-sm text-muted-foreground font-medium">Pending Requests</p>
+                    <p className="text-xl md:text-3xl font-bold">{stats?.pendingRequests || 0}</p>
+                  </div>
+                  <div className="h-8 w-8 md:h-12 md:w-12 rounded-lg bg-orange-500/10 flex items-center justify-center self-end md:self-auto shrink-0">
+                    <Calendar className="h-4 w-4 md:h-6 md:w-6 text-orange-600 dark:text-orange-500" />
                   </div>
                 </div>
               </Card>
