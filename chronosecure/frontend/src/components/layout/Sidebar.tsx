@@ -54,9 +54,9 @@ export function Sidebar() {
   return (
     <div className="w-64 border-r bg-card flex-col hidden md:flex shrink-0 h-screen sticky top-0">
       <div className="p-6 border-b">
-        <Link to="/dashboard" className="flex items-center gap-2">
-          <Clock className="h-8 w-8 text-primary" />
-          <span className="font-bold text-xl">ChronoSecure</span>
+        <Link to="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <Clock className="h-9 w-9 text-primary" strokeWidth={2.5} />
+          <span className="font-bold text-2xl tracking-tight">ChronoSecure</span>
         </Link>
       </div>
 
