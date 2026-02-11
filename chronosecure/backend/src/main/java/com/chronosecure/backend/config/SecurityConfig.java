@@ -80,7 +80,8 @@ public class SecurityConfig {
         // In production, replace "*" with specific domains (e.g.,
         // https://app.chronosecure.com)
         configuration
-                .setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000", "http://localhost:5174"));
+                .setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000", "http://localhost:5174",
+                        "https://attendwatch.com", "https://www.attendwatch.com"));
 
         // ALLOW HTTP METHODS
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
