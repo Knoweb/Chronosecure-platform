@@ -14,7 +14,7 @@ export function Header() {
   }
 
   return (
-    <header className="h-16 border-b bg-card px-4 md:px-6 flex items-center justify-between sticky top-0 z-40 w-full">
+    <header className="h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 flex items-center justify-between sticky top-0 z-40 w-full shrink-0">
       <MobileNav />
       <div className="flex-1" />
 
