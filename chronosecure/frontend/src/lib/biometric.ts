@@ -71,7 +71,7 @@ export async function enrollFingerprint(
     const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
       challenge: new Uint8Array(32), // Random challenge
       rp: {
-        name: 'ChronoSecure',
+        name: 'AttendWatch',
         id: window.location.hostname,
       },
       user: {
