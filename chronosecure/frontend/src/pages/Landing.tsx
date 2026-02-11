@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import {
   ArrowRight,
   CheckCircle2,
@@ -8,7 +9,9 @@ import {
   Fingerprint,
   Globe2,
   Sparkles,
-  BarChart3
+  BarChart3,
+  Menu,
+  X
 } from 'lucide-react'
 
 const stats = [
@@ -67,6 +70,8 @@ const pricing = [
 ]
 
 export default function LandingPage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-white text-foreground selection:bg-primary/10 selection:text-primary">
       <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] opacity-[0.03]"></div>
@@ -88,22 +93,64 @@ export default function LandingPage() {
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#security">Security</a>
           </nav>
           <div className="flex items-center gap-2 md:gap-4 text-sm font-medium">
-            <Link
-              to="/login"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-1.5 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+            <div className="hidden md:flex items-center gap-2 md:gap-4">
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-1.5 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-3 py-1.5 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+              >
+                <span className="hidden sm:inline">Start Free Trial</span>
+                <span className="sm:hidden">Get Started</span>
+                <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
+              </Link>
+            </div>
+            {/* Mobile Menu Toggle */}
+            <button
+              className="md:hidden p-2 text-slate-800"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              Sign In
-            </Link>
-            <Link
-              to="/signup"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-3 py-1.5 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white hover:bg-slate-800 transition-colors"
-            >
-              <span className="hidden sm:inline">Start Free Trial</span>
-              <span className="sm:hidden">Get Started</span>
-              <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
-            </Link>
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Nav Overlay */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t bg-white absolute top-full left-0 w-full shadow-lg py-4 px-6 flex flex-col gap-4 animate-in slide-in-from-top-2">
+            <nav className="flex flex-col gap-4 text-base font-medium">
+              <a className="text-muted-foreground hover:text-foreground transition-colors" href="#features" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
+              <a className="text-muted-foreground hover:text-foreground transition-colors" href="#details" onClick={() => setIsMobileMenuOpen(false)}>Product</a>
+              <a className="text-muted-foreground hover:text-foreground transition-colors" href="#pricing" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
+              <a className="text-muted-foreground hover:text-foreground transition-colors" href="#security" onClick={() => setIsMobileMenuOpen(false)}>Security</a>
+            </nav>
+            <div className="flex flex-col gap-3 pt-4 border-t">
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center rounded-lg bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-200 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Start Free Trial
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-4 lg:py-8 space-y-12 md:space-y-16">
@@ -160,22 +207,34 @@ export default function LandingPage() {
         </section>
 
         {/* Features */}
-        <section id="features" className="space-y-8">
-          <div className="text-center space-y-3">
-            <Sparkles className="h-5 w-5 text-primary mx-auto" />
-            <h2 className="text-3xl font-bold">Everything You Need for Modern Attendance</h2>
-            <p className="text-muted-foreground text-sm md:text-base">
-              Powerful features designed to streamline workforce management and eliminate time fraud.
+        <section id="features" className="py-8 md:py-16 relative">
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-4">
+            <div className="inline-flex items-center justify-center p-3 rounded-full bg-primary/10 mb-2">
+              <Sparkles className="h-6 w-6 text-primary" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
+              Powerful Features for <br className="hidden md:block" />
+              <span className="text-primary">Modern Teams</span>
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Everything you need to streamline workforce management, eliminate time theft, and run payroll with confidence.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 max-w-6xl mx-auto px-4 md:px-0">
             {features.map(({ title, desc, Icon }) => (
-              <div key={title} className="p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition min-h-[240px]">
-                <div className="h-11 w-11 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-5">
-                  <Icon className="h-5 w-5" />
+              <div
+                key={title}
+                className="group relative bg-white p-4 md:p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center"
+              >
+                <div className="mx-auto h-10 w-10 md:h-12 md:w-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                  <Icon className="h-5 w-5 md:h-6 md:w-6" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+
+                <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-slate-900 leading-tight">{title}</h3>
+                <p className="text-xs md:text-sm text-slate-500 leading-relaxed hidden sm:block">
+                  {desc}
+                </p>
               </div>
             ))}
           </div>
@@ -346,20 +405,59 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-muted-foreground flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-            <span className="font-extrabold text-foreground tracking-tight">AttendWatch</span>
+      <footer className="border-t bg-slate-50 pt-12 pb-8">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <CheckCircle2 className="h-5 w-5 text-primary" />
+                </div>
+                <span className="font-extrabold text-xl tracking-tight text-slate-900">AttendWatch</span>
+              </div>
+              <p className="text-sm text-slate-500 leading-relaxed max-w-xs">
+                The modern standard for biometric time and attendance. Secure, accurate, and completely automated.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-4">Product</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
+                <li><a href="#pricing" className="hover:text-primary transition-colors">Pricing</a></li>
+                <li><a href="#security" className="hover:text-primary transition-colors">Security</a></li>
+                <li><Link to="/kiosk" className="hover:text-primary transition-colors">Kiosk Mode</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-4">Company</h4>
+              <ul className="space-y-2 text-sm text-slate-500">
+                <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+                <li><Link to="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
+                <li><Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-slate-900 mb-4">Connect</h4>
+              <div className="flex items-center gap-4">
+                <div className="h-8 w-8 rounded-full bg-slate-200 hover:bg-primary hover:text-white transition-colors cursor-pointer flex items-center justify-center text-xs">𝕏</div>
+                <div className="h-8 w-8 rounded-full bg-slate-200 hover:bg-primary hover:text-white transition-colors cursor-pointer flex items-center justify-center text-xs">in</div>
+                <div className="h-8 w-8 rounded-full bg-slate-200 hover:bg-primary hover:text-white transition-colors cursor-pointer flex items-center justify-center text-xs">fb</div>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-6">
-            <a className="hover:underline" href="#features">Features</a>
-            <a className="hover:underline" href="#pricing">Pricing</a>
-            <a className="hover:underline" href="#security">Security</a>
+
+          <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-center md:text-left">
+            <p className="text-xs text-slate-400">&copy; 2025 AttendWatch. All rights reserved.</p>
+            <div className="flex justify-center md:justify-end gap-6 text-xs text-slate-400">
+
+            </div>
           </div>
-          <span className="text-xs">&copy; 2025 AttendWatch. All rights reserved.</span>
         </div>
       </footer>
-    </div>
+    </div >
   )
 }
