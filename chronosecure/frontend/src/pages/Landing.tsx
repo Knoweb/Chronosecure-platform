@@ -106,9 +106,9 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <main className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-10 lg:py-18 space-y-12 md:space-y-16">
+      <main className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-4 lg:py-8 space-y-12 md:space-y-16">
         {/* Hero */}
-        <section className="grid lg:grid-cols-[1.05fr,0.95fr] gap-10 md:gap-16 items-center pt-8 md:pt-16 pb-16">
+        <section className="grid lg:grid-cols-[1.05fr,0.95fr] gap-10 md:gap-16 items-center pt-4 md:pt-8 pb-16">
           <div className="space-y-8 text-center lg:text-left relative z-10">
             <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 text-slate-800 border border-slate-200 px-4 py-1.5 text-sm font-semibold shadow-sm transition-transform hover:scale-105">
               <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
@@ -143,7 +143,7 @@ export default function LandingPage() {
           <div className="overflow-hidden rounded-2xl border bg-card shadow-xl mx-4 lg:mx-0">
             <img
               src="/hero-biometric.jpg"
-              alt="ChronoSecure biometric attendance dashboard"
+              alt="AttendWatch biometric attendance dashboard"
               className="w-full h-[240px] md:h-[400px] lg:h-[520px] object-cover"
             />
           </div>
@@ -269,7 +269,7 @@ export default function LandingPage() {
               <h2 className="text-3xl font-bold">Security & Compliance First</h2>
             </div>
             <p className="text-muted-foreground">
-              ChronoSecure takes data protection seriously. We’re fully compliant with international privacy
+              AttendWatch takes data protection seriously. We’re fully compliant with international privacy
               regulations and employ industry-leading security measures.
             </p>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -327,7 +327,7 @@ export default function LandingPage() {
         <section className="bg-slate-900 text-white rounded-2xl p-10 md:p-12 shadow-lg text-center space-y-4">
           <h2 className="text-3xl md:text-4xl font-bold">Ready to Transform Your Attendance Management?</h2>
           <p className="text-primary-foreground/90 text-sm md:text-base">
-            Join hundreds of companies already saving time and reducing payroll errors with ChronoSecure.
+            Join hundreds of companies already saving time and reducing payroll errors with AttendWatch.
           </p>
           <div className="flex flex-wrap justify-center gap-8">
             <Link
