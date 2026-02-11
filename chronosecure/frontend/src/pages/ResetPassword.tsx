@@ -81,8 +81,8 @@ export default function ResetPasswordPage() {
                     <Link to="/login" className="text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-2">
                         <ArrowLeft className="h-4 w-4" /> Back to sign in
                     </Link>
-                    <Link to="/" className="text-sm text-primary hover:underline font-semibold">
-                        ChronoSecure
+                    <Link to="/" className="text-sm text-primary hover:underline font-extrabold tracking-tight">
+                        AttendWatch
                     </Link>
                 </div>
 

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import {
-  Clock,
   ArrowRight,
   CheckCircle2,
   ShieldCheck,
@@ -78,7 +77,9 @@ export default function LandingPage() {
             <div className="relative bg-slate-900 p-1.5 md:p-2 rounded-lg shadow-md">
               <CheckCircle2 className="h-5 w-5 md:h-6 md:w-6 text-emerald-500" strokeWidth={2.5} />
             </div>
-            <span className="font-bold text-lg md:text-2xl tracking-tight">ChronoSecure</span>
+            <span className="font-extrabold text-2xl md:text-3xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">
+              AttendWatch
+            </span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#features">Features</a>
@@ -348,15 +349,15 @@ export default function LandingPage() {
       <footer className="border-t bg-white">
         <div className="max-w-6xl mx-auto px-6 py-8 text-sm text-muted-foreground flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-primary" />
-            <span className="font-semibold text-foreground">ChronoSecure</span>
+            <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+            <span className="font-extrabold text-foreground tracking-tight">AttendWatch</span>
           </div>
           <div className="flex items-center gap-6">
             <a className="hover:underline" href="#features">Features</a>
             <a className="hover:underline" href="#pricing">Pricing</a>
             <a className="hover:underline" href="#security">Security</a>
           </div>
-          <span className="text-xs">&copy; 2025 ChronoSecure. All rights reserved.</span>
+          <span className="text-xs">&copy; 2025 AttendWatch. All rights reserved.</span>
         </div>
       </footer>
     </div>
