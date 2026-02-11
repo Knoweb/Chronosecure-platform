@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Clock, LayoutDashboard, Users, Clock as ClockIcon, BarChart3, Settings, Calendar, MapPin, Menu, X, CheckCircle2 } from 'lucide-react'
+import { LayoutDashboard, Users, Clock as ClockIcon, BarChart3, Settings, Calendar, MapPin, Menu, X, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
