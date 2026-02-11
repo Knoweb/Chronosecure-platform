@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Clock, LayoutDashboard, Users, Clock as ClockIcon, BarChart3, Settings, Calendar, MapPin, Menu, X } from 'lucide-react'
+import { Clock, LayoutDashboard, Users, Clock as ClockIcon, BarChart3, Settings, Calendar, MapPin, Menu, X, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
@@ -38,9 +38,11 @@ export function MobileNav() {
                     {/* Drawer */}
                     <div className="relative z-50 flex flex-col w-72 h-full bg-white dark:bg-slate-950 border-r shadow-2xl animate-in slide-in-from-left duration-300 ease-in-out">
                         <div className="p-4 border-b flex items-center justify-between">
-                            <Link to="/dashboard" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity" onClick={() => setIsOpen(false)}>
-                                <Clock className="h-7 w-7 text-primary" strokeWidth={2.5} />
-                                <span className="font-bold text-xl tracking-tight">ChronoSecure</span>
+                            <Link to="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setIsOpen(false)}>
+                                <div className="relative bg-slate-900 p-2 rounded-lg shadow-md">
+                                    <CheckCircle2 className="h-6 w-6 text-emerald-500" strokeWidth={2.5} />
+                                </div>
+                                <span className="font-bold text-2xl tracking-tight">ChronoSecure</span>
                             </Link>
                             <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="-mr-2">
                                 <X className="h-5 w-5" />

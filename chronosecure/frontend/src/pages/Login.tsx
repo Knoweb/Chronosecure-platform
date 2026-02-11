@@ -41,30 +41,46 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right form panel */}
-      <div className="flex items-center justify-center p-6 md:p-14 lg:px-20 bg-gradient-to-b from-background to-muted/30 lg:bg-none">
-        <div className="w-full max-w-sm md:max-w-md space-y-6 md:space-y-8">
-          {/* Mobile-only brand */}
-          <div className="lg:hidden text-center mb-8">
-            <Link to="/" className="inline-flex items-center gap-2 md:gap-3 hover:opacity-90 transition-opacity">
-              <Clock className="h-7 w-7 md:h-8 md:w-8 text-primary" strokeWidth={2.5} />
-              <span className="font-bold text-xl md:text-2xl tracking-tight text-foreground">ChronoSecure</span>
+      {/* Right form panel - Security Vault Light Theme */}
+      <div className="relative flex items-center justify-center p-6 md:p-14 lg:px-20 bg-gradient-to-b from-slate-50 to-white lg:bg-none min-h-screen lg:min-h-0">
+
+        <div className="w-full max-w-sm md:max-w-md space-y-8">
+
+          {/* Mobile-only Security Header */}
+          <div className="lg:hidden flex flex-col items-center text-center space-y-6">
+            <Link to="/" className="inline-flex flex-col items-center gap-4 hover:opacity-90 transition-opacity">
+              <div className="relative">
+                {/* Dark Badge Container for Contrast */}
+                <div className="relative bg-slate-900 p-4 rounded-2xl shadow-xl shadow-slate-200">
+                  <div className="absolute inset-0 bg-emerald-500/20 blur-lg rounded-full animate-pulse"></div>
+                  <CheckCircle2 className="relative h-10 w-10 text-emerald-500" strokeWidth={2.5} />
+
+                  {/* Lock Indicator */}
+                  <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1.5 border border-slate-100 shadow-sm">
+                    <Clock className="h-4 w-4 text-emerald-600" />
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <span className="block font-bold text-2xl tracking-tight text-slate-900">ChronoSecure</span>
+                <span className="block text-xs font-mono text-emerald-600 uppercase tracking-widest font-bold">Security Gateway</span>
+              </div>
             </Link>
           </div>
 
           <div className="space-y-2 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Welcome back</h2>
-            <p className="text-sm md:text-base text-muted-foreground">Sign in to your account to continue</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Authentication</h2>
+            <p className="text-sm md:text-base text-muted-foreground">Enter credentials to access vault</p>
           </div>
 
-          <div className="bg-card border rounded-2xl shadow-lg p-6 md:p-10 space-y-6">
+          {/* Clean White Card */}
+          <div className="bg-white border rounded-2xl shadow-xl p-6 md:p-10 space-y-6">
             <LoginForm />
           </div>
-          <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{' '}
-            <Link to="/signup" className="text-primary hover:underline font-medium">
-              Sign up for free
-            </Link>
+
+          <p className="text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Secure Connection Established
           </p>
         </div>
       </div>

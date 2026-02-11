@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Clock, ArrowRight } from 'lucide-react'
+import { Clock, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { SignupForm } from '@/components/auth/SignupForm'
 
 export default function SignupPage() {
@@ -8,8 +8,10 @@ export default function SignupPage() {
       {/* Top navigation */}
       <header className="border-b bg-background/80 backdrop-blur">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
-            <Clock className="h-6 w-6 text-primary" />
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="relative bg-slate-900 p-2 rounded-lg shadow-md">
+              <CheckCircle2 className="h-6 w-6 text-emerald-500" strokeWidth={2.5} />
+            </div>
             <span className="font-bold text-xl">ChronoSecure</span>
           </Link>
           <div className="flex items-center gap-4 text-sm font-medium">

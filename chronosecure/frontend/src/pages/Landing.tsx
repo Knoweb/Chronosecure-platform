@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom'
 import {
-  ArrowRight,
-  BarChart3,
-  CheckCircle2,
   Clock,
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  Users,
+  Zap,
+  LayoutDashboard,
+  Database,
+  Timer,
   Fingerprint,
   Globe2,
-  ShieldCheck,
   Sparkles,
-  Timer,
-  Users,
+  BarChart3
 } from 'lucide-react'
 
 const stats = [
@@ -73,10 +76,12 @@ export default function LandingPage() {
       <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] opacity-[0.03]"></div>
       {/* Top nav */}
       <header className="border-b bg-white sticky top-0 z-20">
-        <div className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+        <div className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity shrink-0">
-            <Clock className="h-7 w-7 md:h-8 md:w-8 text-primary" strokeWidth={2.5} />
-            <span className="font-bold text-xl md:text-2xl tracking-tight">ChronoSecure</span>
+            <div className="relative bg-slate-900 p-1.5 md:p-2 rounded-lg shadow-md">
+              <CheckCircle2 className="h-5 w-5 md:h-6 md:w-6 text-emerald-500" strokeWidth={2.5} />
+            </div>
+            <span className="font-bold text-lg md:text-2xl tracking-tight">ChronoSecure</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#features">Features</a>
@@ -87,17 +92,17 @@ export default function LandingPage() {
           <div className="flex items-center gap-2 md:gap-4 text-sm font-medium">
             <Link
               to="/login"
-              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 md:px-6 md:py-2.5 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center justify-center rounded-full bg-slate-900 px-3 py-1.5 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white hover:bg-slate-800 transition-colors"
             >
               Sign In
             </Link>
             <Link
               to="/signup"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 md:px-6 md:py-2.5 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-3 py-1.5 md:px-6 md:py-2.5 text-xs md:text-sm font-medium text-white hover:bg-slate-800 transition-colors"
             >
               <span className="hidden sm:inline">Start Free Trial</span>
-              <span className="sm:hidden">Start</span>
-              <ArrowRight className="h-4 w-4" />
+              <span className="sm:hidden">Get Started</span>
+              <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
             </Link>
           </div>
         </div>
@@ -121,13 +126,13 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <Link
                 to="/signup"
-                className="inline-flex justify-center items-center gap-2 rounded-full bg-primary px-6 py-3 text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition"
+                className="inline-flex justify-center items-center gap-2 rounded-full border-2 border-slate-900 bg-slate-900 px-8 py-3.5 text-white text-sm font-bold hover:bg-white hover:text-slate-900 transition-all shadow-lg hover:shadow-xl"
               >
                 Start Free 14-Day Trial <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/kiosk"
-                className="inline-flex justify-center items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold hover:bg-accent transition"
+                className="inline-flex justify-center items-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-3.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
               >
                 Watch Demo
               </Link>

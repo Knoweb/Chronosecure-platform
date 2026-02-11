@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Clock, LayoutDashboard, Users, Clock as ClockIcon, BarChart3, Settings, Calendar, MapPin } from 'lucide-react'
+import { Clock, LayoutDashboard, Users, CheckCircle2, BarChart3, Settings, Calendar, MapPin } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 
@@ -21,7 +21,7 @@ export function Sidebar() {
     {
       name: 'Attendance',
       href: '/attendance',
-      icon: ClockIcon,
+      icon: Clock,
     },
     {
       name: 'Time Off',
@@ -55,7 +55,9 @@ export function Sidebar() {
     <div className="w-64 border-r bg-card flex-col hidden md:flex shrink-0 h-screen sticky top-0">
       <div className="p-6 border-b">
         <Link to="/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <Clock className="h-9 w-9 text-primary" strokeWidth={2.5} />
+          <div className="relative bg-slate-900 p-2 rounded-lg shadow-md">
+            <CheckCircle2 className="h-6 w-6 text-emerald-500" strokeWidth={2.5} />
+          </div>
           <span className="font-bold text-2xl tracking-tight">ChronoSecure</span>
         </Link>
       </div>
