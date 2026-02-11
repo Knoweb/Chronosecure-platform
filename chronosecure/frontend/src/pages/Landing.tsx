@@ -72,67 +72,69 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white text-foreground">
       {/* Top nav */}
       <header className="border-b bg-white sticky top-0 z-20">
-        <div className="max-w-6xl md:max-w-7xl mx-auto px-6 md:px-8 py-5 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+        <div className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity shrink-0">
             <Clock className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl">ChronoSecure</span>
+            <span className="font-bold text-lg md:text-xl">ChronoSecure</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-10 text-sm font-medium">
-            <a className="text-muted-foreground hover:text-foreground" href="#features">Features</a>
-            <a className="text-muted-foreground hover:text-foreground" href="#details">Product</a>
-            <a className="text-muted-foreground hover:text-foreground" href="#pricing">Pricing</a>
-            <a className="text-muted-foreground hover:text-foreground" href="#security">Security</a>
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a className="text-muted-foreground hover:text-foreground transition-colors" href="#features">Features</a>
+            <a className="text-muted-foreground hover:text-foreground transition-colors" href="#details">Product</a>
+            <a className="text-muted-foreground hover:text-foreground transition-colors" href="#pricing">Pricing</a>
+            <a className="text-muted-foreground hover:text-foreground transition-colors" href="#security">Security</a>
           </nav>
-          <div className="flex items-center gap-4 text-sm font-medium">
-            <Link to="/login" className="px-6 py-3 rounded-full font-medium hover:bg-accent transition mr-2">Sign In</Link>
+          <div className="flex items-center gap-2 md:gap-4 text-sm font-medium">
+            <Link to="/login" className="px-4 py-2 md:px-6 md:py-3 text-sm rounded-full font-medium hover:bg-accent transition">Sign In</Link>
             <Link
               to="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-white hover:bg-slate-800 transition"
+              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 md:px-6 md:py-3 text-sm text-white hover:bg-slate-800 transition"
             >
-              Start Free Trial <ArrowRight className="h-4 w-4" />
+              <span className="hidden sm:inline">Start Free Trial</span>
+              <span className="sm:hidden">Start</span>
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl md:max-w-7xl mx-auto px-6 md:px-8 py-14 lg:py-18 space-y-16">
+      <main className="max-w-6xl md:max-w-7xl mx-auto px-4 md:px-8 py-10 lg:py-18 space-y-12 md:space-y-16">
         {/* Hero */}
-        <section className="grid lg:grid-cols-[1.05fr,0.95fr] gap-16 items-center">
-          <div className="space-y-6">
+        <section className="grid lg:grid-cols-[1.05fr,0.95fr] gap-10 md:gap-16 items-center">
+          <div className="space-y-6 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-semibold">
               Trusted by 500+ companies worldwide
             </div>
-            <h1 className="text-4xl md:text-5xl xl:text-[58px] font-bold leading-[1.05]">
+            <h1 className="text-3xl md:text-5xl xl:text-[58px] font-bold leading-[1.1] tracking-tight">
               Attendance Tracking <span className="block text-primary">Reimagined</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
               Secure biometric time tracking with automated payroll calculations. ChronoSecure combines
               fingerprint verification and photo capture to eliminate time theft and ensure compliance.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <Link
                 to="/signup"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-primary-foreground text-sm md:text-base font-semibold hover:bg-primary/90 transition"
+                className="inline-flex justify-center items-center gap-2 rounded-full bg-primary px-6 py-3 text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition"
               >
                 Start Free 14-Day Trial <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/kiosk"
-                className="inline-flex items-center gap-2 rounded-full border px-7 py-3.5 text-sm md:text-base font-semibold hover:bg-accent transition"
+                className="inline-flex justify-center items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold hover:bg-accent transition"
               >
                 Watch Demo
               </Link>
             </div>
-            <div className="text-sm md:text-base text-muted-foreground flex flex-wrap gap-5">
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> No credit card required</span>
-              <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> GDPR &amp; BIPA compliant</span>
+            <div className="text-xs md:text-sm text-muted-foreground flex flex-wrap gap-4 justify-center lg:justify-start">
+              <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-primary" /> No credit card required</span>
+              <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-primary" /> GDPR &amp; BIPA compliant</span>
             </div>
           </div>
-          <div className="overflow-hidden rounded-2xl border bg-card shadow-xl">
+          <div className="overflow-hidden rounded-2xl border bg-card shadow-xl mx-4 lg:mx-0">
             <img
               src="/hero-biometric.jpg"
               alt="ChronoSecure biometric attendance dashboard"
-              className="w-full h-[520px] object-cover"
+              className="w-full h-[240px] md:h-[400px] lg:h-[520px] object-cover"
             />
           </div>
         </section>
