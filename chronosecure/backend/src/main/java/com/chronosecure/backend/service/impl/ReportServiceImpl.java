@@ -84,12 +84,12 @@ public class ReportServiceImpl implements ReportService {
                                     l -> LocalDateTime.ofInstant(l.getEventTimestamp(), ZoneId.systemDefault())
                                             .toLocalDate())));
 
-            // --- 2. DETAILS SHEET ---
+            // --- 1. DETAILS SHEET ---
             Sheet detailSheet = workbook.createSheet("Daily Details");
             createDetailHeader(detailSheet, headerStyle);
             int detRowIdx = 1;
 
-            // --- 3. MATRIX SHEET ---
+            // --- 2. MATRIX SHEET ---
             Sheet matrixSheet = workbook.createSheet("Monthly Matrix");
             // Create Matrix Header
             Row matrixHeader = matrixSheet.createRow(0);
@@ -123,10 +123,6 @@ public class ReportServiceImpl implements ReportService {
                                 && !l.getEndDate().isBefore(startDate))
                         .collect(Collectors.toList());
 
-                // Aggregators for Summary & Matrix
-                int daysPresent = 0;
-                int daysAbsent = 0;
-                int daysLeave = 0;
                 Duration totalWorked = Duration.ZERO;
                 
                 // Matrix Row
@@ -190,12 +186,7 @@ public class ReportServiceImpl implements ReportService {
 
                     // Update Aggregators
                     if ("PRESENT".equals(status)) {
-                        daysPresent++;
                         totalWorked = totalWorked.plus(dailyTotal);
-                    } else if ("LEAVE".equals(status)) {
-                        daysLeave++;
-                    } else if ("ABSENT".equals(status)) {
-                        daysAbsent++;
                     }
                     
                     // --- POPULATE MATRIX CELL ---
@@ -204,7 +195,7 @@ public class ReportServiceImpl implements ReportService {
                          matCell.setCellValue(formatDuration(dailyTotal)); // Show Hours
                     } else if ("LEAVE".equals(status)) {
                         matCell.setCellValue("L");
-                        matCell.setCellStyle(headerStyle); // Use color style for emphasis? Maybe create a specific one later
+                        matCell.setCellStyle(headerStyle); // Use color style
                     } else if ("HOLIDAY".equals(status)) {
                          matCell.setCellValue("H");
                     } else if ("WEEKEND".equals(status)) {
@@ -263,8 +254,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Resource generateEmployeeReport(UUID companyId, UUID employeeId, LocalDate startDate, LocalDate endDate) {
-        // Simplified Employee Report to match new style
-        log.info("Generating employee report for Employee: {} from {} to {}", employeeId, startDate, endDate);
+        log.info("Generating detailed employee report for Employee: {} from {} to {}", employeeId, startDate, endDate);
         Employee employee = employeeRepository.findByCompanyIdAndId(companyId, employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
@@ -273,31 +263,80 @@ public class ReportServiceImpl implements ReportService {
 
             CellStyle headerStyle = createHeaderStyle(workbook);
             CellStyle dataStyle = createDataStyle(workbook);
+            CellStyle boldStyle = createDataStyle(workbook);
+            Font boldFont = workbook.createFont();
+            boldFont.setBold(true);
+            boldStyle.setFont(boldFont);
 
-            // Info
-            Row r0 = sheet.createRow(0); r0.createCell(0).setCellValue("Employee:"); r0.createCell(1).setCellValue(employee.getFirstName() + " " + employee.getLastName());
-            Row r1 = sheet.createRow(1); r1.createCell(0).setCellValue("Code:"); r1.createCell(1).setCellValue(employee.getEmployeeCode());
-            Row r2 = sheet.createRow(2); r2.createCell(0).setCellValue("Period:"); r2.createCell(1).setCellValue(startDate + " to " + endDate);
+            // Row 0: Employee Code
+            Row r0 = sheet.createRow(0); 
+            r0.createCell(0).setCellValue("Employee Code:"); 
+            r0.createCell(1).setCellValue(employee.getEmployeeCode());
 
-            // Header
+            // Row 1: Employee Name
+            Row r1 = sheet.createRow(1); 
+            r1.createCell(0).setCellValue("Employee Name:"); 
+            r1.createCell(1).setCellValue(employee.getFirstName() + " " + employee.getLastName());
+
+            // Row 2: Report Period
+            Row r2 = sheet.createRow(2); 
+            r2.createCell(0).setCellValue("Report Period:"); 
+            r2.createCell(1).setCellValue(startDate + " to " + endDate);
+
+            // Row 4: Header
             Row head = sheet.createRow(4);
-            String[] headers = {"Date", "Day", "Status", "Total Hours"};
-            for (int i = 0; i < headers.length; i++) { Cell c = head.createCell(i); c.setCellValue(headers[i]); c.setCellStyle(headerStyle); }
+            String[] headers = {"Date", "Status", "Total Hours", "Weekday Hours", "Saturday Hours", "Sunday Hours", "Public Holiday Hours"};
+            for (int i = 0; i < headers.length; i++) { 
+                Cell c = head.createCell(i); 
+                c.setCellValue(headers[i]); 
+                c.setCellStyle(headerStyle); 
+            }
 
+            // Fetch Data
             List<CalculatedHours> hoursList = calculatedHoursRepository.findByEmployeeIdAndWorkDateBetweenOrderByWorkDateAsc(employeeId, startDate, endDate);
             Map<LocalDate, CalculatedHours> hoursMap = hoursList.stream().collect(Collectors.toMap(CalculatedHours::getWorkDate, h -> h));
+            
+            // Also fetch Logs to calculate on-the-fly if needed
+            List<AttendanceLog> allLogs = attendanceLogRepository
+                .findByEmployeeIdAndEventTimestampBetweenOrderByEventTimestampAsc(
+                    employeeId, 
+                    startDate.atStartOfDay(ZoneId.systemDefault()).toInstant(),
+                    endDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            
+            Map<LocalDate, List<AttendanceLog>> logsMap = allLogs.stream()
+                .collect(Collectors.groupingBy(l -> LocalDateTime.ofInstant(l.getEventTimestamp(), ZoneId.systemDefault()).toLocalDate()));
+
+            // Totals
+            Duration sumTotal = Duration.ZERO;
+            Duration sumWeekday = Duration.ZERO;
+            Duration sumSat = Duration.ZERO;
+            Duration sumSun = Duration.ZERO;
+            Duration sumHoliday = Duration.ZERO;
 
             int rowIdx = 5;
             for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
                 CalculatedHours h = hoursMap.get(date);
+                if (h == null) {
+                    h = calculateFromLogs(logsMap.get(date), date); // Attempt on-the-fly calculation
+                }
+
                 String status = "ABSENT";
                 Duration total = Duration.ZERO;
+                Duration weekday = Duration.ZERO;
+                Duration sat = Duration.ZERO;
+                Duration sun = Duration.ZERO;
+                Duration holiday = Duration.ZERO;
                 
                 if (h != null) {
                     if (h.getTotalHoursWorked() != null) total = h.getTotalHoursWorked();
+                    if (h.getWeekdayHours() != null) weekday = h.getWeekdayHours();
+                    if (h.getSaturdayHours() != null) sat = h.getSaturdayHours();
+                    if (h.getSundayHours() != null) sun = h.getSundayHours();
+                    if (h.getPublicHolidayHours() != null) holiday = h.getPublicHolidayHours();
+
                     if (h.getLeaveHours() !=null && !h.getLeaveHours().isZero()) status = "LEAVE";
                     else if (!total.isZero()) status = "PRESENT";
-                    else if (h.getPublicHolidayHours() != null && !h.getPublicHolidayHours().isZero()) status = "HOLIDAY";
+                    else if (!holiday.isZero()) status = "HOLIDAY";
                 }
 
                 java.time.DayOfWeek dayOfWeek = date.getDayOfWeek();
@@ -305,16 +344,45 @@ public class ReportServiceImpl implements ReportService {
                     status = "WEEKEND";
                 }
 
+                // Accumulate
+                sumTotal = sumTotal.plus(total);
+                sumWeekday = sumWeekday.plus(weekday);
+                sumSat = sumSat.plus(sat);
+                sumSun = sumSun.plus(sun);
+                sumHoliday = sumHoliday.plus(holiday);
+
+                // Write Row
                 Row row = sheet.createRow(rowIdx++);
-                row.createCell(0).setCellValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
-                row.createCell(1).setCellValue(dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
-                row.createCell(2).setCellValue(status);
-                row.createCell(3).setCellValue(formatDuration(total));
+                row.createCell(0).setCellValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE)); // Date only
+                row.createCell(1).setCellValue(status);
+                row.createCell(2).setCellValue(formatDuration(total));
+                row.createCell(3).setCellValue(formatDuration(weekday));
+                row.createCell(4).setCellValue(formatDuration(sat));
+                row.createCell(5).setCellValue(formatDuration(sun));
+                row.createCell(6).setCellValue(formatDuration(holiday));
                 
-                for(int i=0; i<4; i++) row.getCell(i).setCellStyle(dataStyle);
+                for(int i=0; i<7; i++) row.getCell(i).setCellStyle(dataStyle);
             }
             
-            for(int i=0; i<4; i++) sheet.autoSizeColumn(i);
+            // Total Row
+            Row totalRow = sheet.createRow(rowIdx);
+            Cell tLabel = totalRow.createCell(0); tLabel.setCellValue("TOTAL"); tLabel.setCellStyle(boldStyle);
+            Cell tEmpty = totalRow.createCell(1); tEmpty.setCellStyle(boldStyle); // Empty Status
+            
+            Cell tTot = totalRow.createCell(2); tTot.setCellValue(formatDuration(sumTotal)); tTot.setCellStyle(boldStyle);
+            Cell tWk = totalRow.createCell(3); tWk.setCellValue(formatDuration(sumWeekday)); tWk.setCellStyle(boldStyle);
+            Cell tSat = totalRow.createCell(4); tSat.setCellValue(formatDuration(sumSat)); tSat.setCellStyle(boldStyle);
+            Cell tSun = totalRow.createCell(5); tSun.setCellValue(formatDuration(sumSun)); tSun.setCellStyle(boldStyle);
+            Cell tHol = totalRow.createCell(6); tHol.setCellValue(formatDuration(sumHoliday)); tHol.setCellStyle(boldStyle);
+
+            // Grey background for Total Row
+            CellStyle greyStyle = workbook.createCellStyle();
+            greyStyle.cloneStyleFrom(boldStyle);
+            greyStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            greyStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            for(int i=0; i<7; i++) totalRow.getCell(i).setCellStyle(greyStyle);
+
+            for(int i=0; i<7; i++) sheet.autoSizeColumn(i);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
@@ -383,13 +451,22 @@ public class ReportServiceImpl implements ReportService {
         if (total.isZero() && firstIn == null)
             return null;
 
-        // Simplified calculation - Just Total
+        // Smart categorization based on day of week
+        Duration wd = Duration.ZERO;
+        Duration sa = Duration.ZERO;
+        Duration su = Duration.ZERO;
+        
+        java.time.DayOfWeek day = date.getDayOfWeek();
+        if (day == java.time.DayOfWeek.SATURDAY) sa = total;
+        else if (day == java.time.DayOfWeek.SUNDAY) su = total;
+        else wd = total;
+
         return CalculatedHours.builder()
                 .workDate(date)
                 .totalHoursWorked(total)
-                .weekdayHours(total) // Fallback
-                .saturdayHours(Duration.ZERO) 
-                .sundayHours(Duration.ZERO)
+                .weekdayHours(wd)
+                .saturdayHours(sa) 
+                .sundayHours(su)
                 .publicHolidayHours(Duration.ZERO)
                 .leaveHours(Duration.ZERO)
                 .build();
