@@ -26,7 +26,7 @@ export function MobileNav() {
     return (
         <div className="md:hidden">
             <Button variant="ghost" size="icon" onClick={() => setIsOpen(true)} className="text-foreground">
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5" />
             </Button>
 
             {isOpen && createPortal(
