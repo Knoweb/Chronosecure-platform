@@ -149,13 +149,13 @@ if not os.path.exists(DB_FILE):
 print(f"DEBUG: Database path set to: {DB_FILE}")
 
 # SOFTER PRESSURE (light touch, not hard press)
-MIN_QUALITY = 30  # Increased to filter noise
-PRESSURE_TARGET_MEAN = (60, 150)  # Extended range for all finger sizes
-STABLE_FRAMES = 2  # Faster stabilization
+MIN_QUALITY = 40  # Increased to filter noise
+PRESSURE_TARGET_MEAN = (45, 180)  # Enforced range to reject empty sensor
+STABLE_FRAMES = 5  # More stable frames required
 STABLE_DIFF_MAX = 5.0  # More tolerance for small fingers
 # INCREASED THRESHOLD to prevent ghost touches (Auto-Taking Fix)
-FINGER_PRESENT_STD = 45  # Increased from 35. Higher = Needs clearer finger image to trigger
-FINGER_REMOVED_STD = 20  # Increased from 15
+FINGER_PRESENT_STD = 60  # significantly higher to reject noise
+FINGER_REMOVED_STD = 25  # Increased from 20
 DUPLICATE_MD5_BLOCK_SEC = 2.0
 SCORE_ACCEPT = 20  # Lower threshold
 ROTATION_TESTS = [-10, -5, 0, 5, 10]
@@ -742,6 +742,24 @@ class App(tk.Tk):
                  continue
              
              gray = raw_to_gray(raw)
+             # --- NEW CHECKS: Filter out empty sensor noise ---
+             std_val = img_std(gray)
+             mean_val = gray.mean()
+
+             if std_val < FINGER_PRESENT_STD:
+                 stable_count = 0
+                 self.result.set("Please place finger...")
+                 self.update_status("Waiting for finger...", "white")
+                 if self._imgtk is None: # Clear noise if needed
+                     pass 
+                 continue
+
+             if mean_val < PRESSURE_TARGET_MEAN[0] or mean_val > PRESSURE_TARGET_MEAN[1]:
+                 stable_count = 0
+                 hint = self._pressure_hint(gray)
+                 self.result.set(hint)
+                 continue
+                 
              score = quality_score(gray)
              
              if score < MIN_QUALITY:
