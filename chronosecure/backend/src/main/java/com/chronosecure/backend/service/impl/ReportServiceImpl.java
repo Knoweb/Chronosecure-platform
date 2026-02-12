@@ -1,9 +1,12 @@
 package com.chronosecure.backend.service.impl;
 
+import com.chronosecure.backend.model.AttendanceLog;
 import com.chronosecure.backend.model.CalculatedHours;
 import com.chronosecure.backend.model.Employee;
 import com.chronosecure.backend.model.TimeOffRequest;
+import com.chronosecure.backend.model.enums.AttendanceEventType;
 import com.chronosecure.backend.model.enums.TimeOffStatus;
+import com.chronosecure.backend.repository.AttendanceLogRepository;
 import com.chronosecure.backend.repository.CalculatedHoursRepository;
 import com.chronosecure.backend.repository.EmployeeRepository;
 import com.chronosecure.backend.repository.TimeOffRequestRepository;
@@ -19,7 +22,10 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +38,7 @@ public class ReportServiceImpl implements ReportService {
     private final CalculatedHoursRepository calculatedHoursRepository;
     private final EmployeeRepository employeeRepository;
     private final TimeOffRequestRepository timeOffRequestRepository;
+    private final AttendanceLogRepository attendanceLogRepository;
 
     @Override
     public Resource generateCompanyReport(UUID companyId, LocalDate startDate, LocalDate endDate) {
@@ -63,11 +70,26 @@ public class ReportServiceImpl implements ReportService {
                     .findByCompanyIdAndWorkDateBetweenOrderByWorkDateAsc(companyId, startDate, endDate);
             List<TimeOffRequest> allLeaves = timeOffRequestRepository.findByCompanyIdOrderByCreatedAtDesc(companyId);
 
+            // Fetch raw logs for fallback
+            List<AttendanceLog> allLogs = attendanceLogRepository
+                    .findByCompanyIdAndEventTimestampBetweenOrderByEventTimestampDesc(
+                            companyId,
+                            startDate.atStartOfDay(ZoneId.systemDefault()).toInstant(),
+                            endDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
             // 2. Index Hours by Employee -> Date
             Map<UUID, Map<LocalDate, CalculatedHours>> hoursMap = new HashMap<>();
             for (CalculatedHours h : allHours) {
                 hoursMap.computeIfAbsent(h.getEmployee().getId(), k -> new HashMap<>()).put(h.getWorkDate(), h);
             }
+
+            // Index Logs by Employee -> Date
+            Map<UUID, Map<LocalDate, List<AttendanceLog>>> logsMap = allLogs.stream()
+                    .collect(Collectors.groupingBy(
+                            l -> l.getEmployee().getId(),
+                            Collectors.groupingBy(
+                                    l -> LocalDateTime.ofInstant(l.getEventTimestamp(), ZoneId.systemDefault())
+                                            .toLocalDate())));
 
             // 3. Iterate Employees -> Date Range to fill rows
             // Sort employees by Name for better report readability
@@ -76,6 +98,8 @@ public class ReportServiceImpl implements ReportService {
             int rowNum = 1;
             for (Employee employee : employees) {
                 Map<LocalDate, CalculatedHours> empHours = hoursMap.getOrDefault(employee.getId(),
+                        Collections.emptyMap());
+                Map<LocalDate, List<AttendanceLog>> empLogs = logsMap.getOrDefault(employee.getId(),
                         Collections.emptyMap());
 
                 // Filter valid approved leaves for this employee overlapping the range
@@ -88,7 +112,16 @@ public class ReportServiceImpl implements ReportService {
 
                 for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
                     Row row = sheet.createRow(rowNum++);
+
+                    // Get CalculatedHours or fallback to logs
                     CalculatedHours hours = empHours.get(date);
+                    if (hours == null
+                            || (hours.getTotalHoursWorked() == null || hours.getTotalHoursWorked().isZero())) {
+                        CalculatedHours computed = calculateFromLogs(empLogs.get(date), date);
+                        if (computed != null) {
+                            hours = computed;
+                        }
+                    }
 
                     // Determine Status & Values
                     String status = "ABSENT";
@@ -205,6 +238,20 @@ public class ReportServiceImpl implements ReportService {
             for (CalculatedHours h : hoursList)
                 hoursMap.put(h.getWorkDate(), h);
 
+            // Fetch Logs
+            List<AttendanceLog> logs = attendanceLogRepository
+                    .findByCompanyIdAndEventTimestampBetweenOrderByEventTimestampDesc(
+                            companyId,
+                            startDate.atStartOfDay(ZoneId.systemDefault()).toInstant(),
+                            endDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant())
+                    .stream()
+                    .filter(l -> l.getEmployee().getId().equals(employeeId))
+                    .collect(Collectors.toList());
+
+            Map<LocalDate, List<AttendanceLog>> logsMap = logs.stream()
+                    .collect(Collectors.groupingBy(
+                            l -> LocalDateTime.ofInstant(l.getEventTimestamp(), ZoneId.systemDefault()).toLocalDate()));
+
             List<TimeOffRequest> leaves = timeOffRequestRepository.findByCompanyIdOrderByCreatedAtDesc(companyId)
                     .stream()
                     .filter(req -> req.getEmployeeId().equals(employeeId)
@@ -222,7 +269,14 @@ public class ReportServiceImpl implements ReportService {
 
             for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
                 Row row = sheet.createRow(rowNum++);
+
                 CalculatedHours hours = hoursMap.get(date);
+                if (hours == null || (hours.getTotalHoursWorked() == null || hours.getTotalHoursWorked().isZero())) {
+                    CalculatedHours computed = calculateFromLogs(logsMap.get(date), date);
+                    if (computed != null) {
+                        hours = computed;
+                    }
+                }
 
                 String status = "ABSENT";
                 Duration total = Duration.ZERO, weekday = Duration.ZERO, sat = Duration.ZERO, sun = Duration.ZERO,
@@ -352,5 +406,59 @@ public class ReportServiceImpl implements ReportService {
         long hours = duration.toHours();
         long minutes = duration.toMinutes() % 60;
         return String.format("%dh %dm", hours, minutes);
+    }
+
+    private CalculatedHours calculateFromLogs(List<AttendanceLog> logs, LocalDate date) {
+        if (logs == null || logs.isEmpty())
+            return null;
+
+        // Find earliest IN and latest OUT
+        Instant firstIn = logs.stream()
+                .filter(l -> l.getEventType() == AttendanceEventType.CLOCK_IN)
+                .map(AttendanceLog::getEventTimestamp)
+                .min(Comparator.naturalOrder())
+                .orElse(null);
+
+        Instant lastOut = logs.stream()
+                .filter(l -> l.getEventType() == AttendanceEventType.CLOCK_OUT)
+                .map(AttendanceLog::getEventTimestamp)
+                .max(Comparator.naturalOrder())
+                .orElse(null); // If no Out, we cannot calculate duration properly yet?
+
+        // If we have IN but no OUT, duration is 0 for report purposes (not yet
+        // completed)
+        // Or if we have OUT but no IN (error)
+
+        Duration total = Duration.ZERO;
+        if (firstIn != null && lastOut != null && lastOut.isAfter(firstIn)) {
+            total = Duration.between(firstIn, lastOut);
+        }
+
+        // Allow fallback if duration is valid
+        if (total.isZero() && firstIn == null)
+            return null; // No relevant logs
+
+        // Distribute based on Day
+        Duration weekday = Duration.ZERO;
+        Duration sat = Duration.ZERO;
+        Duration sun = Duration.ZERO;
+
+        java.time.DayOfWeek day = date.getDayOfWeek();
+        if (day == java.time.DayOfWeek.SATURDAY)
+            sat = total;
+        else if (day == java.time.DayOfWeek.SUNDAY)
+            sun = total;
+        else
+            weekday = total;
+
+        return CalculatedHours.builder()
+                .workDate(date)
+                .totalHoursWorked(total)
+                .weekdayHours(weekday)
+                .saturdayHours(sat)
+                .sundayHours(sun)
+                .publicHolidayHours(Duration.ZERO)
+                .leaveHours(Duration.ZERO)
+                .build();
     }
 }
