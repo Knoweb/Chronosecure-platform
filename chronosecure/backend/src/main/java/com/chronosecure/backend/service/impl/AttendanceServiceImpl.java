@@ -101,8 +101,9 @@ public class AttendanceServiceImpl implements AttendanceService {
                 // 5. Save
                 AttendanceLog savedLog = attendanceLogRepository.save(newLog);
 
-                // 6. Invalidate Conflicting Time Off Requests (Auto-Reject if present)
-                try {
+                // 6. Invalidate Conflicting Time Off Requests (Auto-Reject ONLY if CLOCKING IN)
+                if (request.getEventType() == AttendanceEventType.CLOCK_IN) {
+                    try {
                         java.time.LocalDate today = java.time.LocalDate.now();
                         List<com.chronosecure.backend.model.TimeOffRequest> allCompanyRequests = timeOffRequestRepository
                                         .findByCompanyIdOrderByCreatedAtDesc(request.getCompanyId());
@@ -149,9 +150,10 @@ public class AttendanceServiceImpl implements AttendanceService {
                                         timeOffRequestRepository.save(req);
                                 }
                         }
-                } catch (Exception e) {
+                    } catch (Exception e) {
                         log.error("Failed to auto-reject time off requests for employee {}", employee.getId(), e);
                         // Don't fail the attendance log just because this cleanup failed
+                    }
                 }
 
                 return savedLog;
