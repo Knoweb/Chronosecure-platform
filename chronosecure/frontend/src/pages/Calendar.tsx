@@ -404,7 +404,7 @@ export default function CalendarPage() {
                                                 if (!empEntry && isWeekend) style = "bg-orange-200 dark:bg-orange-950/40 border-orange-300 dark:border-orange-800"
 
                                                 return (
-                                                    <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 border flex flex-col justify-start md:justify-between overflow-hidden relative group transition-colors cursor-pointer aspect-square md:aspect-auto md:h-32", style)}>
+                                                    <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 border flex flex-col justify-start md:justify-between overflow-hidden relative group transition-colors cursor-pointer min-h-[80px] md:h-32", style)}>
                                                         <div className="flex justify-between items-start">
                                                             <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
                                                             <div className="hidden md:flex gap-1">
@@ -414,23 +414,12 @@ export default function CalendarPage() {
                                                             </div>
                                                         </div>
 
-                                                        {/* Mobile Status Dot */}
                                                         {empEntry && (
-                                                            <div className="md:hidden mt-1 flex justify-center">
-                                                                <div className={cn("h-2 w-2 rounded-full",
-                                                                    empEntry.status === 'PRESENT' && "bg-emerald-600",
-                                                                    empEntry.status === 'ABSENT' && "bg-red-600",
-                                                                    empEntry.status === 'LEAVE' && "bg-amber-600",
-                                                                )} />
-                                                            </div>
-                                                        )}
-
-                                                        {empEntry && (
-                                                            <div className="hidden md:block text-[10px] space-y-0.5 mt-1 font-medium">
+                                                            <div className="block text-[8px] md:text-[10px] space-y-0.5 mt-1 font-medium leading-tight">
                                                                 {empEntry.status === 'PRESENT' && (
                                                                     <>
-                                                                        <div className="text-emerald-900 dark:text-emerald-100 font-semibold">IN: {formatUtcTime(dateStr, empEntry.checkInTime)}</div>
-                                                                        <div className="text-emerald-900 dark:text-emerald-100 font-semibold">OUT: {formatUtcTime(dateStr, empEntry.checkOutTime)}</div>
+                                                                        <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">IN: {formatUtcTime(dateStr, empEntry.checkInTime)}</div>
+                                                                        <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">OUT: {formatUtcTime(dateStr, empEntry.checkOutTime)}</div>
                                                                     </>
                                                                 )}
                                                                 {empEntry.status === 'ABSENT' && <div className="text-red-700 font-bold">ABSENT</div>}
