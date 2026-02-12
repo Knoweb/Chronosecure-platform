@@ -56,7 +56,7 @@ export function EmployeeSearch({ employees = [], value, onChange }: EmployeeSear
             >
                 {selectedEmployee
                     ? `${selectedEmployee.firstName} ${selectedEmployee.lastName} (${selectedEmployee.employeeCode})`
-                    : "Select employee..."}
+                    : "All Employees"}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
 
@@ -72,6 +72,25 @@ export function EmployeeSearch({ employees = [], value, onChange }: EmployeeSear
                         />
                     </div>
                     <div className="max-h-[200px] overflow-y-auto p-1">
+                        <div
+                            className={cn(
+                                "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground mb-1",
+                                value === '' && "bg-accent/50"
+                            )}
+                            onClick={() => {
+                                onChange('')
+                                setOpen(false)
+                                setSearchTerm('')
+                            }}
+                        >
+                            <Check
+                                className={cn(
+                                    "mr-2 h-4 w-4",
+                                    value === '' ? "opacity-100" : "opacity-0"
+                                )}
+                            />
+                            <span className="font-medium">All Employees</span>
+                        </div>
                         {filteredEmployees.length === 0 ? (
                             <div className="py-2 text-center text-sm text-muted-foreground">
                                 No employee found.

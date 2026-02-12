@@ -235,25 +235,27 @@ export default function AttendancePage() {
                       return (
                         <div
                           key={log.id}
-                          className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition"
+                          className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition gap-3 sm:gap-0"
                         >
-                          <div className="flex items-center gap-4">
-                            <Clock className="h-5 w-5 text-muted-foreground" />
+                          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+                            <Clock className="h-5 w-5 text-muted-foreground mt-0.5 sm:mt-0 shrink-0" />
                             <div>
                               <p className="font-medium">
                                 {employee ? `${employee.firstName} ${employee.lastName}` : 'Unknown Employee'}
                               </p>
-                              <p className="text-sm text-muted-foreground">
-                                {employee?.employeeCode} • {new Date(log.eventTimestamp).toLocaleString()}
-                              </p>
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-x-2 text-sm text-muted-foreground">
+                                <span>{employee?.employeeCode}</span>
+                                <span className="hidden sm:inline">•</span>
+                                <span>{new Date(log.eventTimestamp).toLocaleString()}</span>
+                              </div>
                             </div>
                           </div>
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 ml-8 sm:ml-0 mt-1 sm:mt-0">
                             <Badge className={getEventTypeBadge(log.eventType)}>
                               {log.eventType.replace('_', ' ')}
                             </Badge>
                             {log.deviceId && (
-                              <span className="text-sm text-muted-foreground">{log.deviceId}</span>
+                              <span className="text-xs sm:text-sm text-muted-foreground font-mono bg-muted/50 px-2 py-0.5 rounded">{log.deviceId}</span>
                             )}
                           </div>
                         </div>

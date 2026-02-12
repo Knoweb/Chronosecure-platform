@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
-import { Calendar, Plus, Clock, RefreshCw, Check, X } from 'lucide-react'
+import { Calendar, Plus, Clock, RefreshCw, Check, X, Filter } from 'lucide-react'
 import { EmployeeSearch } from '@/components/ui/employee-search'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
@@ -24,6 +24,7 @@ export default function TimeOffPage() {
     reason: '',
   })
   const [error, setError] = useState('')
+  const [employeeFilter, setEmployeeFilter] = useState('')
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -134,10 +135,16 @@ export default function TimeOffPage() {
 
   // Filter for Clock-Outs from both sources
   // 1. TimeOffRequests with specific reason (Legacy/Manual)
-  const manualClockOuts = timeOffRequests?.filter((r: any) => r.reason?.includes('Fingerprint Scanned Out')) || []
+  const manualClockOuts = timeOffRequests?.filter((r: any) => {
+    if (employeeFilter && r.employeeId !== employeeFilter) return false
+    return r.reason?.includes('Fingerprint Scanned Out')
+  }) || []
 
   // 2. Real Attendance Logs (Machine)
-  const machineClockOuts = attendanceLogs?.filter((l: any) => l.eventType === 'CLOCK_OUT') || []
+  const machineClockOuts = attendanceLogs?.filter((l: any) => {
+    if (employeeFilter && l.employeeId !== employeeFilter) return false
+    return l.eventType === 'CLOCK_OUT'
+  }) || []
 
   return (
     <div className="flex h-screen bg-background">
@@ -246,6 +253,28 @@ export default function TimeOffPage() {
               </Card>
             )}
 
+            {/* Employee Filter */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Filter className="h-5 w-5" />
+                  Filters
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Filter by Employee</Label>
+                    <EmployeeSearch
+                      employees={employees || []}
+                      value={employeeFilter}
+                      onChange={setEmployeeFilter}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <Tabs defaultValue="clock-outs" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-6 h-auto bg-gray-100 p-1 rounded-xl border border-gray-200">
                 <TabsTrigger
@@ -277,7 +306,10 @@ export default function TimeOffPage() {
                       </div>
                     ) : (
                       <div className="space-y-2">
-                        {timeOffRequests.filter((r: any) => !r.reason?.includes('Fingerprint Scanned Out')).map((request: any) => (
+                        {timeOffRequests.filter((r: any) => {
+                          if (employeeFilter && r.employeeId !== employeeFilter) return false
+                          return !r.reason?.includes('Fingerprint Scanned Out')
+                        }).map((request: any) => (
                           <div
                             key={request.id}
                             className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition gap-4"
