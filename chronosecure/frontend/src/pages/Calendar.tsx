@@ -468,7 +468,7 @@ export default function CalendarPage() {
                                                             </div>
                                                             {entry ? (
                                                                 <div className="block space-y-0.5 mt-1">
-                                                                    <div className={cn("text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit whitespace-normal leading-tight max-w-full", isSelected ? "bg-white/20 text-white" : "bg-white/50 text-foreground/80")}>
+                                                                    <div className={cn("text-[9px] font-bold uppercase tracking-wide w-full text-center whitespace-normal leading-tight", isSelected ? "text-white" : "text-foreground/70")}>
                                                                         {entry.type.replace('_', ' ')}
                                                                     </div>
                                                                     {entry.description && <div className="text-[9px] truncate opacity-90 font-medium">{entry.description}</div>}
