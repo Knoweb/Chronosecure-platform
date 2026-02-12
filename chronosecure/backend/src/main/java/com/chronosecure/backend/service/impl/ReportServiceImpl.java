@@ -94,6 +94,27 @@ public class ReportServiceImpl implements ReportService {
             createDetailHeader(detailSheet, headerStyle);
             int detRowIdx = 1;
 
+            // --- 3. MATRIX SHEET ---
+            Sheet matrixSheet = workbook.createSheet("Monthly Matrix");
+            // Create Matrix Header
+            Row matrixHeader = matrixSheet.createRow(0);
+            matrixHeader.createCell(0).setCellValue("Employee Code");
+            matrixHeader.createCell(1).setCellValue("Employee Name");
+            matrixHeader.getCell(0).setCellStyle(headerStyle);
+            matrixHeader.getCell(1).setCellStyle(headerStyle);
+            
+            int colIdx = 2;
+            for (LocalDate d = startDate; !d.isAfter(endDate); d = d.plusDays(1)) {
+                Cell c = matrixHeader.createCell(colIdx++);
+                c.setCellValue(d.getDayOfMonth() + " (" + d.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + ")");
+                c.setCellStyle(headerStyle);
+            }
+            Cell totalCell = matrixHeader.createCell(colIdx);
+            totalCell.setCellValue("Total Hours");
+            totalCell.setCellStyle(headerStyle);
+
+            int matRowIdx = 1;
+
             // --- PROCESS EMPLOYEES ---
             for (Employee employee : employees) {
                 Map<LocalDate, CalculatedHours> empHours = hoursMap.getOrDefault(employee.getId(), Collections.emptyMap());
@@ -107,11 +128,17 @@ public class ReportServiceImpl implements ReportService {
                                 && !l.getEndDate().isBefore(startDate))
                         .collect(Collectors.toList());
 
-                // Aggregators for Summary
+                // Aggregators for Summary & Matrix
                 int daysPresent = 0;
                 int daysAbsent = 0;
                 int daysLeave = 0;
                 Duration totalWorked = Duration.ZERO;
+                
+                // Matrix Row
+                Row matrixRow = matrixSheet.createRow(matRowIdx++);
+                matrixRow.createCell(0).setCellValue(employee.getEmployeeCode());
+                matrixRow.createCell(1).setCellValue(employee.getFirstName() + " " + employee.getLastName());
+                int matrixCol = 2;
 
                 for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
                     // --- DETERMINE STATUS & HOURS ---
@@ -175,6 +202,22 @@ public class ReportServiceImpl implements ReportService {
                     } else if ("ABSENT".equals(status)) {
                         daysAbsent++;
                     }
+                    
+                    // --- POPULATE MATRIX CELL ---
+                    Cell matCell = matrixRow.createCell(matrixCol++);
+                    if ("PRESENT".equals(status)) {
+                         matCell.setCellValue(formatDuration(dailyTotal)); // Show Hours
+                    } else if ("LEAVE".equals(status)) {
+                        matCell.setCellValue("L");
+                        matCell.setCellStyle(headerStyle); // Use color style for emphasis? Maybe create a specific one later
+                    } else if ("HOLIDAY".equals(status)) {
+                         matCell.setCellValue("H");
+                    } else if ("WEEKEND".equals(status)) {
+                         matCell.setCellValue("W");
+                    } else {
+                         matCell.setCellValue("A"); // Absent
+                    }
+                    matCell.setCellStyle(dataStyle);
 
                     // --- WRITE DETAIL ROW ---
                     Row row = detailSheet.createRow(detRowIdx++);
@@ -192,6 +235,11 @@ public class ReportServiceImpl implements ReportService {
                         if (c != null) c.setCellStyle(dataStyle);
                     }
                 }
+                
+                // --- MATRIX TOTAL CELL ---
+                Cell finalTotalCell = matrixRow.createCell(matrixCol);
+                finalTotalCell.setCellValue(formatDuration(totalWorked));
+                finalTotalCell.setCellStyle(dataStyle);
                 
                 // --- WRITE SUMMARY ROW ---
                 Row sumRow = summarySheet.createRow(sumRowIdx++);
@@ -211,6 +259,7 @@ public class ReportServiceImpl implements ReportService {
             // Auto-size columns
             for (int i = 0; i < 6; i++) summarySheet.autoSizeColumn(i);
             for (int i = 0; i < 8; i++) detailSheet.autoSizeColumn(i);
+            for (int i = 0; i <= colIdx; i++) matrixSheet.autoSizeColumn(i);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
