@@ -261,11 +261,11 @@ export default function CalendarPage() {
     }
 
     return (
-        <div className="flex h-screen bg-background text-foreground overflow-hidden">
+        <div className="flex h-[100dvh] md:h-screen bg-background text-foreground overflow-auto md:overflow-hidden">
             <Sidebar />
-            <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex-1 flex flex-col md:overflow-hidden">
                 <Header />
-                <main className="flex-1 flex flex-col p-4 md:p-6 bg-slate-50/50 dark:bg-slate-950/50 overflow-hidden">
+                <main className="flex-1 flex flex-col p-4 md:p-6 bg-slate-50/50 dark:bg-slate-950/50 md:overflow-hidden">
                     <div className="max-w-6xl w-full mx-auto flex-1 flex flex-col space-y-4">
 
                         {/* Header / Config Bar */}
@@ -377,18 +377,20 @@ export default function CalendarPage() {
                         </div>
 
                         {/* Grid */}
-                        <Card className="flex-1 flex flex-col border shadow-lg bg-background/50 backdrop-blur-sm overflow-hidden">
-                            <CardContent className="flex-1 flex flex-col p-2 md:p-4 overflow-auto">
-                                <div className="flex-1 flex flex-col min-w-[800px] md:min-w-0">
+                        <Card className="flex-1 flex flex-col border shadow-lg bg-background/50 backdrop-blur-sm md:overflow-hidden">
+                            <CardContent className="flex-1 flex flex-col p-2 pb-20 md:p-4 md:pb-4 overflow-x-auto md:overflow-auto">
+                                <div className="flex-1 flex flex-col w-full md:min-w-0">
                                     <div className="flex flex-col flex-1 h-full min-h-0">
-                                        <div className="grid grid-cols-7 gap-2 mb-2 text-center shrink-0">
+                                        <div className="grid grid-cols-7 gap-1 md:gap-2 mb-1 md:mb-2 text-center shrink-0">
                                             {/* CHANGED TO MONDAY START */}
                                             {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
-                                                <div key={d} className="font-bold text-muted-foreground uppercase text-[10px] tracking-wider">{d}</div>
+                                                <div key={d} className="font-bold text-muted-foreground uppercase text-[10px] md:text-[10px] tracking-wider">
+                                                    {d}
+                                                </div>
                                             ))}
                                         </div>
 
-                                        <div className="flex-1 grid grid-cols-7 grid-rows-6 gap-2 min-h-0">
+                                        <div className="flex-1 grid grid-cols-7 grid-rows-6 gap-0.5 md:gap-2 min-h-0">
                                             {days.map((day, i) => {
                                                 // Monday Start: Col 5=Sat, Col 6=Sun
                                                 const isWeekend = (i % 7 === 5) || (i % 7 === 6)
@@ -405,27 +407,33 @@ export default function CalendarPage() {
                                                     if (!empEntry && isWeekend) style = "bg-orange-200 dark:bg-orange-950/40 border-orange-300 dark:border-orange-800"
 
                                                     return (
-                                                        <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 border flex flex-col justify-start md:justify-between overflow-hidden relative group transition-colors cursor-pointer min-h-[80px] md:h-32", style)}>
+                                                        <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 border flex flex-col justify-start md:justify-between overflow-hidden relative group transition-colors cursor-pointer min-h-[85px] md:h-full", style)}>
                                                             <div className="flex justify-between items-start">
-                                                                <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
-                                                                <div className="flex gap-1">
-                                                                    {empEntry && empEntry.status === 'LEAVE' && <span className="text-[9px] font-bold bg-amber-400 text-amber-950 px-1 rounded shadow-sm">LEAVE</span>}
-                                                                    {empEntry && empEntry.status === 'HOLIDAY' && <span className="text-[9px] font-bold bg-purple-400 text-purple-950 px-1 rounded shadow-sm">HOLIDAY</span>}
-                                                                    {((!empEntry && isWeekend) || (empEntry?.status === 'WEEKEND')) && <span className="text-[9px] font-bold bg-orange-300 text-orange-950 px-1 rounded shadow-sm">WEEKEND</span>}
+                                                                <span className={cn("font-bold text-[11px] md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
+                                                                <div className="flex gap-0.5 md:gap-1 flex-wrap justify-end">
+                                                                    {empEntry && empEntry.status === 'LEAVE' && <span className="text-[9px] md:text-[9px] font-bold bg-amber-400 text-amber-950 px-1 rounded shadow-sm leading-none">LV</span>}
+                                                                    {empEntry && empEntry.status === 'HOLIDAY' && <span className="text-[9px] md:text-[9px] font-bold bg-purple-400 text-purple-950 px-1 rounded shadow-sm leading-none">HOL</span>}
+                                                                    {((!empEntry && isWeekend) || (empEntry?.status === 'WEEKEND')) && <span className="text-[9px] md:text-[9px] font-bold bg-orange-300 text-orange-950 px-1 rounded shadow-sm leading-none">WK</span>}
                                                                 </div>
                                                             </div>
 
                                                             {empEntry && (
-                                                                <div className="block text-[10px] space-y-0.5 mt-1 font-medium leading-tight">
+                                                                <div className="block space-y-1 md:space-y-0.5 mt-1 font-medium leading-tight">
                                                                     {empEntry.status === 'PRESENT' && (
                                                                         <>
-                                                                            <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">IN: {formatUtcTime(dateStr, empEntry.checkInTime)}</div>
-                                                                            <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">OUT: {formatUtcTime(dateStr, empEntry.checkOutTime)}</div>
+                                                                            <div className="leading-none">
+                                                                                <span className="text-[9px] md:text-xs text-emerald-800 dark:text-emerald-200 block md:inline">IN</span>
+                                                                                <span className="text-[11px] md:text-xs font-bold text-emerald-950 dark:text-emerald-50 block md:inline md:ml-1">{formatUtcTime(dateStr, empEntry.checkInTime)?.split(' ')[0]}</span>
+                                                                            </div>
+                                                                            <div className="leading-none">
+                                                                                <span className="text-[9px] md:text-xs text-emerald-800 dark:text-emerald-200 block md:inline">OUT</span>
+                                                                                <span className="text-[11px] md:text-xs font-bold text-emerald-950 dark:text-emerald-50 block md:inline md:ml-1">{formatUtcTime(dateStr, empEntry.checkOutTime)?.split(' ')[0]}</span>
+                                                                            </div>
                                                                         </>
                                                                     )}
-                                                                    {empEntry.status === 'ABSENT' && <div className="text-red-700 font-bold">ABSENT</div>}
-                                                                    {empEntry.status === 'LEAVE' && <div className="text-amber-900 dark:text-amber-100 truncate font-semibold" title={empEntry.leaveReason}>{empEntry.leaveReason}</div>}
-                                                                    {empEntry.companyDescription && <div className="text-purple-900 dark:text-purple-100 truncate font-semibold">{empEntry.companyDescription}</div>}
+                                                                    {empEntry.status === 'ABSENT' && <div className="text-[10px] md:text-xs text-red-700 font-bold leading-none">ABSENT</div>}
+                                                                    {empEntry.status === 'LEAVE' && <div className="text-[10px] md:text-xs text-amber-900 dark:text-amber-100 truncate font-semibold leading-none" title={empEntry.leaveReason}>{empEntry.leaveReason}</div>}
+                                                                    {empEntry.companyDescription && <div className="text-[10px] md:text-xs text-purple-900 dark:text-purple-100 truncate font-semibold leading-none">{empEntry.companyDescription}</div>}
                                                                 </div>
                                                             )}
                                                         </div>
@@ -449,9 +457,9 @@ export default function CalendarPage() {
                                                     }
 
                                                     return (
-                                                        <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 cursor-pointer transition-all border flex flex-col justify-start md:justify-between relative select-none aspect-square md:aspect-auto md:h-32", cardStyle)}>
+                                                        <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 cursor-pointer transition-all border flex flex-col justify-start md:justify-between relative select-none aspect-square md:aspect-auto md:h-full", cardStyle)}>
                                                             <div className="flex justify-between items-start">
-                                                                <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full transition-colors", isSelected ? "bg-white/20" : "bg-white/30 shadow-sm")}>{day}</span>
+                                                                <span className={cn("font-bold text-[11px] md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full transition-colors", isSelected ? "bg-white/20" : "bg-white/30 shadow-sm")}>{day}</span>
                                                                 {entry && entry.payMultiplier !== 1 && (
                                                                     <span className={cn("inline-block text-[8px] font-bold px-1.5 py-0.5 rounded-full border", isSelected ? "bg-white/20 border-white/30" : "bg-white/50 border-white/20")}>
                                                                         {entry.payMultiplier}x
@@ -460,7 +468,7 @@ export default function CalendarPage() {
                                                             </div>
                                                             {entry ? (
                                                                 <div className="block space-y-0.5 mt-1">
-                                                                    <div className={cn("text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit truncate max-w-full", isSelected ? "bg-white/20 text-white" : "bg-white/50 text-foreground/80")}>
+                                                                    <div className={cn("text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit whitespace-normal leading-tight max-w-full", isSelected ? "bg-white/20 text-white" : "bg-white/50 text-foreground/80")}>
                                                                         {entry.type.replace('_', ' ')}
                                                                     </div>
                                                                     {entry.description && <div className="text-[9px] truncate opacity-90 font-medium">{entry.description}</div>}
@@ -468,7 +476,8 @@ export default function CalendarPage() {
                                                             ) : isWeekend && (
                                                                 <div className="block space-y-0.5 mt-1 opacity-70">
                                                                     <div className="text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit bg-orange-300/50 text-orange-900 border border-orange-400/30">
-                                                                        WEEKEND
+                                                                        <span className="md:hidden">WKND</span>
+                                                                        <span className="hidden md:inline">WEEKEND</span>
                                                                     </div>
                                                                 </div>
                                                             )}
