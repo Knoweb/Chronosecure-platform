@@ -84,11 +84,6 @@ public class ReportServiceImpl implements ReportService {
                                     l -> LocalDateTime.ofInstant(l.getEventTimestamp(), ZoneId.systemDefault())
                                             .toLocalDate())));
 
-            // --- 1. SUMMARY SHEET ---
-            Sheet summarySheet = workbook.createSheet("Summary");
-            createSummaryHeader(summarySheet, headerStyle);
-            int sumRowIdx = 1;
-
             // --- 2. DETAILS SHEET ---
             Sheet detailSheet = workbook.createSheet("Daily Details");
             createDetailHeader(detailSheet, headerStyle);
@@ -240,24 +235,9 @@ public class ReportServiceImpl implements ReportService {
                 Cell finalTotalCell = matrixRow.createCell(matrixCol);
                 finalTotalCell.setCellValue(formatDuration(totalWorked));
                 finalTotalCell.setCellStyle(dataStyle);
-                
-                // --- WRITE SUMMARY ROW ---
-                Row sumRow = summarySheet.createRow(sumRowIdx++);
-                sumRow.createCell(0).setCellValue(employee.getEmployeeCode());
-                sumRow.createCell(1).setCellValue(employee.getFirstName() + " " + employee.getLastName());
-                sumRow.createCell(2).setCellValue(daysPresent);
-                sumRow.createCell(3).setCellValue(daysAbsent);
-                sumRow.createCell(4).setCellValue(daysLeave);
-                sumRow.createCell(5).setCellValue(formatDuration(totalWorked));
-                
-                for(int i=0; i<6; i++) {
-                    Cell c = sumRow.getCell(i);
-                    if(c != null) c.setCellStyle(dataStyle);
-                }
             }
 
             // Auto-size columns
-            for (int i = 0; i < 6; i++) summarySheet.autoSizeColumn(i);
             for (int i = 0; i < 8; i++) detailSheet.autoSizeColumn(i);
             for (int i = 0; i <= colIdx; i++) matrixSheet.autoSizeColumn(i);
 
@@ -268,16 +248,6 @@ public class ReportServiceImpl implements ReportService {
         } catch (IOException e) {
             log.error("Error generating company report", e);
             throw new RuntimeException("Failed to generate report", e);
-        }
-    }
-
-    private void createSummaryHeader(Sheet sheet, CellStyle style) {
-        Row row = sheet.createRow(0);
-        String[] headers = {"Code", "Employee Name", "Present Days", "Absent Days", "Leave Days", "Total Hours"};
-        for (int i = 0; i < headers.length; i++) {
-            Cell cell = row.createCell(i);
-            cell.setCellValue(headers[i]);
-            cell.setCellStyle(style);
         }
     }
 
