@@ -380,98 +380,166 @@ export default function CalendarPage() {
                         <Card className="flex-1 flex flex-col border shadow-lg bg-background/50 backdrop-blur-sm overflow-hidden">
                             <CardContent className="flex-1 flex flex-col p-2 md:p-4 overflow-auto">
                                 <div className="flex-1 flex flex-col">
-                                    <div className="grid grid-cols-7 gap-2 mb-2 text-center shrink-0">
-                                        {/* CHANGED TO MONDAY START */}
-                                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
-                                            <div key={d} className="font-bold text-muted-foreground uppercase text-[10px] tracking-wider">{d}</div>
-                                        ))}
+                                    <div className="hidden md:flex flex-col flex-1 h-full min-h-0">
+                                        <div className="grid grid-cols-7 gap-2 mb-2 text-center shrink-0">
+                                            {/* CHANGED TO MONDAY START */}
+                                            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
+                                                <div key={d} className="font-bold text-muted-foreground uppercase text-[10px] tracking-wider">{d}</div>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex-1 grid grid-cols-7 grid-rows-6 gap-2 min-h-0">
+                                            {days.map((day, i) => {
+                                                // Monday Start: Col 5=Sat, Col 6=Sun
+                                                const isWeekend = (i % 7 === 5) || (i % 7 === 6)
+
+                                                if (day === null) return <div key={i} className={cn("rounded-lg border border-transparent", isWeekend ? "bg-orange-100/50 dark:bg-orange-900/20" : "")} />
+
+                                                const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+
+                                                if (viewMode === 'EMPLOYEE') {
+                                                    // EMPLOYEE VIEW
+                                                    const empEntry = employeeEntries[dateStr]
+                                                    let style = getEmployeeCellStyle(empEntry, isWeekend)
+                                                    // Default Weekend Style in Employee View if no explicit entry (Use Stonger Color)
+                                                    if (!empEntry && isWeekend) style = "bg-orange-200 dark:bg-orange-950/40 border-orange-300 dark:border-orange-800"
+
+                                                    return (
+                                                        <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 border flex flex-col justify-start md:justify-between overflow-hidden relative group transition-colors cursor-pointer min-h-[80px] md:h-32", style)}>
+                                                            <div className="flex justify-between items-start">
+                                                                <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
+                                                                <div className="hidden md:flex gap-1">
+                                                                    {empEntry && empEntry.status === 'LEAVE' && <span className="text-[9px] font-bold bg-amber-400 text-amber-950 px-1 rounded shadow-sm">LEAVE</span>}
+                                                                    {empEntry && empEntry.status === 'HOLIDAY' && <span className="text-[9px] font-bold bg-purple-400 text-purple-950 px-1 rounded shadow-sm">HOLIDAY</span>}
+                                                                    {((!empEntry && isWeekend) || (empEntry?.status === 'WEEKEND')) && <span className="text-[9px] font-bold bg-orange-300 text-orange-950 px-1 rounded shadow-sm">WEEKEND</span>}
+                                                                </div>
+                                                            </div>
+
+                                                            {empEntry && (
+                                                                <div className="block text-[8px] md:text-[10px] space-y-0.5 mt-1 font-medium leading-tight">
+                                                                    {empEntry.status === 'PRESENT' && (
+                                                                        <>
+                                                                            <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">IN: {formatUtcTime(dateStr, empEntry.checkInTime)}</div>
+                                                                            <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">OUT: {formatUtcTime(dateStr, empEntry.checkOutTime)}</div>
+                                                                        </>
+                                                                    )}
+                                                                    {empEntry.status === 'ABSENT' && <div className="text-red-700 font-bold">ABSENT</div>}
+                                                                    {empEntry.status === 'LEAVE' && <div className="text-amber-900 dark:text-amber-100 truncate font-semibold" title={empEntry.leaveReason}>{empEntry.leaveReason}</div>}
+                                                                    {empEntry.companyDescription && <div className="text-purple-900 dark:text-purple-100 truncate font-semibold">{empEntry.companyDescription}</div>}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )
+                                                } else {
+                                                    // COMPANY VIEW
+                                                    const entry = entries[dateStr]
+                                                    const isSelected = selectedDates.includes(dateStr)
+                                                    let cardStyle = "bg-card hover:border-primary/50 hover:shadow-md"
+
+                                                    if (isSelected) {
+                                                        cardStyle = "bg-blue-600 text-white shadow-lg scale-95 ring-2 ring-blue-600 ring-offset-1 z-10"
+                                                    } else if (entry) {
+                                                        // STRONGER COLORS
+                                                        if (entry.type === 'HOLIDAY') cardStyle = "bg-purple-200 dark:bg-purple-900/60 border-purple-300 dark:border-purple-700 hover:bg-purple-300"
+                                                        else if (entry.type === 'WEEKEND') cardStyle = "bg-orange-200 dark:bg-orange-900/60 border-orange-300 dark:border-orange-700 hover:bg-orange-300"
+                                                        else if (entry.type === 'WORKING_DAY') cardStyle = "bg-emerald-200 dark:bg-emerald-900/60 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-300"
+                                                    } else if (isWeekend) {
+                                                        // DEFAULT WEEKEND COLOR (FORCED & STRONGER)
+                                                        cardStyle = "bg-orange-200/80 dark:bg-orange-950/40 border-orange-300 dark:border-orange-800 hover:bg-orange-300"
+                                                    }
+
+                                                    return (
+                                                        <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 cursor-pointer transition-all border flex flex-col justify-start md:justify-between relative select-none aspect-square md:aspect-auto md:h-32", cardStyle)}>
+                                                            <div className="flex justify-between items-start">
+                                                                <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full transition-colors", isSelected ? "bg-white/20" : "bg-white/30 shadow-sm")}>{day}</span>
+                                                                {entry && entry.payMultiplier !== 1 && (
+                                                                    <span className={cn("hidden md:inline-block text-[8px] font-bold px-1.5 py-0.5 rounded-full border", isSelected ? "bg-white/20 border-white/30" : "bg-white/50 border-white/20")}>
+                                                                        {entry.payMultiplier}x
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            {entry ? (
+                                                                <div className="hidden md:block space-y-0.5 mt-1">
+                                                                    <div className={cn("text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit truncate max-w-full", isSelected ? "bg-white/20 text-white" : "bg-white/50 text-foreground/80")}>
+                                                                        {entry.type.replace('_', ' ')}
+                                                                    </div>
+                                                                    {entry.description && <div className="text-[9px] truncate opacity-90 font-medium">{entry.description}</div>}
+                                                                </div>
+                                                            ) : isWeekend && (
+                                                                // Default Label for Weekend
+                                                                <div className="hidden md:block space-y-0.5 mt-1 opacity-70">
+                                                                    <div className="text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit bg-orange-300/50 text-orange-900 border border-orange-400/30">
+                                                                        WEEKEND
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )
+                                                }
+                                            })}
+                                        </div>
                                     </div>
 
-                                    <div className="flex-1 grid grid-cols-7 grid-rows-6 gap-2 min-h-0">
-                                        {days.map((day, i) => {
-                                            // Monday Start: Col 5=Sat, Col 6=Sun
-                                            const isWeekend = (i % 7 === 5) || (i % 7 === 6)
-
-                                            if (day === null) return <div key={i} className={cn("rounded-lg border border-transparent", isWeekend ? "bg-orange-100/50 dark:bg-orange-900/20" : "")} />
-
+                                    <div className="md:hidden flex flex-col gap-3 pb-4">
+                                        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
                                             const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+                                            const dateObj = new Date(dateStr)
+                                            const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' })
+                                            const isWeekend = (dateObj.getDay() === 0 || dateObj.getDay() === 6)
 
                                             if (viewMode === 'EMPLOYEE') {
-                                                // EMPLOYEE VIEW
                                                 const empEntry = employeeEntries[dateStr]
                                                 let style = getEmployeeCellStyle(empEntry, isWeekend)
-                                                // Default Weekend Style in Employee View if no explicit entry (Use Stonger Color)
-                                                if (!empEntry && isWeekend) style = "bg-orange-200 dark:bg-orange-950/40 border-orange-300 dark:border-orange-800"
+                                                if (!empEntry && isWeekend) style = "bg-orange-100 dark:bg-orange-950/30 border-orange-200"
 
                                                 return (
-                                                    <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 border flex flex-col justify-start md:justify-between overflow-hidden relative group transition-colors cursor-pointer min-h-[80px] md:h-32", style)}>
-                                                        <div className="flex justify-between items-start">
-                                                            <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full bg-white/40 shadow-sm")}>{day}</span>
-                                                            <div className="hidden md:flex gap-1">
-                                                                {empEntry && empEntry.status === 'LEAVE' && <span className="text-[9px] font-bold bg-amber-400 text-amber-950 px-1 rounded shadow-sm">LEAVE</span>}
-                                                                {empEntry && empEntry.status === 'HOLIDAY' && <span className="text-[9px] font-bold bg-purple-400 text-purple-950 px-1 rounded shadow-sm">HOLIDAY</span>}
-                                                                {((!empEntry && isWeekend) || (empEntry?.status === 'WEEKEND')) && <span className="text-[9px] font-bold bg-orange-300 text-orange-950 px-1 rounded shadow-sm">WEEKEND</span>}
-                                                            </div>
+                                                    <div key={day} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-3 border shadow-sm flex items-center gap-4", style)}>
+                                                        <div className="flex flex-col items-center justify-center bg-white/50 dark:bg-black/20 rounded-lg h-12 w-12 shrink-0 backdrop-blur-sm">
+                                                            <span className="text-[10px] font-bold uppercase opacity-70">{dayName}</span>
+                                                            <span className="text-xl font-bold leading-none">{day}</span>
                                                         </div>
-
-                                                        {empEntry && (
-                                                            <div className="block text-[8px] md:text-[10px] space-y-0.5 mt-1 font-medium leading-tight">
-                                                                {empEntry.status === 'PRESENT' && (
-                                                                    <>
-                                                                        <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">IN: {formatUtcTime(dateStr, empEntry.checkInTime)}</div>
-                                                                        <div className="text-emerald-900 dark:text-emerald-100 font-semibold whitespace-nowrap">OUT: {formatUtcTime(dateStr, empEntry.checkOutTime)}</div>
-                                                                    </>
-                                                                )}
-                                                                {empEntry.status === 'ABSENT' && <div className="text-red-700 font-bold">ABSENT</div>}
-                                                                {empEntry.status === 'LEAVE' && <div className="text-amber-900 dark:text-amber-100 truncate font-semibold" title={empEntry.leaveReason}>{empEntry.leaveReason}</div>}
-                                                                {empEntry.companyDescription && <div className="text-purple-900 dark:text-purple-100 truncate font-semibold">{empEntry.companyDescription}</div>}
-                                                            </div>
-                                                        )}
+                                                        <div className="flex-1 flex flex-col min-w-0">
+                                                            {empEntry ? (
+                                                                <>
+                                                                    <div className="flex items-center justify-between mb-1">
+                                                                        <span className="text-xs font-bold uppercase px-1.5 py-0.5 rounded bg-white/40 w-fit">{empEntry.status}</span>
+                                                                    </div>
+                                                                    {empEntry.status === 'PRESENT' && (
+                                                                        <div className="flex gap-4 text-sm font-semibold">
+                                                                            <div className="flex flex-col">
+                                                                                <span className="text-[10px] opacity-70 uppercase">In</span>
+                                                                                <span>{formatUtcTime(dateStr, empEntry.checkInTime)}</span>
+                                                                            </div>
+                                                                            <div className="flex flex-col">
+                                                                                <span className="text-[10px] opacity-70 uppercase">Out</span>
+                                                                                <span>{formatUtcTime(dateStr, empEntry.checkOutTime)}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                    {empEntry.leaveReason && <div className="text-sm italic opacity-90 truncate">{empEntry.leaveReason}</div>}
+                                                                    {empEntry.companyDescription && <div className="text-sm font-medium">{empEntry.companyDescription}</div>}
+                                                                </>
+                                                            ) : (
+                                                                <div className="text-sm font-medium opacity-60 italic">{isWeekend ? "Weekend" : "No Data"}</div>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 )
                                             } else {
-                                                // COMPANY VIEW
                                                 const entry = entries[dateStr]
-                                                const isSelected = selectedDates.includes(dateStr)
-                                                let cardStyle = "bg-card hover:border-primary/50 hover:shadow-md"
-
-                                                if (isSelected) {
-                                                    cardStyle = "bg-blue-600 text-white shadow-lg scale-95 ring-2 ring-blue-600 ring-offset-1 z-10"
-                                                } else if (entry) {
-                                                    // STRONGER COLORS
-                                                    if (entry.type === 'HOLIDAY') cardStyle = "bg-purple-200 dark:bg-purple-900/60 border-purple-300 dark:border-purple-700 hover:bg-purple-300"
-                                                    else if (entry.type === 'WEEKEND') cardStyle = "bg-orange-200 dark:bg-orange-900/60 border-orange-300 dark:border-orange-700 hover:bg-orange-300"
-                                                    else if (entry.type === 'WORKING_DAY') cardStyle = "bg-emerald-200 dark:bg-emerald-900/60 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-300"
-                                                } else if (isWeekend) {
-                                                    // DEFAULT WEEKEND COLOR (FORCED & STRONGER)
-                                                    cardStyle = "bg-orange-200/80 dark:bg-orange-950/40 border-orange-300 dark:border-orange-800 hover:bg-orange-300"
-                                                }
-
                                                 return (
-                                                    <div key={i} onClick={() => handleDateClick(day)} className={cn("rounded-lg p-1 md:p-2 cursor-pointer transition-all border flex flex-col justify-start md:justify-between relative select-none aspect-square md:aspect-auto md:h-32", cardStyle)}>
-                                                        <div className="flex justify-between items-start">
-                                                            <span className={cn("font-bold text-xs md:text-sm h-5 w-5 md:h-6 md:w-6 flex items-center justify-center rounded-full transition-colors", isSelected ? "bg-white/20" : "bg-white/30 shadow-sm")}>{day}</span>
-                                                            {entry && entry.payMultiplier !== 1 && (
-                                                                <span className={cn("hidden md:inline-block text-[8px] font-bold px-1.5 py-0.5 rounded-full border", isSelected ? "bg-white/20 border-white/30" : "bg-white/50 border-white/20")}>
-                                                                    {entry.payMultiplier}x
-                                                                </span>
-                                                            )}
+                                                    <div key={day} onClick={() => handleDateClick(day)} className="rounded-lg p-3 border shadow-sm flex items-center justify-between bg-card">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="flex flex-col items-center justify-center bg-muted rounded-lg h-10 w-10">
+                                                                <span className="text-[10px] font-bold uppercase">{dayName}</span>
+                                                                <span className="text-lg font-bold">{day}</span>
+                                                            </div>
+                                                            <div>
+                                                                {entry ? (
+                                                                    <div className="font-semibold text-sm">{entry.type}</div>
+                                                                ) : isWeekend ? <div className="text-sm text-muted-foreground">Weekend</div> : <div className="text-sm text-muted-foreground">Working Day</div>}
+                                                            </div>
                                                         </div>
-                                                        {entry ? (
-                                                            <div className="hidden md:block space-y-0.5 mt-1">
-                                                                <div className={cn("text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit truncate max-w-full", isSelected ? "bg-white/20 text-white" : "bg-white/50 text-foreground/80")}>
-                                                                    {entry.type.replace('_', ' ')}
-                                                                </div>
-                                                                {entry.description && <div className="text-[9px] truncate opacity-90 font-medium">{entry.description}</div>}
-                                                            </div>
-                                                        ) : isWeekend && (
-                                                            // Default Label for Weekend
-                                                            <div className="hidden md:block space-y-0.5 mt-1 opacity-70">
-                                                                <div className="text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-[4px] w-fit bg-orange-300/50 text-orange-900 border border-orange-400/30">
-                                                                    WEEKEND
-                                                                </div>
-                                                            </div>
-                                                        )}
                                                     </div>
                                                 )
                                             }
