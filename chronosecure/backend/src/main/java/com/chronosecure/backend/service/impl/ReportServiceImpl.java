@@ -21,10 +21,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,43 +57,87 @@ public class ReportServiceImpl implements ReportService {
                 cell.setCellStyle(headerStyle);
             }
 
-            // Fetch all calculated hours for the company in the date range
-            List<CalculatedHours> hours = calculatedHoursRepository
+            // 1. Fetch All Data
+            List<Employee> employees = employeeRepository.findByCompanyId(companyId);
+            List<CalculatedHours> allHours = calculatedHoursRepository
                     .findByCompanyIdAndWorkDateBetweenOrderByWorkDateAsc(companyId, startDate, endDate);
+            List<TimeOffRequest> allLeaves = timeOffRequestRepository.findByCompanyIdOrderByCreatedAtDesc(companyId);
+
+            // 2. Index Hours by Employee -> Date
+            Map<UUID, Map<LocalDate, CalculatedHours>> hoursMap = new HashMap<>();
+            for (CalculatedHours h : allHours) {
+                hoursMap.computeIfAbsent(h.getEmployee().getId(), k -> new HashMap<>()).put(h.getWorkDate(), h);
+            }
+
+            // 3. Iterate Employees -> Date Range to fill rows
+            // Sort employees by Name for better report readability
+            employees.sort(Comparator.comparing(Employee::getFirstName).thenComparing(Employee::getLastName));
 
             int rowNum = 1;
-            for (CalculatedHours calculated : hours) {
-                Row row = sheet.createRow(rowNum++);
+            for (Employee employee : employees) {
+                Map<LocalDate, CalculatedHours> empHours = hoursMap.getOrDefault(employee.getId(),
+                        Collections.emptyMap());
 
-                String status = "ABSENT";
-                if (calculated.getLeaveHours() != null && !calculated.getLeaveHours().isZero()) {
-                    status = "LEAVE";
-                } else if (calculated.getTotalHoursWorked() != null && !calculated.getTotalHoursWorked().isZero()) {
-                    status = "PRESENT";
-                } else if (calculated.getPublicHolidayHours() != null && !calculated.getPublicHolidayHours().isZero()) {
-                    status = "HOLIDAY";
-                } else {
-                    // Check for weekend
-                    java.time.DayOfWeek day = calculated.getWorkDate().getDayOfWeek();
-                    if (day == java.time.DayOfWeek.SATURDAY || day == java.time.DayOfWeek.SUNDAY) {
-                        status = "WEEKEND";
+                // Filter valid approved leaves for this employee overlapping the range
+                List<TimeOffRequest> empLeaves = allLeaves.stream()
+                        .filter(l -> l.getEmployee().getId().equals(employee.getId())
+                                && l.getStatus() == TimeOffStatus.APPROVED
+                                && !l.getStartDate().isAfter(endDate)
+                                && !l.getEndDate().isBefore(startDate))
+                        .collect(Collectors.toList());
+
+                for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                    Row row = sheet.createRow(rowNum++);
+                    CalculatedHours hours = empHours.get(date);
+
+                    // Determine Status & Values
+                    String status = "ABSENT";
+                    Duration total = null, weekday = null, sat = null, sun = null, hol = null;
+
+                    if (hours != null) {
+                        total = hours.getTotalHoursWorked();
+                        weekday = hours.getWeekdayHours();
+                        sat = hours.getSaturdayHours();
+                        sun = hours.getSundayHours();
+                        hol = hours.getPublicHolidayHours();
+
+                        if (hours.getLeaveHours() != null && !hours.getLeaveHours().isZero())
+                            status = "LEAVE";
+                        else if (total != null && !total.isZero())
+                            status = "PRESENT";
+                        else if (hol != null && !hol.isZero())
+                            status = "HOLIDAY";
                     }
-                }
 
-                Employee employee = calculated.getEmployee();
-                row.createCell(0).setCellValue(employee.getEmployeeCode());
-                row.createCell(1).setCellValue(employee.getFirstName() + " " + employee.getLastName());
-                row.createCell(2).setCellValue(calculated.getWorkDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
-                row.createCell(3).setCellValue(status);
-                row.createCell(4).setCellValue(formatDuration(calculated.getTotalHoursWorked()));
-                row.createCell(5).setCellValue(formatDuration(calculated.getWeekdayHours()));
-                row.createCell(6).setCellValue(formatDuration(calculated.getSaturdayHours()));
-                row.createCell(7).setCellValue(formatDuration(calculated.getSundayHours()));
-                row.createCell(8).setCellValue(formatDuration(calculated.getPublicHolidayHours()));
+                    // If ABSENT check TimeOffRequests
+                    final LocalDate currentDate = date;
+                    boolean onLeave = empLeaves.stream().anyMatch(
+                            l -> !currentDate.isBefore(l.getStartDate()) && !currentDate.isAfter(l.getEndDate()));
 
-                // Apply data style
-                for (int i = 0; i < headers.length; i++) {
-                    row.getCell(i).setCellStyle(dataStyle);
+                    if (onLeave) {
+                        status = "LEAVE";
+                    } else if ("ABSENT".equals(status)) {
+                        // Check Weekend
+                        java.time.DayOfWeek day = date.getDayOfWeek();
+                        if (day == java.time.DayOfWeek.SATURDAY || day == java.time.DayOfWeek.SUNDAY) {
+                            status = "WEEKEND";
+                        }
+                    }
+
+                    // Write Cells
+                    row.createCell(0).setCellValue(employee.getEmployeeCode());
+                    row.createCell(1).setCellValue(employee.getFirstName() + " " + employee.getLastName());
+                    row.createCell(2).setCellValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+                    row.createCell(3).setCellValue(status);
+                    row.createCell(4).setCellValue(formatDuration(total));
+                    row.createCell(5).setCellValue(formatDuration(weekday));
+                    row.createCell(6).setCellValue(formatDuration(sat));
+                    row.createCell(7).setCellValue(formatDuration(sun));
+                    row.createCell(8).setCellValue(formatDuration(hol));
+
+                    for (int i = 0; i < headers.length; i++) {
+                        row.getCell(i).setCellStyle(dataStyle);
+                    }
                 }
             }
 
@@ -127,11 +168,12 @@ public class ReportServiceImpl implements ReportService {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Employee Attendance Report");
 
-            // Create header style
+            // Styles
             CellStyle headerStyle = createHeaderStyle(workbook);
             CellStyle dataStyle = createDataStyle(workbook);
+            CellStyle totalStyle = createTotalStyle(workbook);
 
-            // Employee info section
+            // Info Section
             Row infoRow1 = sheet.createRow(0);
             infoRow1.createCell(0).setCellValue("Employee Code:");
             infoRow1.createCell(1).setCellValue(employee.getEmployeeCode());
@@ -144,104 +186,100 @@ public class ReportServiceImpl implements ReportService {
             infoRow3.createCell(0).setCellValue("Report Period:");
             infoRow3.createCell(1).setCellValue(startDate + " to " + endDate);
 
-            // Create header row
+            // Headers
             Row headerRow = sheet.createRow(4);
             String[] headers = {
                     "Date", "Status", "Total Hours", "Weekday Hours",
                     "Saturday Hours", "Sunday Hours", "Public Holiday Hours"
             };
-
             for (int i = 0; i < headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(headers[i]);
                 cell.setCellStyle(headerStyle);
             }
 
-            // 1. Fetch calculated hours (persisted)
-            List<CalculatedHours> hours = new ArrayList<>(calculatedHoursRepository
-                    .findByEmployeeIdAndWorkDateBetweenOrderByWorkDateAsc(employeeId, startDate, endDate));
+            // Fetch Data
+            List<CalculatedHours> hoursList = calculatedHoursRepository
+                    .findByEmployeeIdAndWorkDateBetweenOrderByWorkDateAsc(employeeId, startDate, endDate);
+            Map<LocalDate, CalculatedHours> hoursMap = new HashMap<>();
+            for (CalculatedHours h : hoursList)
+                hoursMap.put(h.getWorkDate(), h);
 
-            // 2. Fetch Approved Leaves for the period
-            List<TimeOffRequest> leaves = timeOffRequestRepository.findAll().stream()
+            List<TimeOffRequest> leaves = timeOffRequestRepository.findByCompanyIdOrderByCreatedAtDesc(companyId)
+                    .stream()
                     .filter(req -> req.getEmployeeId().equals(employeeId)
                             && req.getStatus() == TimeOffStatus.APPROVED
                             && !req.getStartDate().isAfter(endDate)
                             && !req.getEndDate().isBefore(startDate))
-                    .toList();
+                    .collect(Collectors.toList());
 
-            // 3. Merge Leaves if no CalculatedHours exist for that date
-            for (TimeOffRequest leave : leaves) {
-                LocalDate start = leave.getStartDate().isBefore(startDate) ? startDate : leave.getStartDate();
-                LocalDate end = leave.getEndDate().isAfter(endDate) ? endDate : leave.getEndDate();
-
-                start.datesUntil(end.plusDays(1)).forEach(date -> {
-                    boolean exists = hours.stream().anyMatch(h -> h.getWorkDate().equals(date));
-                    if (!exists) {
-                        // Create virtual CalculatedHours for the report
-                        CalculatedHours virtual = CalculatedHours.builder()
-                                .workDate(date)
-                                .employee(employee)
-                                .companyId(companyId)
-                                .totalHoursWorked(Duration.ZERO)
-                                .leaveHours(Duration.ofHours(8)) // Keep strict marking for Status logic
-                                .build();
-                        hours.add(virtual);
-                    }
-                });
-            }
-
-            // 4. Sort by Date
-            hours.sort(Comparator.comparing(CalculatedHours::getWorkDate));
-
+            // Iterate Date Range
             int rowNum = 5;
             Duration totalWeekday = Duration.ZERO;
             Duration totalSaturday = Duration.ZERO;
             Duration totalSunday = Duration.ZERO;
             Duration totalHoliday = Duration.ZERO;
-            // No totalLeave sum needed for display, as requested
 
-            for (CalculatedHours calculated : hours) {
+            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
                 Row row = sheet.createRow(rowNum++);
+                CalculatedHours hours = hoursMap.get(date);
 
                 String status = "ABSENT";
-                if (calculated.getLeaveHours() != null && !calculated.getLeaveHours().isZero()) {
+                Duration total = Duration.ZERO, weekday = Duration.ZERO, sat = Duration.ZERO, sun = Duration.ZERO,
+                        hol = Duration.ZERO;
+
+                if (hours != null) {
+                    if (hours.getLeaveHours() != null && !hours.getLeaveHours().isZero())
+                        status = "LEAVE";
+                    else if (hours.getTotalHoursWorked() != null && !hours.getTotalHoursWorked().isZero())
+                        status = "PRESENT";
+                    else if (hours.getPublicHolidayHours() != null && !hours.getPublicHolidayHours().isZero())
+                        status = "HOLIDAY";
+
+                    total = hours.getTotalHoursWorked() != null ? hours.getTotalHoursWorked() : Duration.ZERO;
+                    weekday = hours.getWeekdayHours() != null ? hours.getWeekdayHours() : Duration.ZERO;
+                    sat = hours.getSaturdayHours() != null ? hours.getSaturdayHours() : Duration.ZERO;
+                    sun = hours.getSundayHours() != null ? hours.getSundayHours() : Duration.ZERO;
+                    hol = hours.getPublicHolidayHours() != null ? hours.getPublicHolidayHours() : Duration.ZERO;
+                }
+
+                // Check Leaves override
+                final LocalDate currentDate = date;
+                boolean onLeave = leaves.stream()
+                        .anyMatch(l -> !currentDate.isBefore(l.getStartDate()) && !currentDate.isAfter(l.getEndDate()));
+
+                if (onLeave)
                     status = "LEAVE";
-                } else if (calculated.getTotalHoursWorked() != null && !calculated.getTotalHoursWorked().isZero()) {
-                    status = "PRESENT";
-                } else if (calculated.getPublicHolidayHours() != null && !calculated.getPublicHolidayHours().isZero()) {
-                    status = "HOLIDAY";
-                } else {
-                    java.time.DayOfWeek day = calculated.getWorkDate().getDayOfWeek();
+                else if ("ABSENT".equals(status)) {
+                    java.time.DayOfWeek day = date.getDayOfWeek();
                     if (day == java.time.DayOfWeek.SATURDAY || day == java.time.DayOfWeek.SUNDAY) {
                         status = "WEEKEND";
                     }
                 }
 
-                row.createCell(0).setCellValue(calculated.getWorkDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
+                row.createCell(0).setCellValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
                 row.createCell(1).setCellValue(status);
-                row.createCell(2).setCellValue(formatDuration(calculated.getTotalHoursWorked()));
-                row.createCell(3).setCellValue(formatDuration(calculated.getWeekdayHours()));
-                row.createCell(4).setCellValue(formatDuration(calculated.getSaturdayHours()));
-                row.createCell(5).setCellValue(formatDuration(calculated.getSundayHours()));
-                row.createCell(6).setCellValue(formatDuration(calculated.getPublicHolidayHours()));
+                row.createCell(2).setCellValue(formatDuration(total));
+                row.createCell(3).setCellValue(formatDuration(weekday));
+                row.createCell(4).setCellValue(formatDuration(sat));
+                row.createCell(5).setCellValue(formatDuration(sun));
+                row.createCell(6).setCellValue(formatDuration(hol));
 
-                totalWeekday = totalWeekday.plus(calculated.getWeekdayHours());
-                totalSaturday = totalSaturday.plus(calculated.getSaturdayHours());
-                totalSunday = totalSunday.plus(calculated.getSundayHours());
-                totalHoliday = totalHoliday.plus(calculated.getPublicHolidayHours());
+                // Accumulate totals
+                totalWeekday = totalWeekday.plus(weekday);
+                totalSaturday = totalSaturday.plus(sat);
+                totalSunday = totalSunday.plus(sun);
+                totalHoliday = totalHoliday.plus(hol);
 
-                // Apply data style
                 for (int i = 0; i < headers.length; i++) {
                     row.getCell(i).setCellStyle(dataStyle);
                 }
             }
 
-            // Add totals row
+            // Totals Row
             Row totalRow = sheet.createRow(rowNum);
-            CellStyle totalStyle = createTotalStyle(workbook);
             totalRow.createCell(0).setCellValue("TOTAL");
-            totalRow.createCell(1).setCellValue(""); // Empty status for total
-            // Sum of hours displayed (which excludes leave hours)
+            totalRow.createCell(1).setCellValue("");
             totalRow.createCell(2).setCellValue(formatDuration(
                     totalWeekday.plus(totalSaturday).plus(totalSunday).plus(totalHoliday)));
             totalRow.createCell(3).setCellValue(formatDuration(totalWeekday));
@@ -253,12 +291,10 @@ public class ReportServiceImpl implements ReportService {
                 totalRow.getCell(i).setCellStyle(totalStyle);
             }
 
-            // Auto-size columns
             for (int i = 0; i < headers.length; i++) {
                 sheet.autoSizeColumn(i);
             }
 
-            // Write to byte array
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
 
