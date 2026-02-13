@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Users, CheckCircle2, Clock, Calendar, Check, X } from 'lucide-react'
+import { Users, CheckCircle2, Clock, Calendar, Check, X, Fingerprint } from 'lucide-react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -48,6 +48,11 @@ export default function DashboardPage() {
     },
   })
 
+  const launchScanner = () => {
+    // Open the custom protocol to launch the Python app
+    window.location.href = `fingerprint://enroll?companyId=${companyId}`
+  }
+
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
@@ -55,11 +60,17 @@ export default function DashboardPage() {
         <Header />
         <main className="flex-1 p-4 md:p-6">
           <div className="space-y-6">
-            <div>
-              <h1 className="text-3xl font-bold">Dashboard</h1>
-              <p className="text-muted-foreground mt-1">
-                Welcome back! Here's what's happening today.
-              </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold">Dashboard</h1>
+                <p className="text-muted-foreground mt-1">
+                  Welcome back! Here's what's happening today.
+                </p>
+              </div>
+              <Button onClick={launchScanner} variant="outline" className="gap-2 mr-4 mt-2">
+                <Fingerprint className="h-4 w-4" />
+                Launch Scanner
+              </Button>
             </div>
 
             {/* Stats Grid */}

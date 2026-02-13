@@ -19,5 +19,10 @@ public interface ReportService {
      * Generate Excel report for a specific employee within a date range
      */
     Resource generateEmployeeReport(UUID companyId, UUID employeeId, LocalDate startDate, LocalDate endDate);
+
+    /**
+     * Generate Cost Summary Report with daily active user pricing
+     */
+    Resource generateCostReport(UUID companyId, LocalDate startDate, LocalDate endDate);
 }
 

@@ -30,44 +30,7 @@ const features = [
   { title: 'Multi-Location Support', desc: 'Manage attendance across sites with geofencing and location controls.', Icon: Globe2 },
 ]
 
-const pricing = [
-  {
-    name: 'Starter',
-    price: '$49',
-    note: 'per month, up to 25 employees',
-    features: ['Biometric fingerprint scanning', 'Photo capture verification', 'Basic reporting', 'Email support'],
-    cta: 'Start Free Trial',
-    popular: false,
-  },
-  {
-    name: 'Professional',
-    price: '$149',
-    note: 'per month, up to 100 employees',
-    features: [
-      'Everything in Starter',
-      'Advanced analytics & reporting',
-      'Payroll integrations',
-      'Multi-location support',
-      'Priority support',
-    ],
-    cta: 'Start Free Trial',
-    popular: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    note: 'Contact us for pricing',
-    features: [
-      'Everything in Professional',
-      'Unlimited employees',
-      'Custom integrations',
-      'Dedicated account manager',
-      '24/7 premium support',
-    ],
-    cta: 'Contact Sales',
-    popular: false,
-  },
-]
+
 
 export default function LandingPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -89,7 +52,7 @@ export default function LandingPage() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#features">Features</a>
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#details">Product</a>
-            <a className="text-muted-foreground hover:text-foreground transition-colors" href="#pricing">Pricing</a>
+
             <a className="text-muted-foreground hover:text-foreground transition-colors" href="#security">Security</a>
           </nav>
           <div className="flex items-center gap-2 md:gap-4 text-sm font-medium">
@@ -129,7 +92,7 @@ export default function LandingPage() {
             <nav className="flex flex-col gap-4 text-base font-medium">
               <a className="text-muted-foreground hover:text-foreground transition-colors" href="#features" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
               <a className="text-muted-foreground hover:text-foreground transition-colors" href="#details" onClick={() => setIsMobileMenuOpen(false)}>Product</a>
-              <a className="text-muted-foreground hover:text-foreground transition-colors" href="#pricing" onClick={() => setIsMobileMenuOpen(false)}>Pricing</a>
+
               <a className="text-muted-foreground hover:text-foreground transition-colors" href="#security" onClick={() => setIsMobileMenuOpen(false)}>Security</a>
             </nav>
             <div className="flex flex-col gap-3 pt-4 border-t">
@@ -341,46 +304,7 @@ export default function LandingPage() {
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="space-y-8">
-          <div className="text-center space-y-3">
-            <h2 className="text-3xl font-bold">Simple, Transparent Pricing</h2>
-            <p className="text-muted-foreground text-sm md:text-base">
-              Choose the plan that fits your business size. All plans include core features.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {pricing.map((tier) => (
-              <div
-                key={tier.name}
-                className={`p-6 bg-white border rounded-2xl shadow-sm hover:shadow-md transition ${tier.popular ? 'border-primary shadow-primary/20' : ''
-                  }`}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold">{tier.name}</h3>
-                  {tier.popular && (
-                    <span className="text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">
-                      Popular
-                    </span>
-                  )}
-                </div>
-                <div className="text-4xl font-bold mb-1">{tier.price}</div>
-                <p className="text-sm text-muted-foreground mb-4">{tier.note}</p>
-                <button
-                  className="w-full rounded-full px-8 py-4 font-semibold text-sm md:text-base transition border border-input hover:bg-accent"
-                >
-                  {tier.cta}
-                </button>
-                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-primary mt-0.5" /> {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+
 
         {/* CTA banner */}
         <section className="bg-slate-900 text-white rounded-2xl p-10 md:p-12 shadow-lg text-center space-y-4">
@@ -424,7 +348,7 @@ export default function LandingPage() {
               <h4 className="font-semibold text-slate-900 mb-4">Product</h4>
               <ul className="space-y-2 text-sm text-slate-500">
                 <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
-                <li><a href="#pricing" className="hover:text-primary transition-colors">Pricing</a></li>
+
                 <li><a href="#security" className="hover:text-primary transition-colors">Security</a></li>
                 <li><Link to="/kiosk" className="hover:text-primary transition-colors">Kiosk Mode</Link></li>
               </ul>

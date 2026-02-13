@@ -63,5 +63,22 @@ public class ReportController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
+    @Operation(summary = "Generate cost summary report (Excel)")
+    @GetMapping("/company/cost")
+    @PreAuthorize("hasRole('COMPANY_ADMIN') or hasRole('SUPER_ADMIN')")
+    public ResponseEntity<Resource> generateCostReport(
+            @RequestHeader("X-Company-Id") UUID companyId,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
+        
+        Resource resource = reportService.generateCostReport(companyId, startDate, endDate);
+        
+        String filename = String.format("cost-report-%s-to-%s.xlsx", startDate, endDate);
+        
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
 }
 
