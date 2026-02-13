@@ -54,6 +54,25 @@ export default function ReportsPage() {
     }
   }
 
+  async function downloadCostReport() {
+    try {
+      const response = await api.get('/reports/company/cost', {
+        params: { startDate, endDate },
+        responseType: 'blob',
+      })
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `cost-report-${startDate}-to-${endDate}.xlsx`)
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+    } catch (err) {
+      console.error('Error downloading cost report:', err)
+      alert('Failed to download cost report')
+    }
+  }
+
   async function downloadEmployeeReport() {
     if (!selectedEmployeeId) return
     try {
@@ -136,6 +155,25 @@ export default function ReportsPage() {
                     >
                       <Download className="h-4 w-4 mr-2" />
                       Download Company Report
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Cost Report</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Daily breakdown of active employee costs ($1.00 base + $0.50/extra).
+                    </p>
+                    <Button
+                      onClick={downloadCostReport}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Download Cost Report
                     </Button>
                   </CardContent>
                 </Card>

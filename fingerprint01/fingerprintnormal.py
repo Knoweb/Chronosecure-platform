@@ -77,9 +77,51 @@ ZHIANG_DLL = get_dll_path("ZhiAngCamera.dll") # Assuming this is also used
 SERVICE_KEY = get_resource_path("serviceAccountKey.json")
 DEVICE_CH = 0
 DEVICE_ID = "PC_SCANNER_01"
+# --- CONFIGURATION PERSISTENCE ---
+APP_NAME = "AttendWatchFingerprint"
+if os.name == 'nt':
+    app_data_dir = os.path.join(os.getenv('APPDATA'), APP_NAME)
+else:
+    app_data_dir = os.path.join(os.path.expanduser('~'), '.attendwatch')
+
+if not os.path.exists(app_data_dir):
+    try:
+        os.makedirs(app_data_dir)
+        print(f"DEBUG: Created AppData directory: {app_data_dir}")
+    except OSError as e:
+        print(f"DEBUG: Failed to create AppData directory: {e}")
+
+CONFIG_FILE = os.path.join(app_data_dir, "config.json")
+
+def load_config():
+    """Load configuration from JSON file."""
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"DEBUG: Failed to load config: {e}")
+    return {}
+
+def save_config(company_id):
+    """Save company ID to configuration file."""
+    try:
+        config = {"companyId": company_id}
+        with open(CONFIG_FILE, 'w') as f:
+            json.dump(config, f)
+        print(f"DEBUG: Saved company ID {company_id} to config.")
+    except Exception as e:
+        print(f"DEBUG: Failed to save config: {e}")
+
+# Load initial config
+config = load_config()
+SAVED_COMPANY_ID = config.get("companyId")
+
 # Hardcoded Company ID for Kiosk (Fallback)
 FALLBACK_COMPANY_ID = "cf525652-0f91-4b11-93a1-3e08f1ed2977"
-COMPANY_ID = FALLBACK_COMPANY_ID
+
+# Priority: 1. Args, 2. Saved Config, 3. Fallback
+COMPANY_ID = SAVED_COMPANY_ID if SAVED_COMPANY_ID else FALLBACK_COMPANY_ID
 
 import sys
 import urllib.parse
@@ -90,18 +132,23 @@ if len(sys.argv) > 1:
     try:
         url_arg = sys.argv[1]
         print(f"DEBUG: Received URL arg: {url_arg}")
-        # Remove protocol if present
+        
+        # Handle protocol prefix if present
+        query_part = url_arg
         if "://" in url_arg:
-             query_part = url_arg.split("?", 1)[1] if "?" in url_arg else ""
-        else:
-             query_part = url_arg
+             parts = url_arg.split("?", 1)
+             query_part = parts[1] if len(parts) > 1 else ""
         
         params = urllib.parse.parse_qs(query_part)
+        
+        # Check for companyId in URL
         if "companyId" in params:
             cid = params["companyId"][0]
             if cid and len(cid) > 10: # Basic validation
                 COMPANY_ID = cid
-                print(f"DEBUG: Using Company ID from args: {COMPANY_ID}")
+                save_config(COMPANY_ID) # PERSIST IT!
+                print(f"DEBUG: Updated Company ID from args: {COMPANY_ID}")
+                
     except Exception as e:
         print(f"DEBUG: Error parsing args: {e}")
 IMG_W = 256
@@ -595,8 +642,9 @@ class App(tk.Tk):
     def fetch_employees(self):
         try:
             print(f"Fetching employees from backend for Company {COMPANY_ID}...")
-            # POINT TO REMOTE BACKEND
-            url = f"http://165.232.174.162:8080/api/v1/attendance/employees?companyId={COMPANY_ID}"
+            self.log(f"DEBUG: Using Company ID: {COMPANY_ID}")
+            # POINT TO LOCAL BACKEND FOR DEV
+            url = f"http://localhost:8080/api/v1/attendance/employees?companyId={COMPANY_ID}"
             req = urllib.request.Request(url)
             with urllib.request.urlopen(req) as response:
                 if response.getcode() == 200:
@@ -938,7 +986,7 @@ sapi.Speak "{txt}"
 
         try:
              # URL = http://165.232.174.162:8080/api/v1/attendance/log
-             url = "http://165.232.174.162:8080/api/v1/attendance/log"
+             url = "http://localhost:8080/api/v1/attendance/log"
              
              # Payload matches AttendanceRequest.java
              payload = {

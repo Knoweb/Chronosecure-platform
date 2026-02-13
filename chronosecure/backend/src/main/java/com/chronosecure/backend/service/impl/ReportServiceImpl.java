@@ -4,12 +4,14 @@ import com.chronosecure.backend.model.AttendanceLog;
 import com.chronosecure.backend.model.CalculatedHours;
 import com.chronosecure.backend.model.Employee;
 import com.chronosecure.backend.model.TimeOffRequest;
+import com.chronosecure.backend.model.Company;
 import com.chronosecure.backend.model.enums.AttendanceEventType;
 import com.chronosecure.backend.model.enums.TimeOffStatus;
 import com.chronosecure.backend.repository.AttendanceLogRepository;
 import com.chronosecure.backend.repository.CalculatedHoursRepository;
 import com.chronosecure.backend.repository.EmployeeRepository;
 import com.chronosecure.backend.repository.TimeOffRequestRepository;
+import com.chronosecure.backend.repository.CompanyRepository;
 import com.chronosecure.backend.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,7 @@ public class ReportServiceImpl implements ReportService {
     private final EmployeeRepository employeeRepository;
     private final TimeOffRequestRepository timeOffRequestRepository;
     private final AttendanceLogRepository attendanceLogRepository;
+    private final CompanyRepository companyRepository;
 
     @Override
     public Resource generateCompanyReport(UUID companyId, LocalDate startDate, LocalDate endDate) {
@@ -228,9 +231,67 @@ public class ReportServiceImpl implements ReportService {
                 finalTotalCell.setCellStyle(dataStyle);
             }
 
+            // --- 3. COST REPORT SHEET ---
+            Sheet costSheet = workbook.createSheet("Cost Report");
+            Row costHeader = costSheet.createRow(0);
+            costHeader.createCell(0).setCellValue("Date");
+            costHeader.createCell(1).setCellValue("Active Employees");
+            costHeader.createCell(2).setCellValue("Daily Cost (AUD)");
+            for(int i=0; i<3; i++) costHeader.getCell(i).setCellStyle(headerStyle);
+
+            int costRowIdx = 1;
+            double grandTotalCost = 0.0;
+
+            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                int dailyCount = 0;
+                // Count active employees for this date
+                for (Employee emp : employees) {
+                    Map<LocalDate, CalculatedHours> empHours = hoursMap.getOrDefault(emp.getId(), Collections.emptyMap());
+                    CalculatedHours h = empHours.get(date);
+                    
+                    // Fallback to calculation if not found
+                    if (h == null || (h.getTotalHoursWorked() == null || h.getTotalHoursWorked().isZero())) {
+                        Map<LocalDate, List<AttendanceLog>> empLogs = logsMap.getOrDefault(emp.getId(), Collections.emptyMap());
+                        CalculatedHours computed = calculateFromLogs(empLogs.get(date), date);
+                        if (computed != null && !computed.getTotalHoursWorked().isZero()) {
+                            dailyCount++;
+                        }
+                    } else {
+                        // If CalculatedHours exists and total > 0
+                        if (h.getTotalHoursWorked() != null && !h.getTotalHoursWorked().isZero()) {
+                            dailyCount++;
+                        }
+                    }
+                }
+
+                // Calculate Cost
+                double dailyCost = 0.0;
+                if (dailyCount <= 3) {
+                    dailyCost = 1.00; // Base fee covers 0-3 employees
+                } else {
+                    dailyCost = 1.00 + (dailyCount - 3) * 0.50;
+                }
+                grandTotalCost += dailyCost;
+
+                // Write Row
+                Row row = costSheet.createRow(costRowIdx++);
+                row.createCell(0).setCellValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+                row.createCell(1).setCellValue(dailyCount);
+                row.createCell(2).setCellValue(String.format("$%.2f", dailyCost));
+                
+                for(int i=0; i<3; i++) row.getCell(i).setCellStyle(dataStyle);
+            }
+
+            // Grand Total Row
+            Row totalRow = costSheet.createRow(costRowIdx);
+            Cell lbl = totalRow.createCell(0); lbl.setCellValue("GRAND TOTAL"); lbl.setCellStyle(boldDataStyle);
+            Cell empty = totalRow.createCell(1); empty.setCellStyle(boldDataStyle);
+            Cell val = totalRow.createCell(2); val.setCellValue(String.format("$%.2f", grandTotalCost)); val.setCellStyle(boldDataStyle);
+
             // Auto-size columns
             for (int i = 0; i < 8; i++) detailSheet.autoSizeColumn(i);
             for (int i = 0; i <= colIdx; i++) matrixSheet.autoSizeColumn(i);
+            for (int i = 0; i < 3; i++) costSheet.autoSizeColumn(i);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
@@ -470,5 +531,147 @@ public class ReportServiceImpl implements ReportService {
                 .publicHolidayHours(Duration.ZERO)
                 .leaveHours(Duration.ZERO)
                 .build();
+    }
+    @Override
+    public Resource generateCostReport(UUID companyId, LocalDate startDate, LocalDate endDate) {
+        log.info("Generating cost report for Company: {} from {} to {}", companyId, startDate, endDate);
+
+        // Fetch Company Name
+        String companyName = companyRepository.findById(companyId)
+                .map(Company::getName)
+                .orElse("Unknown Company");
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Cost Summary");
+            
+            CellStyle headerStyle = createHeaderStyle(workbook);
+            CellStyle dataStyle = createDataStyle(workbook);
+            CellStyle boldStyle = createDataStyle(workbook);
+            Font boldFont = workbook.createFont();
+            boldFont.setBold(true);
+            boldStyle.setFont(boldFont);
+
+            // Report Header Info
+            // Row 0: "Period: [Start] - [End] Client Name: [Name]"
+            Row r0 = sheet.createRow(0); 
+            r0.createCell(0).setCellValue(
+                String.format("Period: %s - %s   Client Name: %s", 
+                startDate, endDate, companyName)
+            );
+            // Merge cells for header if needed, but for now just put in first cell
+
+            // Table Header (Row 2)
+            Row headerRow = sheet.createRow(2);
+            String[] headers = {"Date", "Day", "Headcount", "Base Fee", "Usage Fee", "Daily Total (AUD)"};
+            for(int i=0; i<headers.length; i++) {
+                Cell c = headerRow.createCell(i);
+                c.setCellValue(headers[i]);
+                c.setCellStyle(headerStyle);
+            }
+
+            // Fetch All Logs for Period
+            List<AttendanceLog> periodLogs = attendanceLogRepository.findByCompanyIdAndEventTimestampBetweenOrderByEventTimestampDesc(
+                    companyId,
+                    startDate.atStartOfDay(ZoneId.systemDefault()).toInstant(),
+                    endDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
+            );
+
+            // Group logs by Date
+            Map<LocalDate, Set<UUID>> dailyActiveUsers = new HashMap<>();
+            for (AttendanceLog log : periodLogs) {
+                if (log.getEventType() == AttendanceEventType.CLOCK_IN) {
+                    LocalDate date = LocalDateTime.ofInstant(log.getEventTimestamp(), ZoneId.systemDefault()).toLocalDate();
+                    dailyActiveUsers.computeIfAbsent(date, k -> new HashSet<>()).add(log.getEmployee().getId());
+                }
+            }
+
+            int rowIdx = 3;
+            long grandHeadcount = 0;
+            double grandBase = 0.0;
+            double grandUsage = 0.0;
+            double grandTotal = 0.0;
+
+            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                Set<UUID> users = dailyActiveUsers.getOrDefault(date, Collections.emptySet());
+                int count = users.size();
+
+                // Pricing Logic
+                double baseFee = 1.00; // Always apply base fee
+                double usageFee = 0.0;
+                if (count > 3) {
+                    usageFee = (count - 3) * 0.50;
+                }
+                double dailyTotal = baseFee + usageFee;
+
+                // Update Grands
+                grandHeadcount += count;
+                grandBase += baseFee;
+                grandUsage += usageFee;
+                grandTotal += dailyTotal;
+
+                Row row = sheet.createRow(rowIdx++);
+                // Col 0: Date
+                row.createCell(0).setCellValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+                // Col 1: Day
+                row.createCell(1).setCellValue(date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+                // Col 2: Headcount
+                row.createCell(2).setCellValue(count);
+                // Col 3: Base Fee
+                row.createCell(3).setCellValue(String.format("$%.2f", baseFee));
+                // Col 4: Usage Fee
+                row.createCell(4).setCellValue(String.format("$%.2f", usageFee));
+                // Col 5: Daily Total (Bold)
+                Cell totalCell = row.createCell(5);
+                totalCell.setCellValue(String.format("$%.2f", dailyTotal));
+                totalCell.setCellStyle(boldStyle); // Highlighting daily total
+
+                // Apply normal style to others
+                for(int i=0; i<5; i++) row.getCell(i).setCellStyle(dataStyle);
+                // Re-apply border to total cell since boldStyle might miss borders if not cloned carefully
+                // But boldStyle creates borders in createDataStyle so it is fine.
+            }
+
+            // Grand Total Row
+            Row totalRow = sheet.createRow(rowIdx);
+            
+            // "Grand Total" label
+            Cell lbl = totalRow.createCell(0); 
+            lbl.setCellValue("Grand Total"); 
+            lbl.setCellStyle(boldStyle);
+
+            // Col 2: Total Headcount
+            Cell cHead = totalRow.createCell(2);
+            cHead.setCellValue(grandHeadcount);
+            cHead.setCellStyle(boldStyle);
+
+            // Col 3: Total Base
+            Cell cBase = totalRow.createCell(3);
+            cBase.setCellValue(String.format("$%.2f", grandBase));
+            cBase.setCellStyle(boldStyle);
+
+            // Col 4: Total Usage
+            Cell cUsage = totalRow.createCell(4);
+            cUsage.setCellValue(String.format("$%.2f", grandUsage));
+            cUsage.setCellStyle(boldStyle);
+
+            // Col 5: Grand Total
+            Cell cTotal = totalRow.createCell(5);
+            cTotal.setCellValue(String.format("$%.2f", grandTotal));
+            cTotal.setCellStyle(boldStyle);
+
+            // Apply style to empty cells to keep borders?
+            totalRow.createCell(1).setCellStyle(boldStyle); // Day col empty
+
+            // Auto-size columns
+            for (int i = 0; i < 6; i++) sheet.autoSizeColumn(i);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            return new ByteArrayResource(outputStream.toByteArray());
+
+        } catch (IOException e) {
+            log.error("Error generating cost report", e);
+            throw new RuntimeException("Failed to generate report", e);
+        }
     }
 }
