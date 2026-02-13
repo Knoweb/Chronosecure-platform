@@ -6,7 +6,7 @@ echo.
 echo Step 1: Installing PyInstaller for 32-bit Python...
 py -3-32 -m pip install --upgrade pip
 echo Installing PyInstaller...
-py -3-32 -m pip install pyinstaller --user --no-cache-dir --force-reinstall
+py -3-32 -m pip install pyinstaller --user --no-cache-dir
 
 echo Step 1.5: Installing Dependencies for 32-bit Python...
 py -3-32 -m pip install opencv-python numpy pillow firebase-admin --user --no-cache-dir
@@ -27,7 +27,6 @@ py -3-32 -m PyInstaller --noconfirm --onedir --windowed --name "AttendWatchFinge
     --add-data "ID_FprCap.dll;." ^
     --add-data "ZhiAngCamera.dll;." ^
     --add-data "serviceAccountKey.json;." ^
-    --add-data "fp_local.db;." ^
     --icon "NONE" ^
     fingerprintnormal.py
 
@@ -44,4 +43,4 @@ echo 2. Open 'setup_script.iss'.
 echo 3. Click 'Compile'.
 echo 4. You will get 'AttendWatchSetup.exe' - Give THIS to your client!
 echo.
-pause
+echo Build Finished.

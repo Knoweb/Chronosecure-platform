@@ -1,4 +1,4 @@
-import os, time, sqlite3, ctypes, hashlib, threading, base64, urllib.request, json, winsound
+import sys, subprocess, os, time, sqlite3, ctypes, hashlib, threading, base64, urllib.request, json, winsound
 from datetime import datetime, date
 import numpy as np
 import cv2
@@ -130,7 +130,9 @@ import urllib.parse
 # Expected arg: fingerprint://enroll?employeeCode=...&name=...&companyId=...
 if len(sys.argv) > 1:
     try:
-        url_arg = sys.argv[1]
+        raw_arg = sys.argv[1]
+        # Decode URL if it's encoded (e.g. fingerprint%3A%2F%2F...)
+        url_arg = urllib.parse.unquote(raw_arg)
         print(f"DEBUG: Received URL arg: {url_arg}")
         
         # Handle protocol prefix if present
@@ -144,10 +146,13 @@ if len(sys.argv) > 1:
         # Check for companyId in URL
         if "companyId" in params:
             cid = params["companyId"][0]
+            if cid:
+                cid = cid.strip() # Remove invisible spaces!
             if cid and len(cid) > 10: # Basic validation
                 COMPANY_ID = cid
                 save_config(COMPANY_ID) # PERSIST IT!
                 print(f"DEBUG: Updated Company ID from args: {COMPANY_ID}")
+                
                 
     except Exception as e:
         print(f"DEBUG: Error parsing args: {e}")
@@ -642,9 +647,9 @@ class App(tk.Tk):
     def fetch_employees(self):
         try:
             print(f"Fetching employees from backend for Company {COMPANY_ID}...")
-            self.log(f"DEBUG: Using Company ID: {COMPANY_ID}")
-            # POINT TO LOCAL BACKEND FOR DEV
-            url = f"http://localhost:8080/api/v1/attendance/employees?companyId={COMPANY_ID}"
+            self.log(f"DEBUG: Using Company ID: '{COMPANY_ID}'")
+            # POINT TO REMOTE BACKEND
+            url = f"http://165.232.174.162:8080/api/v1/attendance/employees?companyId={COMPANY_ID}"
             req = urllib.request.Request(url)
             with urllib.request.urlopen(req) as response:
                 if response.getcode() == 200:
@@ -986,7 +991,7 @@ sapi.Speak "{txt}"
 
         try:
              # URL = http://165.232.174.162:8080/api/v1/attendance/log
-             url = "http://localhost:8080/api/v1/attendance/log"
+             url = "http://165.232.174.162:8080/api/v1/attendance/log"
              
              # Payload matches AttendanceRequest.java
              payload = {
