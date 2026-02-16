@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Sidebar } from '@/components/layout/Sidebar'
+import { SuperAdminSidebar } from '@/components/layout/SuperAdminSidebar'
 import { Header } from '@/components/layout/Header'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -77,7 +77,7 @@ export default function SuperAdminDashboard() {
          For now, reusing Sidebar but ideally SuperAdmin should contain different links.
          You can create a `SuperAdminSidebar` component if needed.
       */}
-            <Sidebar />
+            <SuperAdminSidebar />
             <div className="flex-1 flex flex-col">
                 <Header />
                 <main className="flex-1 p-4 md:p-6 space-y-6">
