@@ -47,12 +47,16 @@ public class SuperAdminController {
     @Operation(summary = "Download Cost Report for Company")
     @GetMapping("/companies/{companyId}/cost-report")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<Resource> downloadCostReport(@PathVariable UUID companyId) {
-        // Default to current month
-        LocalDate end = LocalDate.now();
-        LocalDate start = end.withDayOfMonth(1);
+    public ResponseEntity<Resource> downloadCostReport(
+            @PathVariable UUID companyId,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate) {
         
-        Resource file = reportService.generateCostReport(companyId, start, end);
+        // Default to current month if not provided
+        if (endDate == null) endDate = LocalDate.now();
+        if (startDate == null) startDate = endDate.withDayOfMonth(1);
+        
+        Resource file = reportService.generateCostReport(companyId, startDate, endDate);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
