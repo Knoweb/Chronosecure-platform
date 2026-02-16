@@ -61,4 +61,12 @@ public class SuperAdminController {
     public ResponseEntity<List<User>> getCompanyUsers(@PathVariable UUID companyId) {
         return ResponseEntity.ok(superAdminService.getUsersByCompany(companyId));
     }
+
+    @Operation(summary = "Delete a company and its users")
+    @DeleteMapping("/companies/{companyId}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    public ResponseEntity<Void> deleteCompany(@PathVariable UUID companyId) {
+        superAdminService.deleteCompany(companyId);
+        return ResponseEntity.noContent().build();
+    }
 }

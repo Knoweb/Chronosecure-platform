@@ -63,6 +63,18 @@ export default function SuperAdminDashboard() {
         onError: () => alert('Failed to update plan')
     })
 
+    // Delete Company Mutation
+    const deleteCompanyMutation = useMutation({
+        mutationFn: async (id: string) => {
+            await api.delete(`/super-admin/companies/${id}`)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['super-admin-companies'] })
+            alert('Company deleted successfully')
+        },
+        onError: () => alert('Failed to delete company')
+    })
+
     if (isLoading) {
         return <div className="flex h-screen items-center justify-center">Loading...</div>
     }
@@ -195,6 +207,18 @@ export default function SuperAdminDashboard() {
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onClick={() => updatePlanMutation.mutate({ id: company.id, plan: 'PRO' })}>
                                                             Set to PRO
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        <DropdownMenuLabel className="text-red-500">Danger Zone</DropdownMenuLabel>
+                                                        <DropdownMenuItem
+                                                            className="text-red-500 focus:text-red-500 focus:bg-red-50"
+                                                            onClick={() => {
+                                                                if (window.confirm('Are you sure you want to PERMANENTLY delete this company? This action cannot be undone.')) {
+                                                                    deleteCompanyMutation.mutate(company.id)
+                                                                }
+                                                            }}
+                                                        >
+                                                            Delete Company
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>

@@ -48,4 +48,16 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     public List<User> getUsersByCompany(UUID companyId) {
         return userRepository.findByCompanyId(companyId);
     }
+
+    @Override
+    public void deleteCompany(UUID companyId) {
+        Company company = getCompanyDetails(companyId);
+        
+        // Basic cleanup: Delete all users first (Assuming users are the main dependency for now)
+        // Note: In a full production app, we would need to delete AttendanceLogs, etc. first or use soft-delete.
+        List<User> users = userRepository.findByCompanyId(companyId);
+        userRepository.deleteAll(users);
+
+        companyRepository.delete(company);
+    }
 }
