@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import com.chronosecure.backend.dto.CompanyDetailResponse;
+import com.chronosecure.backend.model.enums.UserRole;
 import java.util.UUID;
 
 @Service
@@ -38,6 +40,33 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     public Company getCompanyDetails(UUID companyId) {
         return companyRepository.findById(companyId)
                 .orElseThrow(() -> new RuntimeException("Company not found"));
+    }
+
+    @Override
+    public CompanyDetailResponse getCompanyFullDetails(UUID companyId) {
+        Company company = getCompanyDetails(companyId);
+        List<User> users = userRepository.findByCompanyId(companyId);
+        
+        List<CompanyDetailResponse.AdminUserDTO> admins = users.stream()
+                .filter(u -> u.getRole() == UserRole.COMPANY_ADMIN)
+                .map(u -> CompanyDetailResponse.AdminUserDTO.builder()
+                        .id(u.getId())
+                        .email(u.getEmail())
+                        .firstName(u.getFirstName())
+                        .lastName(u.getLastName())
+                        .build())
+                .toList();
+
+        return CompanyDetailResponse.builder()
+                .id(company.getId())
+                .name(company.getName())
+                .subdomain(company.getSubdomain())
+                .billingAddress(company.getBillingAddress())
+                .active(company.isActive())
+                .subscriptionPlan(company.getSubscriptionPlan())
+                .createdAt(company.getCreatedAt())
+                .admins(admins)
+                .build();
     }
 
     @Override

@@ -3,7 +3,13 @@ package com.chronosecure.backend.controller;
 import com.chronosecure.backend.model.Company;
 import com.chronosecure.backend.model.User;
 import com.chronosecure.backend.model.enums.SubscriptionPlan;
+import com.chronosecure.backend.dto.CompanyDetailResponse;
 import com.chronosecure.backend.service.SuperAdminService;
+import com.chronosecure.backend.service.ReportService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.time.LocalDate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +28,7 @@ import java.util.UUID;
 public class SuperAdminController {
 
     private final SuperAdminService superAdminService;
+    private final ReportService reportService;
 
     @Operation(summary = "List all registered companies")
     @GetMapping("/companies")
@@ -30,11 +37,26 @@ public class SuperAdminController {
         return ResponseEntity.ok(superAdminService.getAllCompanies());
     }
 
-    @Operation(summary = "Get specific company details")
+    @Operation(summary = "Get specific company details with admins")
     @GetMapping("/companies/{companyId}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    public ResponseEntity<Company> getCompanyDetails(@PathVariable UUID companyId) {
-        return ResponseEntity.ok(superAdminService.getCompanyDetails(companyId));
+    public ResponseEntity<CompanyDetailResponse> getCompanyDetails(@PathVariable UUID companyId) {
+        return ResponseEntity.ok(superAdminService.getCompanyFullDetails(companyId));
+    }
+
+    @Operation(summary = "Download Cost Report for Company")
+    @GetMapping("/companies/{companyId}/cost-report")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    public ResponseEntity<Resource> downloadCostReport(@PathVariable UUID companyId) {
+        // Default to current month
+        LocalDate end = LocalDate.now();
+        LocalDate start = end.withDayOfMonth(1);
+        
+        Resource file = reportService.generateCostReport(companyId, start, end);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(file);
     }
 
     @Operation(summary = "Update company active status")

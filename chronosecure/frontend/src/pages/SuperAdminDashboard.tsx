@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { SuperAdminSidebar } from '@/components/layout/SuperAdminSidebar'
 import { Header } from '@/components/layout/Header'
@@ -13,28 +14,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+
 import { Building2, CheckCircle, XCircle, Pencil, Trash2 } from 'lucide-react'
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogClose,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+import { CompanyEditDialog } from '@/components/super-admin/CompanyEditDialog'
 
 export default function SuperAdminDashboard() {
+    const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(null)
     const queryClient = useQueryClient()
 
     // Fetch all companies
@@ -44,34 +29,6 @@ export default function SuperAdminDashboard() {
             const response = await api.get('/super-admin/companies')
             return response.data
         },
-    })
-
-    // Update Status Mutation
-    const updateStatusMutation = useMutation({
-        mutationFn: async ({ id, isActive }: { id: string; isActive: boolean }) => {
-            await api.patch(`/super-admin/companies/${id}/status`, null, {
-                params: { isActive }
-            })
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['super-admin-companies'] })
-            alert('Company status updated')
-        },
-        onError: () => alert('Failed to update status')
-    })
-
-    // Update Plan Mutation
-    const updatePlanMutation = useMutation({
-        mutationFn: async ({ id, plan }: { id: string; plan: string }) => {
-            await api.patch(`/super-admin/companies/${id}/plan`, null, {
-                params: { plan }
-            })
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['super-admin-companies'] })
-            alert('Subscription plan updated')
-        },
-        onError: () => alert('Failed to update plan')
     })
 
     // Delete Company Mutation
@@ -186,102 +143,14 @@ export default function SuperAdminDashboard() {
                                                     <Trash2 className="h-4 w-4" />
                                                     <span className="sr-only">Delete company</span>
                                                 </Button>
-                                                <Dialog>
-                                                    <DialogTrigger asChild>
-                                                        <Button variant="outline" size="icon">
-                                                            <Pencil className="h-4 w-4" />
-                                                            <span className="sr-only">Edit company</span>
-                                                        </Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent className="sm:max-w-[425px]">
-                                                        <DialogHeader>
-                                                            <DialogTitle>Edit Company</DialogTitle>
-                                                            <DialogDescription>
-                                                                Manage settings for {company.name}
-                                                            </DialogDescription>
-                                                        </DialogHeader>
-
-                                                        <div className="grid gap-4 py-4">
-
-                                                            {/* Copy ID */}
-                                                            <div className="grid grid-cols-4 items-center gap-4">
-                                                                <Label htmlFor="id" className="text-right">ID</Label>
-                                                                <div className="col-span-3 flex items-center gap-2">
-                                                                    <Input id="id" value={company.id} readOnly className="h-8" />
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="sm"
-                                                                        onClick={() => navigator.clipboard.writeText(company.id)}
-                                                                    >
-                                                                        Copy
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Subscription Plan */}
-                                                            <div className="grid grid-cols-4 items-center gap-4">
-                                                                <Label className="text-right">Plan</Label>
-                                                                <div className="col-span-3">
-                                                                    <Select
-                                                                        defaultValue={company.subscriptionPlan || 'FREE'}
-                                                                        onValueChange={(val) => updatePlanMutation.mutate({ id: company.id, plan: val })}
-                                                                    >
-                                                                        <SelectTrigger>
-                                                                            <SelectValue placeholder="Select a plan" />
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                            <SelectItem value="FREE">Free</SelectItem>
-                                                                            <SelectItem value="STARTER">Starter</SelectItem>
-                                                                            <SelectItem value="PRO">Pro</SelectItem>
-                                                                        </SelectContent>
-                                                                    </Select>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Status Toggle */}
-                                                            <div className="grid grid-cols-4 items-center gap-4">
-                                                                <Label className="text-right">Status</Label>
-                                                                <div className="col-span-3 flex items-center gap-2">
-                                                                    <Badge variant={company.active ? "default" : "destructive"}>
-                                                                        {company.active ? 'Active' : 'Inactive'}
-                                                                    </Badge>
-                                                                    <Button
-                                                                        variant="outline"
-                                                                        size="sm"
-                                                                        onClick={() => updateStatusMutation.mutate({ id: company.id, isActive: !company.active })}
-                                                                    >
-                                                                        {company.active ? 'Deactivate' : 'Activate'}
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Danger Zone */}
-                                                            <div className="border-t pt-4 mt-2">
-                                                                <div className="flex flex-col gap-2">
-                                                                    <h4 className="text-sm font-medium text-destructive">Danger Zone</h4>
-                                                                    <p className="text-xs text-muted-foreground">This action cannot be undone.</p>
-                                                                    <Button
-                                                                        variant="destructive"
-                                                                        className="w-full"
-                                                                        onClick={() => {
-                                                                            if (confirm(`Are you sure you want to delete ${company.name}? This will remove all associated data and users.`)) {
-                                                                                deleteCompanyMutation.mutate(company.id)
-                                                                            }
-                                                                        }}
-                                                                    >
-                                                                        <Trash2 className="mr-2 h-4 w-4" />
-                                                                        Delete Company
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <DialogFooter>
-                                                            <DialogClose asChild>
-                                                                <Button type="button">Done</Button>
-                                                            </DialogClose>
-                                                        </DialogFooter>
-                                                    </DialogContent>
-                                                </Dialog>
+                                                <Button
+                                                    variant="outline"
+                                                    size="icon"
+                                                    onClick={() => setSelectedCompanyId(company.id)}
+                                                >
+                                                    <Pencil className="h-4 w-4" />
+                                                    <span className="sr-only">Edit company</span>
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -291,6 +160,13 @@ export default function SuperAdminDashboard() {
                     </Card>
                 </main>
             </div>
+
+            <CompanyEditDialog
+                companyId={selectedCompanyId}
+                isOpen={!!selectedCompanyId}
+                onClose={() => setSelectedCompanyId(null)}
+            />
         </div>
     )
 }
+
