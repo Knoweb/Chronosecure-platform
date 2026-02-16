@@ -1,5 +1,6 @@
 package com.chronosecure.backend.model;
 
+import com.chronosecure.backend.model.enums.SubscriptionPlan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +39,11 @@ public class Company {
     @Column(name = "is_active")
     @Builder.Default
     private boolean isActive = true;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subscription_plan")
+    @Builder.Default
+    private SubscriptionPlan subscriptionPlan = SubscriptionPlan.FREE;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

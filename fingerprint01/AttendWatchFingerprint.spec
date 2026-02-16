@@ -5,7 +5,7 @@ a = Analysis(
     ['fingerprintnormal.py'],
     pathex=[],
     binaries=[],
-    datas=[('ID_FprCap.dll', '.'), ('ZhiAngCamera.dll', '.'), ('serviceAccountKey.json', '.'), ('fp_local.db', '.')],
+    datas=[('ID_FprCap.dll', '.'), ('ZhiAngCamera.dll', '.'), ('serviceAccountKey.json', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
