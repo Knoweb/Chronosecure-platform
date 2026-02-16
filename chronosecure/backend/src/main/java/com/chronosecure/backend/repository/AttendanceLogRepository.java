@@ -32,4 +32,7 @@ public interface AttendanceLogRepository extends JpaRepository<AttendanceLog, UU
     // Fetch history for company within date range
     List<AttendanceLog> findByCompanyIdAndEventTimestampBetweenOrderByEventTimestampDesc(
             UUID companyId, Instant start, Instant end);
+            
+    // For delete cleanup
+    List<AttendanceLog> findByCompanyId(UUID companyId);
 }

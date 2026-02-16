@@ -13,15 +13,26 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Building2, CheckCircle, XCircle } from 'lucide-react'
+import { Building2, CheckCircle, XCircle, Pencil, Trash2 } from 'lucide-react'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogClose,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 export default function SuperAdminDashboard() {
     const queryClient = useQueryClient()
@@ -162,66 +173,102 @@ export default function SuperAdminDashboard() {
                                                 </Badge>
                                             </TableCell>
                                             <TableCell className="text-right">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                                            <span className="sr-only">Open menu</span>
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="24"
-                                                                height="24"
-                                                                viewBox="0 0 24 24"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                strokeWidth="2"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                className="lucide lucide-more-horizontal h-4 w-4"
-                                                            >
-                                                                <circle cx="12" cy="12" r="1" />
-                                                                <circle cx="19" cy="12" r="1" />
-                                                                <circle cx="5" cy="12" r="1" />
-                                                            </svg>
+                                                <Dialog>
+                                                    <DialogTrigger asChild>
+                                                        <Button variant="outline" size="icon">
+                                                            <Pencil className="h-4 w-4" />
+                                                            <span className="sr-only">Edit company</span>
                                                         </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(company.id)}>
-                                                            Copy ID
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuSeparator />
-                                                        <DropdownMenuLabel>Status</DropdownMenuLabel>
-                                                        <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: company.id, isActive: true })}>
-                                                            Mark Active
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => updateStatusMutation.mutate({ id: company.id, isActive: false })}>
-                                                            Mark Inactive
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuSeparator />
-                                                        <DropdownMenuLabel>Subscription</DropdownMenuLabel>
-                                                        <DropdownMenuItem onClick={() => updatePlanMutation.mutate({ id: company.id, plan: 'FREE' })}>
-                                                            Set to FREE
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => updatePlanMutation.mutate({ id: company.id, plan: 'STARTER' })}>
-                                                            Set to STARTER
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => updatePlanMutation.mutate({ id: company.id, plan: 'PRO' })}>
-                                                            Set to PRO
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuSeparator />
-                                                        <DropdownMenuLabel className="text-red-500">Danger Zone</DropdownMenuLabel>
-                                                        <DropdownMenuItem
-                                                            className="text-red-500 focus:text-red-500 focus:bg-red-50"
-                                                            onClick={() => {
-                                                                if (window.confirm('Are you sure you want to PERMANENTLY delete this company? This action cannot be undone.')) {
-                                                                    deleteCompanyMutation.mutate(company.id)
-                                                                }
-                                                            }}
-                                                        >
-                                                            Delete Company
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
+                                                    </DialogTrigger>
+                                                    <DialogContent className="sm:max-w-[425px]">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Edit Company</DialogTitle>
+                                                            <DialogDescription>
+                                                                Manage settings for {company.name}
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+
+                                                        <div className="grid gap-4 py-4">
+
+                                                            {/* Copy ID */}
+                                                            <div className="grid grid-cols-4 items-center gap-4">
+                                                                <Label htmlFor="id" className="text-right">ID</Label>
+                                                                <div className="col-span-3 flex items-center gap-2">
+                                                                    <Input id="id" value={company.id} readOnly className="h-8" />
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="sm"
+                                                                        onClick={() => navigator.clipboard.writeText(company.id)}
+                                                                    >
+                                                                        Copy
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Subscription Plan */}
+                                                            <div className="grid grid-cols-4 items-center gap-4">
+                                                                <Label className="text-right">Plan</Label>
+                                                                <div className="col-span-3">
+                                                                    <Select
+                                                                        defaultValue={company.subscriptionPlan || 'FREE'}
+                                                                        onValueChange={(val) => updatePlanMutation.mutate({ id: company.id, plan: val })}
+                                                                    >
+                                                                        <SelectTrigger>
+                                                                            <SelectValue placeholder="Select a plan" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem value="FREE">Free</SelectItem>
+                                                                            <SelectItem value="STARTER">Starter</SelectItem>
+                                                                            <SelectItem value="PRO">Pro</SelectItem>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Status Toggle */}
+                                                            <div className="grid grid-cols-4 items-center gap-4">
+                                                                <Label className="text-right">Status</Label>
+                                                                <div className="col-span-3 flex items-center gap-2">
+                                                                    <Badge variant={company.isActive ? "default" : "destructive"}>
+                                                                        {company.isActive ? 'Active' : 'Inactive'}
+                                                                    </Badge>
+                                                                    <Button
+                                                                        variant="outline"
+                                                                        size="sm"
+                                                                        onClick={() => updateStatusMutation.mutate({ id: company.id, isActive: !company.isActive })}
+                                                                    >
+                                                                        {company.isActive ? 'Deactivate' : 'Activate'}
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Danger Zone */}
+                                                            <div className="border-t pt-4 mt-2">
+                                                                <div className="flex flex-col gap-2">
+                                                                    <h4 className="text-sm font-medium text-destructive">Danger Zone</h4>
+                                                                    <p className="text-xs text-muted-foreground">This action cannot be undone.</p>
+                                                                    <Button
+                                                                        variant="destructive"
+                                                                        className="w-full"
+                                                                        onClick={() => {
+                                                                            if (confirm(`Are you sure you want to delete ${company.name}? This will remove all associated data and users.`)) {
+                                                                                deleteCompanyMutation.mutate(company.id)
+                                                                            }
+                                                                        }}
+                                                                    >
+                                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                                        Delete Company
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <DialogFooter>
+                                                            <DialogClose asChild>
+                                                                <Button type="button">Done</Button>
+                                                            </DialogClose>
+                                                        </DialogFooter>
+                                                    </DialogContent>
+                                                </Dialog>
                                             </TableCell>
                                         </TableRow>
                                     ))}

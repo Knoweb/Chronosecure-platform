@@ -12,5 +12,6 @@ import java.util.UUID;
 @Repository
 public interface CompanyCalendarRepository extends JpaRepository<CompanyCalendar, UUID> {
     List<CompanyCalendar> findByCompanyIdAndDateBetween(UUID companyId, LocalDate startDate, LocalDate endDate);
-    Optional<CompanyCalendar> findByCompanyIdAndDate(UUID companyId, LocalDate date);
+    Optional<CompanyCalendar> findByCompanyId(UUID companyId, LocalDate date);
+    List<CompanyCalendar> findByCompanyId(UUID companyId);
 }

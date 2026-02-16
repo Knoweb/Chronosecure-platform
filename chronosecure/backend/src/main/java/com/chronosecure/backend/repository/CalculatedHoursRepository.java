@@ -19,4 +19,6 @@ public interface CalculatedHoursRepository extends JpaRepository<CalculatedHours
     // Individual employee report
     List<CalculatedHours> findByEmployeeIdAndWorkDateBetweenOrderByWorkDateAsc(
             UUID employeeId, LocalDate startDate, LocalDate endDate);
+            
+    List<CalculatedHours> findByCompanyId(UUID companyId);
 }

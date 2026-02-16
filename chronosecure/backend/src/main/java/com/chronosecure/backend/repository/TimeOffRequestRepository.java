@@ -15,4 +15,5 @@ public interface TimeOffRequestRepository extends JpaRepository<TimeOffRequest, 
         List<TimeOffRequest> findByCompanyIdOrderByCreatedAtDesc(UUID companyId);
 
         long countByCompanyIdAndStatus(UUID companyId, TimeOffStatus status);
+    List<TimeOffRequest> findByCompanyId(UUID companyId);
 }

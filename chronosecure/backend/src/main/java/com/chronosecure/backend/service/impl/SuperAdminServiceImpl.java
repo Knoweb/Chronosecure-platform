@@ -18,6 +18,11 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
     private final CompanyRepository companyRepository;
     private final UserRepository userRepository;
+    private final com.chronosecure.backend.repository.AttendanceLogRepository attendanceLogRepository;
+    private final com.chronosecure.backend.repository.TimeOffRequestRepository timeOffRequestRepository;
+    private final com.chronosecure.backend.repository.LocationRepository locationRepository;
+    private final com.chronosecure.backend.repository.CalculatedHoursRepository calculatedHoursRepository;
+    private final com.chronosecure.backend.repository.CompanyCalendarRepository companyCalendarRepository;
 
     @Override
     public List<Company> getAllCompanies() {
@@ -53,11 +58,27 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     public void deleteCompany(UUID companyId) {
         Company company = getCompanyDetails(companyId);
         
-        // Basic cleanup: Delete all users first (Assuming users are the main dependency for now)
-        // Note: In a full production app, we would need to delete AttendanceLogs, etc. first or use soft-delete.
+        // 1. Delete Dependencies first
+        // Attendance Logs
+        attendanceLogRepository.deleteAll(attendanceLogRepository.findByCompanyId(companyId));
+        
+        // Time Off Requests
+        timeOffRequestRepository.deleteAll(timeOffRequestRepository.findByCompanyId(companyId));
+        
+        // Calculated Hours
+        calculatedHoursRepository.deleteAll(calculatedHoursRepository.findByCompanyId(companyId));
+        
+        // Company Calendar
+        companyCalendarRepository.deleteAll(companyCalendarRepository.findByCompanyId(companyId));
+        
+        // Locations
+        locationRepository.deleteAll(locationRepository.findByCompanyId(companyId));
+
+        // 2. Delete Users
         List<User> users = userRepository.findByCompanyId(companyId);
         userRepository.deleteAll(users);
 
+        // 3. Delete Company
         companyRepository.delete(company);
     }
 }
