@@ -90,7 +90,7 @@ export default function SuperAdminDashboard() {
         return <div className="flex h-screen items-center justify-center">Loading...</div>
     }
 
-    const activeCompanies = companies?.filter((c: any) => c.isActive).length || 0
+    const activeCompanies = companies?.filter((c: any) => c.active).length || 0
     const totalCompanies = companies?.length || 0
 
     return (
@@ -163,8 +163,8 @@ export default function SuperAdminDashboard() {
                                             <TableCell className="font-medium">{company.name}</TableCell>
                                             <TableCell>{company.subdomain}.attendwatch.com</TableCell>
                                             <TableCell>
-                                                <Badge variant={company.isActive ? "default" : "destructive"}>
-                                                    {company.isActive ? 'Active' : 'Inactive'}
+                                                <Badge variant={company.active ? "default" : "destructive"}>
+                                                    {company.active ? 'Active' : 'Inactive'}
                                                 </Badge>
                                             </TableCell>
                                             <TableCell>
@@ -172,7 +172,20 @@ export default function SuperAdminDashboard() {
                                                     {company.subscriptionPlan || 'FREE'}
                                                 </Badge>
                                             </TableCell>
-                                            <TableCell className="text-right">
+                                            <TableCell className="text-right flex items-center justify-end gap-2">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                                                    onClick={() => {
+                                                        if (confirm(`Are you sure you want to delete ${company.name}?`)) {
+                                                            deleteCompanyMutation.mutate(company.id)
+                                                        }
+                                                    }}
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                    <span className="sr-only">Delete company</span>
+                                                </Button>
                                                 <Dialog>
                                                     <DialogTrigger asChild>
                                                         <Button variant="outline" size="icon">
@@ -229,15 +242,15 @@ export default function SuperAdminDashboard() {
                                                             <div className="grid grid-cols-4 items-center gap-4">
                                                                 <Label className="text-right">Status</Label>
                                                                 <div className="col-span-3 flex items-center gap-2">
-                                                                    <Badge variant={company.isActive ? "default" : "destructive"}>
-                                                                        {company.isActive ? 'Active' : 'Inactive'}
+                                                                    <Badge variant={company.active ? "default" : "destructive"}>
+                                                                        {company.active ? 'Active' : 'Inactive'}
                                                                     </Badge>
                                                                     <Button
                                                                         variant="outline"
                                                                         size="sm"
-                                                                        onClick={() => updateStatusMutation.mutate({ id: company.id, isActive: !company.isActive })}
+                                                                        onClick={() => updateStatusMutation.mutate({ id: company.id, isActive: !company.active })}
                                                                     >
-                                                                        {company.isActive ? 'Deactivate' : 'Activate'}
+                                                                        {company.active ? 'Deactivate' : 'Activate'}
                                                                     </Button>
                                                                 </div>
                                                             </div>
