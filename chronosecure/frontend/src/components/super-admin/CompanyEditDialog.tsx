@@ -57,7 +57,18 @@ interface CompanyEditDialogProps {
 
 export function CompanyEditDialog({ companyId, isOpen, onClose }: CompanyEditDialogProps) {
     const queryClient = useQueryClient()
+
     const [activeTab, setActiveTab] = useState("details")
+
+    // Default dates (Start of month to Today)
+    const today = new Date()
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+
+    // Format to YYYY-MM-DD for input type="date"
+    const formatDate = (d: Date) => d.toISOString().split('T')[0]
+
+    const [startDate, setStartDate] = useState(formatDate(startOfMonth))
+    const [endDate, setEndDate] = useState(formatDate(today))
 
     // Fetch Company Details
     const { data: company, isLoading } = useQuery({
@@ -104,13 +115,14 @@ export function CompanyEditDialog({ companyId, isOpen, onClose }: CompanyEditDia
     const handleDownloadReport = async () => {
         try {
             const response = await api.get(`/super-admin/companies/${companyId}/cost-report`, {
+                params: { startDate, endDate },
                 responseType: 'blob'
             })
 
             const url = window.URL.createObjectURL(new Blob([response.data]))
             const link = document.createElement('a')
             link.href = url
-            link.setAttribute('download', `cost-report-${company?.name}-${new Date().toISOString().split('T')[0]}.xlsx`)
+            link.setAttribute('download', `cost-report-${company?.name}-${startDate}-to-${endDate}.xlsx`)
             document.body.appendChild(link)
             link.click()
             link.remove()
@@ -151,10 +163,7 @@ export function CompanyEditDialog({ companyId, isOpen, onClose }: CompanyEditDia
                                     <Label>Company Name</Label>
                                     <Input value={company.name} readOnly />
                                 </div>
-                                <div className="space-y-2">
-                                    <Label>Subdomain</Label>
-                                    <Input value={company.subdomain + ".attendwatch.com"} readOnly className="bg-muted" />
-                                </div>
+
                                 <div className="space-y-2">
                                     <Label>Company ID</Label>
                                     <div className="flex gap-2">
@@ -240,17 +249,35 @@ export function CompanyEditDialog({ companyId, isOpen, onClose }: CompanyEditDia
 
                         {/* REPORTS TAB */}
                         <TabsContent value="reports" className="space-y-4 py-4">
-                            <div className="rounded-lg border p-4 bg-muted/50">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <h3 className="font-semibold">Cost & Usage Report</h3>
-                                        <p className="text-sm text-muted-foreground">Download monthly usage and estimated cost report.</p>
-                                    </div>
-                                    <Button onClick={handleDownloadReport}>
-                                        <Download className="mr-2 h-4 w-4" />
-                                        Download Report
-                                    </Button>
+                            <div className="rounded-lg border p-4 bg-muted/50 space-y-4">
+                                <div>
+                                    <h3 className="font-semibold">Cost & Usage Report</h3>
+                                    <p className="text-sm text-muted-foreground">Download usage and estimated cost report for a specific period.</p>
                                 </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label>Start Date</Label>
+                                        <Input
+                                            type="date"
+                                            value={startDate}
+                                            onChange={(e) => setStartDate(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>End Date</Label>
+                                        <Input
+                                            type="date"
+                                            value={endDate}
+                                            onChange={(e) => setEndDate(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                <Button onClick={handleDownloadReport} className="w-full sm:w-auto">
+                                    <Download className="mr-2 h-4 w-4" />
+                                    Download Report
+                                </Button>
                             </div>
                         </TabsContent>
                     </Tabs>

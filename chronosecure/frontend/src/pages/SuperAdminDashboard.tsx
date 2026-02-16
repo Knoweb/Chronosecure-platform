@@ -108,7 +108,7 @@ export default function SuperAdminDashboard() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Company Name</TableHead>
-                                        <TableHead>Subdomain</TableHead>
+
                                         <TableHead>Status</TableHead>
                                         <TableHead>Plan</TableHead>
                                         <TableHead className="text-right">Actions</TableHead>
@@ -118,7 +118,7 @@ export default function SuperAdminDashboard() {
                                     {companies?.map((company: any) => (
                                         <TableRow key={company.id}>
                                             <TableCell className="font-medium">{company.name}</TableCell>
-                                            <TableCell>{company.subdomain}.attendwatch.com</TableCell>
+
                                             <TableCell>
                                                 <Badge variant={company.active ? "default" : "destructive"}>
                                                     {company.active ? 'Active' : 'Inactive'}
