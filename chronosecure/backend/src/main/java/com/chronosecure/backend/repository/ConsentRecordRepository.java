@@ -13,6 +13,8 @@ public interface ConsentRecordRepository extends JpaRepository<ConsentRecord, UU
     List<ConsentRecord> findByEmployeeId(UUID employeeId);
     Optional<ConsentRecord> findByEmployeeIdAndConsentTypeAndGrantedTrue(UUID employeeId, String consentType);
     boolean existsByEmployeeIdAndConsentTypeAndGrantedTrue(UUID employeeId, String consentType);
+    
+    void deleteByEmployeeIdIn(List<UUID> employeeIds);
 }
 
 
