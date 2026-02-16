@@ -13,7 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Building2, Users, CheckCircle, XCircle, CreditCard } from 'lucide-react'
+import { Building2, CheckCircle, XCircle } from 'lucide-react'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -22,7 +22,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { toast } from 'sonner'
 
 export default function SuperAdminDashboard() {
     const queryClient = useQueryClient()
@@ -45,9 +44,9 @@ export default function SuperAdminDashboard() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['super-admin-companies'] })
-            toast.success('Company status updated')
+            alert('Company status updated')
         },
-        onError: () => toast.error('Failed to update status')
+        onError: () => alert('Failed to update status')
     })
 
     // Update Plan Mutation
@@ -59,9 +58,9 @@ export default function SuperAdminDashboard() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['super-admin-companies'] })
-            toast.success('Subscription plan updated')
+            alert('Subscription plan updated')
         },
-        onError: () => toast.error('Failed to update plan')
+        onError: () => alert('Failed to update plan')
     })
 
     if (isLoading) {
