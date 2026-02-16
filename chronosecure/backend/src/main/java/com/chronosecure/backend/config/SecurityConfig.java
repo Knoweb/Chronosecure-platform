@@ -76,12 +76,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // ALLOW FRONTEND ORIGIN
-        // In production, replace "*" with specific domains (e.g.,
-        // https://app.chronosecure.com)
-        configuration
-                .setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000", "http://localhost:5174",
-                        "https://attendwatch.com", "https://www.attendwatch.com"));
+        // ALLOW FRONTEND ORIGIN (Using patterns allows credentials with wildcards)
+        configuration.setAllowedOriginPatterns(List.of("*"));
 
         // ALLOW HTTP METHODS
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

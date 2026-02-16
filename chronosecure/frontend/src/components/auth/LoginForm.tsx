@@ -40,7 +40,12 @@ export function LoginForm() {
         token,
         companyId
       )
-      navigate('/dashboard')
+
+      if (role === 'SUPER_ADMIN') {
+        navigate('/super-admin')
+      } else {
+        navigate('/dashboard')
+      }
     } catch (err: any) {
       setError(err.response?.data?.message || 'An error occurred during sign in')
     } finally {

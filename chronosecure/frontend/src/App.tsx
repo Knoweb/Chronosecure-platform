@@ -15,10 +15,26 @@ import ReportsPage from './pages/Reports'
 import CalendarPage from './pages/Calendar'
 
 import ResetPasswordPage from './pages/ResetPassword'
+import SuperAdminDashboard from './pages/SuperAdminDashboard'
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
+function ProtectedRoute({ children, requiredRole }: { children: React.ReactNode, requiredRole?: string }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />
+  const user = useAuthStore((state) => state.user)
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
+
+  if (requiredRole && user?.role !== requiredRole) {
+    // If user is logged in but doesn't have role
+    if (requiredRole === 'SUPER_ADMIN') {
+      return <Navigate to="/dashboard" replace />
+    }
+    // General fallback
+    return <Navigate to="/dashboard" replace />
+  }
+
+  return <>{children}</>
 }
 
 function App() {
@@ -29,6 +45,17 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
 
+      {/* SUPER ADMIN ROUTE */}
+      <Route
+        path="/super-admin"
+        element={
+          <ProtectedRoute requiredRole="SUPER_ADMIN">
+            <SuperAdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* REGULAR DASHBOARD */}
       <Route
         path="/dashboard"
         element={

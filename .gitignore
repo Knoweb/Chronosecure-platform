@@ -9,10 +9,13 @@ fingerprint01/serviceAccountKey.json
 
 # PyInstaller Specifics
 fingerprint01/ChronoFingerprint.spec
+fingerprint01/AttendWatchFingerprint.spec
 
 # Backend Build & Logs
 backend/target/
-*.log
+fingerprint01/fp_local.db
+*.reg
 compile_*.txt
 build_*.txt
 run_*.log
+chronosecure/logfile
