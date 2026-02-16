@@ -13,4 +13,5 @@ public interface SuperAdminService {
     Company updateCompanyStatus(UUID companyId, boolean isActive);
     Company updateCompanyPlan(UUID companyId, SubscriptionPlan plan);
     List<User> getUsersByCompany(UUID companyId);
+    void deleteCompany(UUID companyId);
 }
