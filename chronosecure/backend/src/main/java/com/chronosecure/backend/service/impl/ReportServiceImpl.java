@@ -231,67 +231,9 @@ public class ReportServiceImpl implements ReportService {
                 finalTotalCell.setCellStyle(dataStyle);
             }
 
-            // --- 3. COST REPORT SHEET ---
-            Sheet costSheet = workbook.createSheet("Cost Report");
-            Row costHeader = costSheet.createRow(0);
-            costHeader.createCell(0).setCellValue("Date");
-            costHeader.createCell(1).setCellValue("Active Employees");
-            costHeader.createCell(2).setCellValue("Daily Cost (AUD)");
-            for(int i=0; i<3; i++) costHeader.getCell(i).setCellStyle(headerStyle);
-
-            int costRowIdx = 1;
-            double grandTotalCost = 0.0;
-
-            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-                int dailyCount = 0;
-                // Count active employees for this date
-                for (Employee emp : employees) {
-                    Map<LocalDate, CalculatedHours> empHours = hoursMap.getOrDefault(emp.getId(), Collections.emptyMap());
-                    CalculatedHours h = empHours.get(date);
-                    
-                    // Fallback to calculation if not found
-                    if (h == null || (h.getTotalHoursWorked() == null || h.getTotalHoursWorked().isZero())) {
-                        Map<LocalDate, List<AttendanceLog>> empLogs = logsMap.getOrDefault(emp.getId(), Collections.emptyMap());
-                        CalculatedHours computed = calculateFromLogs(empLogs.get(date), date);
-                        if (computed != null && !computed.getTotalHoursWorked().isZero()) {
-                            dailyCount++;
-                        }
-                    } else {
-                        // If CalculatedHours exists and total > 0
-                        if (h.getTotalHoursWorked() != null && !h.getTotalHoursWorked().isZero()) {
-                            dailyCount++;
-                        }
-                    }
-                }
-
-                // Calculate Cost
-                double dailyCost = 0.0;
-                if (dailyCount <= 3) {
-                    dailyCost = 1.00; // Base fee covers 0-3 employees
-                } else {
-                    dailyCost = 1.00 + (dailyCount - 3) * 0.50;
-                }
-                grandTotalCost += dailyCost;
-
-                // Write Row
-                Row row = costSheet.createRow(costRowIdx++);
-                row.createCell(0).setCellValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
-                row.createCell(1).setCellValue(dailyCount);
-                row.createCell(2).setCellValue(String.format("$%.2f", dailyCost));
-                
-                for(int i=0; i<3; i++) row.getCell(i).setCellStyle(dataStyle);
-            }
-
-            // Grand Total Row
-            Row totalRow = costSheet.createRow(costRowIdx);
-            Cell lbl = totalRow.createCell(0); lbl.setCellValue("GRAND TOTAL"); lbl.setCellStyle(boldDataStyle);
-            Cell empty = totalRow.createCell(1); empty.setCellStyle(boldDataStyle);
-            Cell val = totalRow.createCell(2); val.setCellValue(String.format("$%.2f", grandTotalCost)); val.setCellStyle(boldDataStyle);
-
             // Auto-size columns
             for (int i = 0; i < 8; i++) detailSheet.autoSizeColumn(i);
             for (int i = 0; i <= colIdx; i++) matrixSheet.autoSizeColumn(i);
-            for (int i = 0; i < 3; i++) costSheet.autoSizeColumn(i);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
