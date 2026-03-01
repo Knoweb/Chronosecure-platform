@@ -64,11 +64,13 @@ jobs:
         name: frontend-dist
         path: chronosecure/frontend/dist
 
-  # Job 2: Deploy to Server
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
     - name: Download Backend Artifact
       uses: actions/download-artifact@v4
       with:
@@ -87,6 +89,7 @@ jobs:
         mkdir -p deploy-bundle
         cp build-artifacts/backend/*.jar deploy-bundle/app.jar
         cp -r build-artifacts/frontend deploy-bundle/frontend-dist
+        cp chronosecure/setup_backups.sh deploy-bundle/setup_backups.sh
         
         # Create Optimized Dockerfile for Backend (Runtime Only)
         cat <<EOF > deploy-bundle/Dockerfile.backend
@@ -213,3 +216,7 @@ jobs:
           docker compose build --no-cache
           docker compose up -d
           docker image prune -f
+
+          # Set up automated database backend backups via cron
+          chmod +x setup_backups.sh
+          (crontab -l 2>/dev/null | grep -v "/root/chronosecure-app/setup_backups.sh" ; echo "0 2 * * * bash /root/chronosecure-app/setup_backups.sh") | crontab -
