@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Users, CheckCircle2, Clock, Calendar, Check, X, Fingerprint } from 'lucide-react'
+import { Users, CheckCircle2, Clock, Calendar, Check, X, Fingerprint, UserMinus, Activity } from 'lucide-react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -74,7 +74,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
               <Card className="p-4 md:p-6">
                 <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
                   <div className="space-y-0.5 md:space-y-1">
@@ -114,6 +114,18 @@ export default function DashboardPage() {
               <Card className="p-4 md:p-6">
                 <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
                   <div className="space-y-0.5 md:space-y-1">
+                    <p className="text-xs md:text-sm text-muted-foreground font-medium">Absent (Today)</p>
+                    <p className="text-xl md:text-3xl font-bold">{stats?.absent || 0}</p>
+                  </div>
+                  <div className="h-8 w-8 md:h-12 md:w-12 rounded-lg bg-red-500/10 flex items-center justify-center self-end md:self-auto shrink-0">
+                    <UserMinus className="h-4 w-4 md:h-6 md:w-6 text-red-600 dark:text-red-500" />
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-4 md:p-6">
+                <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
+                  <div className="space-y-0.5 md:space-y-1">
                     <p className="text-xs md:text-sm text-muted-foreground font-medium">Pending Requests</p>
                     <p className="text-xl md:text-3xl font-bold">{stats?.pendingRequests || 0}</p>
                   </div>
@@ -126,9 +138,42 @@ export default function DashboardPage() {
 
             {/* Today Overview and Recent Activity */}
             <div className="grid gap-6 md:grid-cols-2">
-              <Card className="p-6">
-                <h3 className="font-semibold text-lg mb-4">Today's Activity</h3>
-                <p className="text-sm text-muted-foreground text-center py-8">No activity today</p>
+              <Card className="flex flex-col">
+                <CardHeader>
+                  <CardTitle className="text-lg">Today's Activity</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  {!stats?.recentActivity || stats.recentActivity.length === 0 ? (
+                    <p className="text-sm text-muted-foreground text-center py-8">No activity today</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {stats.recentActivity.map((log: any) => (
+                        <div key={log.id} className="flex items-center gap-4 border-b pb-4 last:border-0 last:pb-0">
+                          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <Activity className="h-4 w-4 text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-medium text-sm">
+                              {log.employeeName || log.employeeCode}
+                            </p>
+                            <p className="text-xs text-muted-foreground flex gap-2 items-center">
+                              <span>
+                                {log.eventType === 'CLOCK_IN' ? 'Clocked In'
+                                  : log.eventType === 'CLOCK_OUT' ? 'Clocked Out'
+                                    : log.eventType === 'BREAK_START' ? 'Started Break'
+                                      : 'Ended Break'}
+                              </span>
+                              <span>•</span>
+                              <span>
+                                {new Date(log.eventTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
               </Card>
               <Card className="flex flex-col">
                 <CardHeader>

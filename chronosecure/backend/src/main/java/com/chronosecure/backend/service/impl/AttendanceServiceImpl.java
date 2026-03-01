@@ -245,10 +245,33 @@ public class AttendanceServiceImpl implements AttendanceService {
 
                 stats.put("onLeave", onLeaveCount);
 
+                long absentCount = totalEmployees - clockedInCount - clockedOutCount - onLeaveCount;
+                stats.put("absent", Math.max(0, absentCount)); // Ensure it doesn't go below 0
+
                 // Count Pending Requests
                 long pendingRequests = timeOffRequestRepository.countByCompanyIdAndStatus(companyId,
                                 com.chronosecure.backend.model.enums.TimeOffStatus.PENDING);
                 stats.put("pendingRequests", pendingRequests);
+
+                // Recent Activity (Top 5 logs from today)
+                List<com.chronosecure.backend.dto.AttendanceLogResponse> recentActivity = todayLogs.stream()
+                        .limit(5)
+                        .map(logResponse -> com.chronosecure.backend.dto.AttendanceLogResponse.builder()
+                                .id(logResponse.getId())
+                                .employeeId(logResponse.getEmployee().getId())
+                                .employeeName(logResponse.getEmployee().getFirstName() + " " + logResponse.getEmployee().getLastName())
+                                .employeeCode(logResponse.getEmployee().getEmployeeCode())
+                                .department(logResponse.getEmployee().getDepartment())
+                                .eventType(logResponse.getEventType())
+                                .eventTimestamp(logResponse.getEventTimestamp())
+                                .deviceId(logResponse.getDeviceId())
+                                .photoUrl(logResponse.getPhotoUrl())
+                                .confidenceScore(logResponse.getConfidenceScore())
+                                .isOfflineSync(logResponse.isOfflineSync())
+                                .build())
+                        .toList();
+                
+                stats.put("recentActivity", recentActivity);
 
                 return stats;
         }
