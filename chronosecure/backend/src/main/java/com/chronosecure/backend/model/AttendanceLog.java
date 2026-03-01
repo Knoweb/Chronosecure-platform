@@ -41,7 +41,6 @@ public class AttendanceLog {
     @Column(name = "event_type", nullable = false)
     private AttendanceEventType eventType;
 
-    @CreationTimestamp
     @Column(name = "event_timestamp")
     private Instant eventTimestamp;
 
