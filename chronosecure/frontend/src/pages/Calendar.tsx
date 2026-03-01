@@ -277,23 +277,36 @@ export default function CalendarPage() {
                                 </h1>
 
                                 {/* View Mode Toggle */}
-                                <div className="flex bg-background border p-1 rounded-lg shadow-sm">
+                                <div className="relative flex bg-slate-100/80 dark:bg-slate-900/50 border p-1 rounded-xl shadow-inner isolation-auto">
+                                    {/* Animated Background Pill */}
+                                    <div
+                                        className={cn(
+                                            "absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-slate-200/50 dark:border-slate-700/50 transition-all duration-300 cubic-bezier(0.4, 0, 0.2, 1) z-0",
+                                            viewMode === 'COMPANY' ? "left-1" : "left-[calc(50%+2px)]"
+                                        )}
+                                    />
                                     <Button
                                         size="sm"
-                                        variant={viewMode === 'COMPANY' ? "secondary" : "ghost"}
+                                        variant="ghost"
                                         onClick={() => setViewMode('COMPANY')}
-                                        className={cn(viewMode === 'COMPANY' && "bg-primary/10 text-primary")}
+                                        className={cn(
+                                            "relative z-10 min-w-[110px] transition-colors duration-300",
+                                            viewMode === 'COMPANY' ? "text-emerald-700 dark:text-emerald-400 font-bold" : "text-muted-foreground hover:text-foreground"
+                                        )}
                                     >
-                                        <Settings className="h-4 w-4 mr-2" />
+                                        <Settings className={cn("h-4 w-4 mr-2 transition-colors duration-300")} />
                                         Settings
                                     </Button>
                                     <Button
                                         size="sm"
-                                        variant={viewMode === 'EMPLOYEE' ? "secondary" : "ghost"}
+                                        variant="ghost"
                                         onClick={() => setViewMode('EMPLOYEE')}
-                                        className={cn(viewMode === 'EMPLOYEE' && "bg-primary/10 text-primary")}
+                                        className={cn(
+                                            "relative z-10 min-w-[110px] transition-colors duration-300",
+                                            viewMode === 'EMPLOYEE' ? "text-blue-700 dark:text-blue-400 font-bold" : "text-muted-foreground hover:text-foreground"
+                                        )}
                                     >
-                                        <Users className="h-4 w-4 mr-2" />
+                                        <Users className={cn("h-4 w-4 mr-2 transition-colors duration-300")} />
                                         Employee
                                     </Button>
                                 </div>
