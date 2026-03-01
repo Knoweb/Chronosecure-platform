@@ -211,9 +211,11 @@ jobs:
           echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
 
-          # Restart Application
-          docker compose down || true
-          docker compose build --no-cache
+          # Update Application with Minimal Downtime
+          # We build the new images while the old site is STILL RUNNING
+          docker compose build
+          
+          # We then recreate the containers. Docker handles the swap in just a few seconds!
           docker compose up -d
           docker image prune -f
 
