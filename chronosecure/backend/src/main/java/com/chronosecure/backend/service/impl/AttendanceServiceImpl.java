@@ -86,12 +86,17 @@ public class AttendanceServiceImpl implements AttendanceService {
                                 ? BigDecimal.valueOf(request.getConfidenceScore())
                                 : livenessScore;
 
+                // Allow historical data injection for presentations/demos
+                Instant logTimestamp = request.getOverrideTimestamp() != null 
+                        ? request.getOverrideTimestamp() 
+                        : Instant.now();
+
                 // 4. Construct the Immutable Log
                 AttendanceLog newLog = AttendanceLog.builder()
                                 .companyId(company.getId())
                                 .employee(employee)
                                 .eventType(request.getEventType())
-                                .eventTimestamp(Instant.now())
+                                .eventTimestamp(logTimestamp)
                                 .deviceId(request.getDeviceId())
                                 .photoUrl(photoUrl)
                                 .confidenceScore(confidenceScore)
