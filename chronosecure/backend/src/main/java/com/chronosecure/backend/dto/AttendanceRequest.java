@@ -24,4 +24,7 @@ public class AttendanceRequest {
     private String photoBase64; 
     
     private Double confidenceScore; // Liveness check score from frontend
+
+    // Used exclusively for generating historical demonstration data
+    private java.time.Instant overrideTimestamp;
 }
