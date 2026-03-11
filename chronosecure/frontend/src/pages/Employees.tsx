@@ -8,9 +8,17 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
-import { Plus, Fingerprint, AlertCircle, Trash2 } from 'lucide-react'
+import { Plus, Fingerprint, AlertCircle, Trash2, ExternalLink, ShieldCheck } from 'lucide-react'
 
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'
 import { useSearchParams } from 'react-router-dom'
 
 export default function EmployeesPage() {
@@ -18,6 +26,7 @@ export default function EmployeesPage() {
   const queryClient = useQueryClient()
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingEmployee, setEditingEmployee] = useState<string | null>(null)
+  const [selectedEmployeeForFingerprint, setSelectedEmployeeForFingerprint] = useState<any>(null)
 
   const [formData, setFormData] = useState({
     employeeCode: '',
@@ -326,32 +335,7 @@ export default function EmployeesPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={async () => {
-                                try {
-                                  console.log('Calling fingerprint launch API...');
-                                  const response = await api.post('/fingerprint/launch', {
-                                    employeeCode: employee.employeeCode,
-                                    name: `${employee.firstName} ${employee.lastName}`,
-                                    companyId: companyId
-                                  });
-                                  console.log('API Response:', response.data);
-
-                                  if (response.data.launchUrl) {
-                                    console.log('Launching custom protocol:', response.data.launchUrl);
-                                    window.location.href = response.data.launchUrl;
-                                    // Optional: Short timeout to allow browser to hand off to OS
-                                    setTimeout(() => {
-                                      alert('Launching fingerprint application on your computer...\n\nPlease ensure the Fingerprint App is installed.');
-                                    }, 500);
-                                  } else {
-                                    alert('Fingerprint application launched successfully!');
-                                  }
-                                } catch (error: any) {
-                                  console.error('Failed to launch fingerprint app:', error);
-                                  console.error('Error response:', error.response?.data);
-                                  alert(`Failed to launch fingerprint application.\n\nError: ${error.response?.data?.error || error.message}\n\nPlease check the console for details.`);
-                                }
-                              }}
+                              onClick={() => setSelectedEmployeeForFingerprint(employee)}
                             >
                               <Fingerprint className="h-4 w-4 mr-2" />
                               Enroll Fingerprint
@@ -384,6 +368,58 @@ export default function EmployeesPage() {
           </div>
         </main>
       </div>
+      {/* ── Fingerprint Launch Dialog ── */}
+      <Dialog open={!!selectedEmployeeForFingerprint} onOpenChange={(open) => !open && setSelectedEmployeeForFingerprint(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="flex flex-col items-center text-center gap-2 pt-2">
+            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-1">
+              <Fingerprint className="h-8 w-8 text-primary" />
+            </div>
+            <DialogTitle className="text-xl">Open Fingerprint Scanner?</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground max-w-xs">
+              This will launch the <span className="font-semibold text-foreground">ChronoSecure Fingerprint App</span> on your computer. Please make sure it is installed before continuing.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mx-4 rounded-lg border border-border bg-muted/40 px-4 py-3 flex items-start gap-3 text-sm">
+            <ShieldCheck className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+            <span className="text-muted-foreground">Your biometric data is processed locally and never stored in raw form.</span>
+          </div>
+
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-1 pb-2 px-2">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => setSelectedEmployeeForFingerprint(null)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="outline"
+              className="flex-1 gap-2"
+              onClick={async () => {
+                const employee = selectedEmployeeForFingerprint;
+                setSelectedEmployeeForFingerprint(null);
+                try {
+                  const response = await api.post('/fingerprint/launch', {
+                    employeeCode: employee.employeeCode,
+                    name: `${employee.firstName} ${employee.lastName}`,
+                    companyId: companyId
+                  });
+                  if (response.data.launchUrl) {
+                    window.location.href = response.data.launchUrl;
+                  }
+                } catch (error: any) {
+                  alert(`Failed to launch fingerprint application.\n\nError: ${error.response?.data?.error || error.message}`);
+                }
+              }}
+            >
+              <ExternalLink className="h-4 w-4" />
+              Open App
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
