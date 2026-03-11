@@ -4,6 +4,9 @@ import { Header } from '@/components/layout/Header'
 import { Card, CardContent } from '@/components/ui/card'
 import { useAuthStore } from '@/store/authStore'
 import { User, Building, Shield, Download } from 'lucide-react'
+import { CompanySettings } from '@/components/settings/CompanySettings'
+import { ProfileSettings } from '@/components/settings/ProfileSettings'
+import { SecuritySettings } from '@/components/settings/SecuritySettings'
 import { DownloadApp } from '@/components/settings/DownloadApp'
 
 export default function SettingsPage() {
