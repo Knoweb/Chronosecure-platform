@@ -264,6 +264,7 @@ export default function DashboardPage() {
               Cancel
             </Button>
             <Button
+              variant="outline"
               className="flex-1 gap-2"
               onClick={confirmLaunch}
             >
