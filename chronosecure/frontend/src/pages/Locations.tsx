@@ -6,6 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
 import { MapPin, Plus, Building } from 'lucide-react'
@@ -150,14 +157,29 @@ export default function LocationsPage() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="timezone">Timezone</Label>
-                      <Input
-                        id="timezone"
+                      <Select
                         value={formData.timezone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, timezone: e.target.value })
+                        onValueChange={(value) =>
+                          setFormData({ ...formData, timezone: value })
                         }
-                        placeholder="e.g., America/New_York"
-                      />
+                      >
+                        <SelectTrigger id="timezone">
+                          <SelectValue placeholder="Select timezone" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="America/New_York">America/New_York (EST)</SelectItem>
+                          <SelectItem value="America/Chicago">America/Chicago (CST)</SelectItem>
+                          <SelectItem value="America/Denver">America/Denver (MST)</SelectItem>
+                          <SelectItem value="America/Los_Angeles">America/Los_Angeles (PST)</SelectItem>
+                          <SelectItem value="Europe/London">Europe/London (GMT)</SelectItem>
+                          <SelectItem value="Europe/Paris">Europe/Paris (CET)</SelectItem>
+                          <SelectItem value="Asia/Colombo">Asia/Colombo (IST)</SelectItem>
+                          <SelectItem value="Asia/Dubai">Asia/Dubai (GST)</SelectItem>
+                          <SelectItem value="Asia/Singapore">Asia/Singapore (SGT)</SelectItem>
+                          <SelectItem value="Asia/Tokyo">Asia/Tokyo (JST)</SelectItem>
+                          <SelectItem value="Australia/Sydney">Australia/Sydney (AEST)</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="flex gap-2">
                       <Button type="submit" disabled={createMutation.isPending} className="border border-border shadow-sm">
