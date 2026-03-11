@@ -1071,9 +1071,12 @@ sapi.Speak "{txt}"
 
         def worker():
             try:
-                rows = self.db.get_all_templates()
+                all_rows = self.db.get_all_templates()
+                # Filter locally cached templates to only include employees from the CURRENT active company
+                rows = [r for r in all_rows if r[0] in self.emp_codes]
+                
                 if not rows:
-                    self.log("No users enrolled")
+                    self.log("No users enrolled for this company")
                     self.update_status("Ready", "cyan")
                     self.current_mode.set("IDLE")
                     self.mode_label.configure(fg=WARNING, bg=BG_CARD_LIGHT)
@@ -1134,9 +1137,12 @@ sapi.Speak "{txt}"
 
     def _attendance_loop(self):
         while self.attendance_on:
-            rows = self.db.get_all_templates()
+            all_rows = self.db.get_all_templates()
+            # Filter locally cached templates to only include employees from the CURRENT active company
+            rows = [r for r in all_rows if r[0] in self.emp_codes]
+            
             if not rows:
-                self.update_status("No users enrolled", "yellow")
+                self.update_status("No users enrolled for this company", "yellow")
                 time.sleep(0.8)
                 continue
             raw = self.capture_when_stable_hold(timeout=1.2)

@@ -1,13 +1,23 @@
+import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Users, CheckCircle2, Clock, Calendar, Check, X, Fingerprint, UserMinus, Activity } from 'lucide-react'
+import { Users, CheckCircle2, Clock, Calendar, Check, X, Fingerprint, UserMinus, Activity, ExternalLink, ShieldCheck } from 'lucide-react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'
 import { api } from '@/lib/axios'
 import { useAuthStore } from '@/store/authStore'
 
 export default function DashboardPage() {
+  const [showScannerDialog, setShowScannerDialog] = useState(false)
   const companyId = useAuthStore((state) => state.companyId)
 
   const { data: stats } = useQuery({
@@ -49,7 +59,11 @@ export default function DashboardPage() {
   })
 
   const launchScanner = () => {
-    // Open the custom protocol to launch the Python app
+    setShowScannerDialog(true)
+  }
+
+  const confirmLaunch = () => {
+    setShowScannerDialog(false)
     window.location.href = `fingerprint://enroll?companyId=${companyId}`
   }
 
@@ -222,6 +236,43 @@ export default function DashboardPage() {
           </div>
         </main>
       </div>
+
+      {/* ── Fingerprint Launch Dialog ── */}
+      <Dialog open={showScannerDialog} onOpenChange={setShowScannerDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="flex flex-col items-center text-center gap-2 pt-2">
+            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-1">
+              <Fingerprint className="h-8 w-8 text-primary" />
+            </div>
+            <DialogTitle className="text-xl">Open Fingerprint Scanner?</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground max-w-xs">
+              This will launch the <span className="font-semibold text-foreground">ChronoSecure Fingerprint App</span> on your computer. Please make sure it is installed before continuing.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mx-4 rounded-lg border border-border bg-muted/40 px-4 py-3 flex items-start gap-3 text-sm">
+            <ShieldCheck className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
+            <span className="text-muted-foreground">Your biometric data is processed locally and never stored in raw form.</span>
+          </div>
+
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-1 pb-2 px-2">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => setShowScannerDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="flex-1 gap-2"
+              onClick={confirmLaunch}
+            >
+              <ExternalLink className="h-4 w-4" />
+              Open App
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
