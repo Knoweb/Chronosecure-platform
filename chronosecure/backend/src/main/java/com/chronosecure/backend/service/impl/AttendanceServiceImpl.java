@@ -20,8 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -232,26 +234,20 @@ public class AttendanceServiceImpl implements AttendanceService {
                 stats.put("clockedIn", clockedInCount);
                 stats.put("clockedOut", clockedOutCount); // "Clocked Out (Today)"
 
-                // Count Approved Leaves for Today where employee is absent
-                long onLeaveCount = timeOffRequestRepository.findAll().stream()
-                                .filter(req -> req.getCompanyId().equals(companyId)
-                                                && req.getStatus() == TimeOffStatus.APPROVED
-                                                && (req.getStartDate().isBefore(java.time.LocalDate.now().plusDays(1))
-                                                                && req.getEndDate()
-                                                                                .isAfter(java.time.LocalDate.now()
-                                                                                                .minusDays(1))))
-                                .filter(req -> {
-                                        // Only count if NOT clocked in (Scenario A)
-                                        AttendanceLog log = latestLogMap.get(req.getEmployeeId());
-                                        return log == null || (log.getEventType() != AttendanceEventType.CLOCK_IN
-                                                        && log.getEventType() != AttendanceEventType.BREAK_END);
-                                })
+                // Count employees on approved leave for today (inclusive date range),
+                // but only if they have no attendance logs today.
+                LocalDate today = LocalDate.now();
+                Set<UUID> employeesWithLogsToday = latestLogMap.keySet();
+
+                long onLeaveCount = timeOffRequestRepository.findByCompanyId(companyId).stream()
+                                .filter(req -> req.getStatus() == TimeOffStatus.APPROVED)
+                                .filter(req -> !req.getStartDate().isAfter(today) && !req.getEndDate().isBefore(today))
+                                .map(com.chronosecure.backend.model.TimeOffRequest::getEmployeeId)
+                                .distinct()
+                                .filter(employeeId -> !employeesWithLogsToday.contains(employeeId))
                                 .count();
 
                 stats.put("onLeave", onLeaveCount);
-
-                long absentCount = totalEmployees - clockedInCount - clockedOutCount - onLeaveCount;
-                stats.put("absent", Math.max(0, absentCount)); // Ensure it doesn't go below 0
 
                 // Count Pending Requests
                 long pendingRequests = timeOffRequestRepository.countByCompanyIdAndStatus(companyId,
