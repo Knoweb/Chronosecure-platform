@@ -298,6 +298,14 @@ public class ReportServiceImpl implements ReportService {
             // Fetch Data
             List<CalculatedHours> hoursList = calculatedHoursRepository.findByEmployeeIdAndWorkDateBetweenOrderByWorkDateAsc(employeeId, startDate, endDate);
             Map<LocalDate, CalculatedHours> hoursMap = hoursList.stream().collect(Collectors.toMap(CalculatedHours::getWorkDate, h -> h));
+
+                List<TimeOffRequest> approvedLeaves = timeOffRequestRepository.findByCompanyIdOrderByCreatedAtDesc(companyId)
+                    .stream()
+                    .filter(l -> l.getEmployee().getId().equals(employeeId)
+                        && l.getStatus() == TimeOffStatus.APPROVED
+                        && !l.getStartDate().isAfter(endDate)
+                        && !l.getEndDate().isBefore(startDate))
+                    .collect(Collectors.toList());
             
             // Also fetch Logs to calculate on-the-fly if needed
             List<AttendanceLog> allLogs = attendanceLogRepository
@@ -341,6 +349,11 @@ public class ReportServiceImpl implements ReportService {
                     else if (!total.isZero()) status = "PRESENT";
                     else if (!holiday.isZero()) status = "HOLIDAY";
                 }
+
+                final LocalDate currentDate = date;
+                boolean onLeave = approvedLeaves.stream().anyMatch(
+                        l -> !currentDate.isBefore(l.getStartDate()) && !currentDate.isAfter(l.getEndDate()));
+                if (onLeave) status = "LEAVE";
 
                 java.time.DayOfWeek dayOfWeek = date.getDayOfWeek();
                 if ("ABSENT".equals(status) && (dayOfWeek == java.time.DayOfWeek.SATURDAY || dayOfWeek == java.time.DayOfWeek.SUNDAY)) {
