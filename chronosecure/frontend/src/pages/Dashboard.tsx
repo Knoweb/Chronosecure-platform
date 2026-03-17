@@ -128,8 +128,8 @@ export default function DashboardPage() {
               <Card className="p-4 md:p-6">
                 <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-2">
                   <div className="space-y-0.5 md:space-y-1">
-                    <p className="text-xs md:text-sm text-muted-foreground font-medium">Absent (Today)</p>
-                    <p className="text-xl md:text-3xl font-bold">{stats?.absent || 0}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground font-medium">On Leave (Today)</p>
+                    <p className="text-xl md:text-3xl font-bold">{stats?.onLeave || 0}</p>
                   </div>
                   <div className="h-8 w-8 md:h-12 md:w-12 rounded-lg bg-red-500/10 flex items-center justify-center self-end md:self-auto shrink-0">
                     <UserMinus className="h-4 w-4 md:h-6 md:w-6 text-red-600 dark:text-red-500" />

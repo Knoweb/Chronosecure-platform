@@ -139,7 +139,7 @@ export default function LandingPage() {
                 Start Free 14-Day Trial <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/kiosk"
+                to="/signup"
                 className="inline-flex justify-center items-center gap-2 rounded-full border border-slate-200 bg-white px-8 py-3.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
               >
                 Watch Demo
@@ -320,7 +320,7 @@ export default function LandingPage() {
               Start Free 14-Day Trial
             </Link>
             <Link
-              to="/kiosk"
+              to="/signup"
               className="inline-flex items-center gap-2 rounded-full border border-white px-8 py-4 text-sm md:text-base font-semibold hover:bg-white/10 transition"
             >
               Schedule a Demo
@@ -350,7 +350,7 @@ export default function LandingPage() {
                 <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
 
                 <li><a href="#security" className="hover:text-primary transition-colors">Security</a></li>
-                <li><Link to="/kiosk" className="hover:text-primary transition-colors">Kiosk Mode</Link></li>
+                <li><Link to="/signup" className="hover:text-primary transition-colors">Kiosk Mode</Link></li>
               </ul>
             </div>
 
