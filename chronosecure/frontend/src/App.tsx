@@ -13,6 +13,7 @@ import SettingsPage from './pages/Settings'
 
 import ReportsPage from './pages/Reports'
 import CalendarPage from './pages/Calendar'
+import OnLeavePage from './pages/OnLeave'
 
 import ResetPasswordPage from './pages/ResetPassword'
 import SuperAdminDashboard from './pages/SuperAdminDashboard'
@@ -109,6 +110,14 @@ function App() {
         element={
           <ProtectedRoute>
             <CalendarPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/on-leave"
+        element={
+          <ProtectedRoute>
+            <OnLeavePage />
           </ProtectedRoute>
         }
       />

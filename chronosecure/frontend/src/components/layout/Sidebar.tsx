@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Clock, LayoutDashboard, Users, CheckCircle2, BarChart3, Settings, Calendar, MapPin } from 'lucide-react'
+import { Clock, LayoutDashboard, Users, CheckCircle2, BarChart3, Settings, Calendar, MapPin, UserMinus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -29,6 +29,11 @@ export function Sidebar() {
       name: 'Time Off',
       href: '/time-off',
       icon: Calendar,
+    },
+    {
+      name: 'On Leave',
+      href: '/on-leave',
+      icon: UserMinus,
     },
     {
       name: 'Reports',
