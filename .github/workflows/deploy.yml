@@ -108,6 +108,12 @@ jobs:
         
         # Create Production Nginx Config
         cat <<EOF > deploy-bundle/nginx.conf
+        upstream backend_pool {
+          server chronosecure-backend-blue:8080 max_fails=3 fail_timeout=5s;
+          server chronosecure-backend-green:8080 max_fails=3 fail_timeout=5s;
+          keepalive 32;
+        }
+
         server {
             listen 80;
             server_name localhost;
@@ -119,7 +125,11 @@ jobs:
 
             # Proxy API requests to Backend Container
             location /api/ {
-                proxy_pass http://chronosecure-backend:8080/api/;
+              proxy_http_version 1.1;
+              proxy_set_header Connection "";
+              proxy_next_upstream error timeout http_500 http_502 http_503 http_504;
+              proxy_next_upstream_tries 3;
+              proxy_pass http://backend_pool/api/;
                 proxy_set_header Host \$host;
                 proxy_set_header X-Real-IP \$remote_addr;
                 proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -131,13 +141,30 @@ jobs:
         # Create Docker Compose (Uses local Dockerfiles)
         cat <<EOF > deploy-bundle/docker-compose.yml
         services:
-          backend:
+          backend_blue:
             build:
               context: .
               dockerfile: Dockerfile.backend
-            container_name: chronosecure-backend
-            ports:
-              - "8080:8080"
+            container_name: chronosecure-backend-blue
+            environment:
+              - SPRING_DATASOURCE_USERNAME=\${DB_USERNAME}
+              - SPRING_DATASOURCE_PASSWORD=\${DB_PASSWORD}
+              - MAIL_USERNAME=\${MAIL_USERNAME}
+              - MAIL_PASSWORD=\${MAIL_PASSWORD}
+              - GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json
+              - SPRING_DATASOURCE_URL=jdbc:postgresql://chronosecure-db:5432/chronosecure
+              - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+            volumes:
+              - ./serviceAccountKey.json:/app/serviceAccountKey.json
+            depends_on:
+              - db
+            restart: always
+
+          backend_green:
+            build:
+              context: .
+              dockerfile: Dockerfile.backend
+            container_name: chronosecure-backend-green
             environment:
               - SPRING_DATASOURCE_USERNAME=\${DB_USERNAME}
               - SPRING_DATASOURCE_PASSWORD=\${DB_PASSWORD}
@@ -159,6 +186,9 @@ jobs:
             container_name: chronosecure-frontend
             ports:
               - "3000:80"
+            depends_on:
+              - backend_blue
+              - backend_green
             restart: always
 
           db:
@@ -208,8 +238,16 @@ jobs:
           echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
 
-          # Restart Application
-          docker compose down || true
-          docker compose build --no-cache
-          docker compose up -d
+          # Zero/near-zero downtime rollout:
+          # keep one backend instance serving while the other is rebuilt and restarted.
+          docker compose up -d db
+
+          docker compose up -d --no-deps --build backend_blue
+          sleep 5
+
+          docker compose up -d --no-deps --build backend_green
+          sleep 5
+
+          docker compose up -d --no-deps --build frontend
+
           docker image prune -f

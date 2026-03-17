@@ -58,6 +58,17 @@ Add the following secrets:
 
 Visit `http://your_droplet_ip` in your browser. You should see the login page.
 
+## Zero-Downtime Strategy
+
+Current GitHub Actions deployment uses a blue/green backend setup:
+
+- Two backend containers run in parallel: `chronosecure-backend-blue` and `chronosecure-backend-green`.
+- Frontend Nginx proxies `/api` traffic through an upstream pool with both backends.
+- During deployment, backends are rebuilt one-by-one (`blue` then `green`) while the other instance remains available.
+- Frontend is updated after backend instances are online.
+
+This avoids full-stack `docker compose down` and significantly reduces deployment interruption.
+
 ## Troubleshooting
 
 - **Check Containers**: `docker compose ps`
